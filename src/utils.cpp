@@ -29,19 +29,22 @@ std::string getEquipmentSlotName(EquipmentSlot eSlot)
 
 void printAttributes(Attributes attributes)
 {
-    std::cout << "|" << "Attributes:\n";
-    std::cout << "|"<< std::left << std::setw(16) << "    Strength: " << std::left << std::setw(6) << attributes.strength << "\n";
-    std::cout << "|"<< std::left << std::setw(16) << "    Dexterity: " << std::left << std::setw(6) << attributes.dexterity << "\n";
-    std::cout << "|"<< std::left << std::setw(16) << "    Vitality: " << std::left << std::setw(6) << attributes.vitality << "\n";
-    std::cout << "|"<< std::left << std::setw(16) << "    Intelligence: " << std::left << std::setw(6) << attributes.intelligence << "\n";
+    std::cout << "|"
+              << "Attributes:\n";
+    std::cout << "|" << std::left << std::setw(16) << "    Strength: " << std::left << std::setw(6) << attributes.strength << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "    Dexterity: " << std::left << std::setw(6) << attributes.dexterity << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "    Vitality: " << std::left << std::setw(6) << attributes.vitality << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "    Intelligence: " << std::left << std::setw(6) << attributes.intelligence << "\n";
 }
 
 void printHeroAbilities(const std::vector<Ability> &abilities)
 {
-    std::cout << "|" << "Abilities:\n";
+    std::cout << "|"
+              << "Abilities:\n";
     for (auto a : abilities)
     {
-        std::cout << "|" << "    " << a.name << " - " << a.description << "\n";
+        std::cout << "|"
+                  << "    " << a.name << " - " << a.description << "\n";
     }
 }
 
@@ -153,8 +156,12 @@ void printHero(Hero hero)
     std::cout << "+-------------------------------------------------+\n";
     std::cout << "|" << hero.name << " (Level " << hero.level << ") \n";
     std::cout << "+-------------------------------------------------+\n";
-    std::cout << "|" "HP: " << hero.health << "/" << hero.maxHealth << "\n";
-    std::cout << "|" "XP: " << hero.xp << "/" << hero.xpToLevelUp << "\n";
+    std::cout << "|"
+                 "HP: "
+              << hero.health << "/" << hero.maxHealth << "\n";
+    std::cout << "|"
+                 "XP: "
+              << hero.xp << "/" << hero.xpToLevelUp << "\n";
     std::cout << "+-------------------------------------------------+\n";
     printAttributes(hero.attributes);
     if (hero.abilities.size() > 0)
@@ -210,8 +217,16 @@ std::string trim(std::string s)
 
 void printIntro()
 {
-    std::cout << "The Great Plague\n";
-    std::cout << "Welcome to the beginning of the end.\n\n";
+    std::cout << ".s5SSSSs.                         .s5SSSs.                                              .s5SSSs.                                                   \n";
+    std::cout << "   SSS    .s    s.  .s5SSSs.            SS. .s5SSSs.  .s5SSSs.  .s5SSSs.  .s5SSSSs.           SS. .s        .s5SSSs.  .s5SSSs.  .s    s.  .s5SSSs. \n";
+    std::cout << "   S%S          SS.       SS.     sS    `:;       SS.       SS.       SS.    SSS        sS    S%S                 SS.       SS.       SS.       SS.\n";
+    std::cout << "   S%S    sS    S%S sS    `:;     SS        sS    S%S sS    `:; sS    S%S    S%S        SS    S%S sS        sS    S%S sS    `:; sS    S%S sS    `:;\n";
+    std::cout << "   S%S    SSSs. S%S SSSs.         SS        SS .sS;:' SSSs.     SSSs. S%S    S%S        SS .sS::' SS        SSSs. S%S SS        SS    S%S SSSs.    \n";
+    std::cout << "   S%S    SS    S%S SS            SS        SS    ;,  SS        SS    S%S    S%S        SS        SS        SS    S%S SS        SS    S%S SS       \n";
+    std::cout << "   `:;    SS    `:; SS            SS   ``:; SS    `:; SS        SS    `:;    `:;        SS        SS        SS    `:; SS   ``:; SS    `:; SS       \n";
+    std::cout << "   ;,.    SS    ;,. SS    ;,.     SS    ;,. SS    ;,. SS    ;,. SS    ;,.    ;,.        SS        SS    ;,. SS    ;,. SS    ;,. SS    ;,. SS    ;,.\n";
+    std::cout << "   ;:'    :;    ;:' `:;;;;;:'     `:;;;;;:' `:    ;:' `:;;;;;:' :;    ;:'    ;:'        `:        `:;;;;;:' :;    ;:' `:;;;;;:' `:;;;;;:' `:;;;;;:'\n";
+    std::cout << "\n\n";
 }
 
 bool askConfirmation(const std::string &question)

@@ -7,6 +7,12 @@
 
 #include <iostream>
 
+void startJourney()
+{
+    std::cout << "In journey!\n\n";
+    exit(0);
+}
+
 int main(void)
 {
 
@@ -16,26 +22,31 @@ int main(void)
         clearScreen();
         printIntro();
 
+        std::cout << "---=== Main menu ===---\n";
+
         auto selection = pickOptionFromList({"Start new journey", "Save", "Load", "Exit"});
+                       
         if (selection == 0)
         {
             auto heroes = Characters::createHeroes();
-            if(askConfirmation("Begin your journey?")){
-                std::cout << "In journey!\n\n";
-                exit(0);
-            } else {
+            if (askConfirmation("Begin your journey?"))
+            {
+                startJourney();
+            }
+            else
+            {
                 continue;
             }
         }
         else if (selection == 1)
         {
             std::cout << "Not yet implmenented!\n\n";
-            exit(1);
+            exit(0);
         }
         else if (selection == 2)
         {
             std::cout << "Not yet implmenented!\n\n";
-            exit(1);
+            exit(0);
         }
         else if (selection == 3)
         {

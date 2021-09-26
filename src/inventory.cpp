@@ -127,22 +127,23 @@ namespace InventoryManager
 
     void equipItem(Hero &hero, Item item, EquipmentSlot slot)
     {
-        if (item.type != ItemType::Scroll || item.type != ItemType::Throwable || item.type != ItemType::Consumable)
+        // Can't equip these types
+        if (item.type == ItemType::Scroll || item.type == ItemType::Throwable || item.type == ItemType::Consumable)
         {
-            if (hero.attributes.strength >= item.requirements.strength &&
-                hero.attributes.dexterity >= item.requirements.dexterity &&
-                hero.attributes.vitality >= item.requirements.vitality &&
-                hero.attributes.intelligence >= item.requirements.intelligence)
-            {
-                replaceEquipped(hero, item, slot);
-            }
-            else
-            {
-                addToBackpack(hero, item);
-            }
+            addToBackpack(hero, item);
+            return;
+        }
+
+        if (hero.attributes.strength >= item.requirements.strength &&
+            hero.attributes.dexterity >= item.requirements.dexterity &&
+            hero.attributes.vitality >= item.requirements.vitality &&
+            hero.attributes.intelligence >= item.requirements.intelligence)
+        {
+            replaceEquipped(hero, item, slot);
         }
         else
         {
+            // can't equip because of attributes - put back to the backpack
             addToBackpack(hero, item);
         }
     }
