@@ -3,6 +3,7 @@
 #include <iostream>
 #include <regex>
 #include <iomanip>
+#include <sstream>
 
 std::string getEquipmentSlotName(EquipmentSlot eSlot)
 {
@@ -37,10 +38,10 @@ void printAttributes(Attributes attributes)
 
 void printAttributesAdjustment(Attributes base, Attributes adjustment)
 {
-    std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::right << std::setw(6) << "+" << adjustment.strength << "\n";
-    std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::right << std::setw(6) << "+" << adjustment.dexterity << "\n";
-    std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << base.vitality << std::right << std::setw(6) << "+" << adjustment.vitality << "\n";
-    std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::right << std::setw(6) << "+" << adjustment.intelligence << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::left << std::setw(6) << adjustment.strength << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::left << std::setw(6) << adjustment.dexterity << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << base.vitality << std::left << std::setw(6) << adjustment.vitality << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::left << std::setw(6) << adjustment.intelligence << "\n";
 }
 
 void printHeroAbilities(const std::vector<Ability> &abilities)
@@ -54,67 +55,74 @@ void printHeroAbilities(const std::vector<Ability> &abilities)
 
 void printItem(Item a)
 {
-    std::cout << std::left << std::setw(15) << a.name << " ";
+    std::cout << getItemString(a);
+}
 
-    std::cout << std::left << std::setw(23);
+std::string getItemString(Item a)
+{
+    std::stringstream ss;
+    ss << std::left << std::setw(15) << a.name << " ";
+
+    ss << std::left << std::setw(23);
     switch (a.type)
     {
     case ItemType::Armor_Gloves:
-        std::cout << " [Armor gloves] ";
+        ss << " [Armor gloves] ";
         break;
     case ItemType::Armor_Head:
-        std::cout << " [Armor head] ";
+        ss << " [Armor head] ";
         break;
     case ItemType::Armor_Legs:
-        std::cout << " [Armor legs] ";
+        ss << " [Armor legs] ";
         break;
     case ItemType::Armor_Torso:
-        std::cout << " [Armor torso] ";
+        ss << " [Armor torso] ";
         break;
     case ItemType::Melee_OneHanded:
-        std::cout << " [Melee one-handed] ";
+        ss << " [Melee one-handed] ";
         break;
     case ItemType::Ranged_OneHanded:
-        std::cout << " [Ranged one-handed] ";
+        ss << " [Ranged one-handed] ";
         break;
     case ItemType::Melee_TwoHanded:
-        std::cout << " [Melee two-handed] ";
+        ss << " [Melee two-handed] ";
         break;
     case ItemType::Ranged_TwoHanded:
-        std::cout << " [Ranged two-handed] ";
+        ss << " [Ranged two-handed] ";
         break;
     case ItemType::Dual_Wielding:
-        std::cout << " [Dual wielding] ";
+        ss << " [Dual wielding] ";
         break;
     case ItemType::Shield:
-        std::cout << " [Shield] ";
+        ss << " [Shield] ";
         break;
     case ItemType::Consumable:
-        std::cout << " [Consumable] ";
+        ss << " [Consumable] ";
         break;
     case ItemType::Throwable:
-        std::cout << " [Throwable] ";
+        ss << " [Throwable] ";
         break;
     case ItemType::Scroll:
-        std::cout << " [Scroll] ";
+        ss << " [Scroll] ";
         break;
     default:
-        std::cout << " [Item] ";
+        ss << " [Item] ";
         break;
     }
 
-    std::cout << std::left << std::setw(42) << a.description;
+    ss << std::left << std::setw(42) << a.description;
 
-    std::cout << "(";
+    ss << "(";
     if (a.damage > 0)
     {
-        std::cout << " DMG: " << a.damage;
+        ss << " DMG: " << a.damage;
     }
     if (a.armor > 0)
     {
-        std::cout << " DEF: " << a.armor;
+        ss << " DEF: " << a.armor;
     }
-    std::cout << " )";
+    ss << " )";
+    return ss.str();
 }
 
 void printEquippedItems(const std::unordered_map<std::string, Item> &equipped)
@@ -156,7 +164,7 @@ void printHeroInventory(const Inventory &inventory)
 void printHero(Hero hero)
 {
     printBorder(130);
-    std::cout << "|" << START_GREEN << hero.name << END_GREEN << " (Level " << hero.level << ") \n";
+    std::cout << "|" << COLOR_GREEN << hero.name << COLOR_END << " (Level " << hero.level << ") \n";
     printBorder(130);
     std::cout << "|"
                  "HP: "
@@ -176,48 +184,223 @@ void printHero(Hero hero)
     printBorder(130);
 }
 
-unsigned int pickOption(unsigned int numberOfOptions)
+int slider(std::function<void()> redrawFunction, int min, int max)
 {
-    unsigned int selection = 0;
-    std::cout << "Please choose (1-" << numberOfOptions << "): ";
-    std::cin >> selection;
+    int result = min;
+    int c = 0;
+    bool finished = false;
 
-    while (std::cin.fail() || selection < 1 || selection > numberOfOptions)
+    while (!finished)
     {
-        std::cout << "Please choose (1-" << numberOfOptions << "): ";
-        std::cin.clear();
-        std::cin.ignore(256, '\n');
-        std::cin >> selection;
+        clearScreen();
+        redrawFunction();
+
+        std::cout << "Pick value between " << min << " and " << max << ": ";
+        std::cout << "<- " << COLOR_YELLOW << result << COLOR_END << " ->\n";
+
+        fflush(stdin);
+        switch ((c = getch()))
+        {
+        case KEY_LEFT:
+            result--;
+            if (result < min)
+            {
+                result = min;
+            }
+            break;
+        case KEY_RIGHT:
+            result++;
+            if (result > max)
+            {
+                result = max;
+            }
+            break;
+        case KEY_ENTER:
+            finished = true;
+            break;
+        case KEY_ENTER_LF:
+            finished = true;
+            break;
+        default:
+            break;
+        }
     }
 
-    return selection;
+    fflush(stdin);
+
+    return result;
 }
 
-unsigned int pickOptionZeroBased(unsigned int numberOfOptions)
+unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list)
 {
-    unsigned int selection = 999;
-    std::cout << "Please choose (0-" << numberOfOptions << "): ";
-    std::cin >> selection;
+    unsigned int selected = 0;
 
-    while (std::cin.fail() || selection > numberOfOptions)
+    int c = 0;
+    bool finished = false;
+
+    while (!finished)
     {
-        std::cout << "Please choose (0-" << numberOfOptions << "): ";
-        std::cin.clear();
-        std::cin.ignore(256, '\n');
-        std::cin >> selection;
+        clearScreen();
+
+        redrawFunction();
+
+        c = 0;
+
+        for (size_t i = 0; i < list.size(); i++)
+        {
+            if (i == selected)
+            {
+                std::cout << COLOR_YELLOW;
+                std::cout << "> ";
+            }
+            else
+            {
+                std::cout << "  ";
+            }
+            std::cout << list[i] << "\n";
+            if (i == selected)
+            {
+                std::cout << COLOR_END;
+            }
+        }
+
+        fflush(stdin);
+        switch ((c = getch()))
+        {
+        case KEY_UP:
+            if (selected == 0)
+            {
+                selected = list.size();
+            }
+            selected--;
+
+            break;
+        case KEY_DOWN:
+            selected++;
+            if (selected > list.size() - 1)
+            {
+                selected = 0;
+            }
+            break;
+        case KEY_ENTER:
+            finished = true;
+            break;
+        case KEY_ENTER_LF:
+            finished = true;
+            break;
+        default:
+            break;
+        }
     }
 
-    return selection;
+    fflush(stdin);
+
+    return selected;
 }
 
-unsigned int pickOptionFromList(const std::vector<std::string> &list)
+std::vector<int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute)
 {
-    for (size_t i = 0; i < list.size(); i++)
+    unsigned int row = 0;
+
+    int availablePoints = pointsToDistribute;
+
+    // put the base values into the list
+    std::vector<int> values;
+    for (auto e : elements)
     {
-        std::cout << i + 1 << ".) " << list[i] << "\n";
+        values.push_back(e.second);
     }
-    std::cout << "\n";
-    return pickOption(list.size()) - 1;
+
+    int c = 0;
+    bool finished = false;
+
+    while (!finished)
+    {
+        clearScreen();
+
+        redrawFunction();
+
+        std::cout << "Available points: ";
+        std::cout << COLOR_GREEN;
+        std::cout << availablePoints;
+        std::cout << COLOR_END;
+        std::cout << "\n\n";
+        std::cout << "Adjust attributes\n\n";
+
+        c = 0;
+
+        for (size_t i = 0; i < elements.size(); i++)
+        {
+            if (i == row)
+            {
+                std::cout << COLOR_YELLOW;
+                std::cout << "> ";
+            }
+            else
+            {
+                std::cout << "  ";
+            }
+            std::cout << std::left << std::setw(10) << elements[i].first;
+            if (i == row)
+            {
+                std::cout << COLOR_END;
+            }
+
+            std::cout << " ";
+            std::cout << "<- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n";
+        }
+
+        fflush(stdin);
+        switch ((c = getch()))
+        {
+        case KEY_UP:
+            if (row == 0)
+            {
+                row = elements.size();
+            }
+            row--;
+            break;
+        case KEY_DOWN:
+            row++;
+            if (row > elements.size() - 1)
+            {
+                row = 0;
+            }
+            break;
+        case KEY_LEFT:
+            if (availablePoints == pointsToDistribute)
+            {
+                break;
+            }
+            if (values[row] <= elements[row].second)
+            {
+                values[row] = elements[row].second;
+            }
+            values[row] -= 1;
+            availablePoints++;
+            break;
+        case KEY_RIGHT:
+            if (availablePoints == 0)
+            {
+                break;
+            }
+            values[row] += 1;
+            availablePoints--;
+            break;
+        case KEY_ENTER:
+            finished = true;
+            break;
+        case KEY_ENTER_LF:
+            finished = true;
+            break;
+        default:
+            break;
+        }
+    }
+
+    fflush(stdin);
+
+    return values;
 }
 
 void clearScreen()
@@ -248,19 +431,42 @@ void printIntro()
     std::cout << "   ;,.    SS    ;,. SS    ;,.     SS    ;,. SS    ;,. SS    ;,. SS    ;,.    ;,.        SS        SS    ;,. SS    ;,. SS    ;,. SS    ;,. SS    ;,.\n";
     std::cout << "   ;:'    :;    ;:' `:;;;;;:'     `:;;;;;:' `:    ;:' `:;;;;;:' :;    ;:'    ;:'        `:        `:;;;;;:' :;    ;:' `:;;;;;:' `:;;;;;:' `:;;;;;:'\n";
     std::cout << "\n\n";
+    std::cout << "---=== Main menu ===---\n";
 }
 
 bool askConfirmation(const std::string &question)
 {
     std::cout << question << " (Y or n): ";
-    std::string confirmation;
-    std::cin >> confirmation;
-    return confirmation == "Y" || confirmation == "y";
+
+    bool result = false;
+    int c = 0;
+    fflush(stdin);
+    switch ((c = getch()))
+    {
+    case 89: // y
+        result = true;
+        break;
+    case 121: // Y
+        result = true;
+        break;
+    case KEY_ENTER_LF: // Line Feed
+        result = true;
+        break;
+    case KEY_ENTER:
+        result = true;
+        break;
+    default:
+        break;
+    }
+
+    return result;
 }
 
 std::string enterName()
 {
     std::string name = "";
+    std::cout << "Name: ";
+    std::cin >> name;
 
     while (name == "" || trim(name) == "" || name.length() < 1 || std::cin.fail())
     {

@@ -12,16 +12,17 @@ namespace Abilities
     {
         clearScreen();
 
-        std::cout << "\nPick a starting ability:\n\n";
+        auto prompt = []()
+        { std::cout << "\nPick a starting ability:\n\n"; };
 
-        for (size_t i = 0; i < startingAbilities.size(); i++)
+        std::vector<std::string> menu;
+        for (auto sa : startingAbilities)
         {
-            std::cout << i + 1 << ".) " << startingAbilities[i].name << " - " << startingAbilities[i].description << "\n";
+            menu.push_back(sa.name + " - " + sa.description);
         }
-        std::cout << "\n";
 
-        int selection = pickOption(startingAbilities.size());
-        return startingAbilities[selection - 1];
+        int selection = pickOptionFromList(prompt, menu);
+        return startingAbilities[selection];
     }
 
     void learnAbility(Hero &hero, Ability ability)

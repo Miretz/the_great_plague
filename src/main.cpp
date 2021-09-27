@@ -20,11 +20,8 @@ int main(void)
     while (running)
     {
         clearScreen();
-        printIntro();
 
-        std::cout << "---=== Main menu ===---\n";
-
-        auto selection = pickOptionFromList({"Start new journey", "Save", "Load", "Exit"});
+        auto selection = pickOptionFromList(printIntro, {"Start new journey", "Save", "Load", "Exit"});
                        
         if (selection == 0)
         {

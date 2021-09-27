@@ -25,18 +25,18 @@ namespace InventoryManager
 
         clearScreen();
 
-        std::cout << "\nPick a starting item:\n\n";
+        auto prompt = []()
+        { std::cout << "\nPick a starting item:\n\n"; };
 
-        for (size_t i = 0; i < filtered.size(); i++)
+        std::vector<std::string> menu;
+
+        for (auto t : filtered)
         {
-            std::cout << i + 1 << ".) ";
-            printItem(filtered[i]);
-            std::cout << "\n";
+            menu.push_back(getItemString(t));
         }
-        std::cout << "\n";
 
-        int selection = pickOption(filtered.size());
-        return filtered[selection - 1];
+        int selection = pickOptionFromList(prompt, menu);
+        return filtered[selection];
     }
 
     void addToBackpack(Hero &hero, Item item)
@@ -216,23 +216,24 @@ namespace InventoryManager
             EquipmentSlot::Offhand,
         };
 
-        std::cout << "\nPick a slot to edit:\n\n";
+        auto prompt = []()
+        { std::cout << "\nPick a slot to edit:\n\n"; };
+
+        std::vector<std::string> slotMenu;
 
         for (size_t i = 0; i < availableSlots.size(); i++)
         {
             auto slotName = getEquipmentSlotName(availableSlots[i]);
-            std::cout << i + 1 << ".) " << slotName << "\n";
+            slotMenu.push_back(slotName);
         }
+        slotMenu.push_back("Exit");
 
-        std::cout << availableSlots.size() + 1 << ".) "
-                  << "Exit\n\n";
-
-        auto selection = pickOption(availableSlots.size() + 1);
-        if (selection == availableSlots.size() + 1)
+        auto selection = pickOptionFromList(prompt, slotMenu);
+        if (selection == availableSlots.size())
         {
             return std::make_pair(false, EquipmentSlot::MainHand);
         }
-        auto selectedSlot = availableSlots[selection - 1];
+        auto selectedSlot = availableSlots[selection];
 
         std::cout << "\nSelected slot " << getEquipmentSlotName(selectedSlot) << " (current: " << getEquippedItemName(hero, selectedSlot) << ")\n";
 
@@ -277,11 +278,10 @@ namespace InventoryManager
             }
             actions.push_back("Back");
 
-            for (size_t i = 0; i < actions.size(); i++)
-            {
-                std::cout << i + 1 << ".) " << actions[i] << "\n";
-            }
-            auto selectedAction = actions[pickOption(actions.size()) - 1];
+            auto prompt = []()
+            { std::cout << "Pick action:\n\n"; };
+
+            auto selectedAction = actions[pickOptionFromList(prompt, actions)];
 
             // execute the action
 
@@ -293,15 +293,16 @@ namespace InventoryManager
             {
                 clearScreen();
 
+                std::vector<std::string> chooseWeapon;
                 for (size_t j = 0; j < listOfEquipable.size(); j++)
                 {
-                    std::cout << j + 1 << ".) ";
-                    printItem(listOfEquipable[j]);
-                    std::cout << "\n";
+                    chooseWeapon.push_back(getItemString(listOfEquipable[j]));
                 }
 
-                int itemSelection = pickOption(listOfEquipable.size());
-                auto newItem = listOfEquipable[itemSelection - 1];
+                int itemSelection = pickOptionFromList([]()
+                                                       { std::cout << "Select equipment:\n\n"; },
+                                                       chooseWeapon);
+                auto newItem = listOfEquipable[itemSelection];
 
                 equipItem(hero, newItem, selectedSlot);
             }

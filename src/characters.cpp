@@ -10,90 +10,58 @@ namespace Characters
 {
     Hero pickHeroRace(std::string name)
     {
-        std::cout << "\nPlease select your race\n";
+        auto prompt = []()
+        { std::cout << "Please select your race\n\n"; };
 
-        for (size_t i = 0; i < startingRaces.size(); i++)
+        std::vector<std::string> menu;
+
+        for (auto r : startingRaces)
         {
-            printBorder(130);
-            std::cout << "|" << i + 1 << ".) " << START_GREEN << startingRaces[i].name << END_GREEN << " - " << startingRaces[i].description << "\n";
-            printBorder(130);
-            printAttributes(startingRaces[i].attributes);
+            menu.push_back(r.name + " - " + r.description);
         }
-        printBorder(130);
 
-        int selection = pickOption(startingRaces.size());
-        auto race = startingRaces[selection - 1];
+        int selection = pickOptionFromList(prompt, menu);
+        auto race = startingRaces[selection];
         return Hero{name, STARTING_HEALTH, 0, STARTING_HEALTH, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
     }
 
     void assignAttributePoints(Hero &hero)
     {
+
+        int availablePoints = hero.unspentPoints;
+        if (availablePoints <= 0)
+        {
+            return;
+        }
+
         while (true)
         {
 
+            Attributes prevAtt = hero.attributes;
             Attributes attributes = {0, 0, 0, 0};
-            int availablePoints = hero.unspentPoints;
 
-            int selected;
-            if (availablePoints > 0)
+            clearScreen();
+
+            availablePoints = hero.unspentPoints;
+
+            std::vector<std::pair<std::string, int>> menu{
+                {"Strength", prevAtt.strength},
+                {"Dexterity", prevAtt.dexterity},
+                {"Vitality", prevAtt.vitality},
+                {"Intelligence", prevAtt.intelligence},
+            };
+
+            auto prompt = [availablePoints]()
             {
-                clearScreen();
-                std::cout << "\n\nAssign attribute points:\n";
-                printBorder(55);
-                printAttributesAdjustment(hero.attributes, attributes);
-                printBorder(55);
+                std::cout << "Assign points to attributes\n\n";
+            };
 
-                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
-                std::cout << "Add points to Strength (Current: " << attributes.strength << ")\n";
-                selected = pickOptionZeroBased(availablePoints);
-                attributes.strength += selected;
-                availablePoints -= selected;
-            }
+            auto results = pointsDistributionMenu(prompt, menu, availablePoints);
 
-            if (availablePoints > 0)
-            {
-                clearScreen();
-                std::cout << "\n\nAssign attribute points:\n";
-                printBorder(55);
-                printAttributesAdjustment(hero.attributes, attributes);
-                printBorder(55);
-
-                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
-                std::cout << "Add points to Dexterity: (Current: " << attributes.dexterity << ")\n";
-                selected = pickOptionZeroBased(availablePoints);
-                attributes.dexterity += selected;
-                availablePoints -= selected;
-            }
-
-            if (availablePoints > 0)
-            {
-                clearScreen();
-                std::cout << "\n\nAssign attribute points:\n";
-                printBorder(55);
-                printAttributesAdjustment(hero.attributes, attributes);
-                printBorder(55);
-                
-                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
-                std::cout << "Add points to Vitality: (Current: " << attributes.vitality << ")\n";
-                selected = pickOptionZeroBased(availablePoints);
-                attributes.vitality += selected;
-                availablePoints -= selected;
-            }
-
-            if (availablePoints > 0)
-            {
-                clearScreen();
-                std::cout << "\n\nAssign attribute points:\n";
-                printBorder(55);
-                printAttributesAdjustment(hero.attributes, attributes);
-                printBorder(55);
-                
-                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
-                std::cout << "Add points to intelligence: (Current: " << attributes.intelligence << ")\n";
-                selected = pickOptionZeroBased(availablePoints);
-                attributes.intelligence += selected;
-                availablePoints -= selected;
-            }
+            attributes.strength = results[0];
+            attributes.dexterity = results[1];
+            attributes.vitality = results[2];
+            attributes.intelligence = results[3];
 
             clearScreen();
 
@@ -103,18 +71,14 @@ namespace Characters
             std::cout << "|"
                       << "New attributes:\n";
             printBorder(55);
+
             printAttributesAdjustment(hero.attributes, attributes);
             printBorder(55);
 
             if (askConfirmation("\n\nDo you accept the new attributes?"))
             {
                 hero.unspentPoints = availablePoints;
-                hero.attributes = {
-                    hero.attributes.strength + attributes.strength,
-                    hero.attributes.dexterity + attributes.dexterity,
-                    hero.attributes.vitality + attributes.vitality,
-                    hero.attributes.intelligence + attributes.intelligence
-                };
+                hero.attributes = attributes;
                 break;
             }
         }
@@ -127,8 +91,9 @@ namespace Characters
         clearScreen();
 
         // pick number of players
-        std::cout << "\nPlease select the number of heroes.\n";
-        unsigned int numHeroes = pickOption(4);
+        auto prompt = []()
+        { std::cout << "\nPlease select the number of heroes.\n"; };
+        unsigned int numHeroes = slider(prompt, 1, 4);
 
         clearScreen();
 
@@ -185,5 +150,4 @@ namespace Characters
 
         return heroes;
     }
-
 }
