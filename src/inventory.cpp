@@ -216,8 +216,21 @@ namespace InventoryManager
             EquipmentSlot::Offhand,
         };
 
-        auto prompt = []()
-        { std::cout << "\nPick a slot to edit:\n\n"; };
+        auto heroEquipped = getEquippedItemsString(hero.inventory.equipped);
+        auto heroBackpack = getBackpack(hero.inventory.backpack);
+
+        auto prompt = [hero, heroEquipped, heroBackpack]()
+        {
+            printHeroHeader(hero.name, hero.level);
+            std::cout << "|"
+                      << "Inventory\n";
+            printBorder(130);
+            std::cout << heroEquipped;
+            std::cout << heroBackpack;
+            printBorder(130);
+            std::cout << "\n\n";
+            std::cout << "\nPick a slot to edit:\n\n";
+        };
 
         std::vector<std::string> slotMenu;
 
@@ -247,11 +260,6 @@ namespace InventoryManager
 
             clearScreen();
 
-            std::cout << "Managing inventory of " << hero.name << "\n";
-            printHeroInventory(hero.inventory);
-
-            // select slot
-
             auto selectedSlotTuple = selectSlot(hero);
             if (!selectedSlotTuple.first)
             {
@@ -278,8 +286,21 @@ namespace InventoryManager
             }
             actions.push_back("Back");
 
-            auto prompt = []()
-            { std::cout << "Pick action:\n\n"; };
+            auto heroEquipped = getEquippedItemsString(hero.inventory.equipped);
+            auto heroBackpack = getBackpack(hero.inventory.backpack);
+
+            auto prompt = [hero, heroEquipped, heroBackpack]()
+            {
+                printHeroHeader(hero.name, hero.level);
+                std::cout << "|"
+                          << "Inventory\n";
+                printBorder(130);
+                std::cout << heroEquipped;
+                std::cout << heroBackpack;
+                printBorder(130);
+                std::cout << "\n\n";
+                std::cout << "Pick action:\n\n";
+            };
 
             auto selectedAction = actions[pickOptionFromList(prompt, actions)];
 

@@ -27,19 +27,21 @@ void printItem(Item a);
 
 std::string getItemString(Item a);
 
-void printEquippedItems(const std::unordered_map<std::string, Item> &equipped);
+std::string getEquippedItemsString(const std::unordered_map<std::string, Item> &equipped);
 
-void printBackpack(const std::vector<Item> &backpack);
+std::string getBackpack(const std::vector<Item> &backpack);
 
 void printHeroInventory(const Inventory &inventory);
 
-void printHero(Hero hero);
+void printHeroHeader(const std::string& name, const int level);
+
+void printHero(Hero &hero);
 
 int slider(std::function<void()> redrawFunction, int min, int max);
 
 unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
-std::vector<int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute);
+std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute);
 
 void clearScreen();
 

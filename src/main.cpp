@@ -7,9 +7,26 @@
 
 #include <iostream>
 
-void startJourney()
+void startJourney(std::vector<Hero> heroes)
 {
-    std::cout << "In journey!\n\n";
+    // Simulate 3 level ups
+    if (!askConfirmation("Simulate 3 level ups & inventory management"))
+    {
+        exit(0);
+    }
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (auto &h : heroes)
+        {
+            h.level += 1;
+            h.unspentPoints += 1;
+
+            Characters::assignAttributePoints(h);
+
+            InventoryManager::selectEquipment(h);
+        }
+    }
     exit(0);
 }
 
@@ -22,13 +39,13 @@ int main(void)
         clearScreen();
 
         auto selection = pickOptionFromList(printIntro, {"Start new journey", "Save", "Load", "Exit"});
-                       
+
         if (selection == 0)
         {
             auto heroes = Characters::createHeroes();
             if (askConfirmation("Begin your journey?"))
             {
-                startJourney();
+                startJourney(heroes);
             }
             else
             {

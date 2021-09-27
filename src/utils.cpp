@@ -125,47 +125,57 @@ std::string getItemString(Item a)
     return ss.str();
 }
 
-void printEquippedItems(const std::unordered_map<std::string, Item> &equipped)
+std::string getEquippedItemsString(const std::unordered_map<std::string, Item> &equipped)
 {
+    std::stringstream ss;
     for (auto s : equipmentSlotNames)
     {
         if (equipped.find(s) != equipped.end())
         {
-            std::cout << "|";
-            std::cout << "Equipped in ";
-            std::cout << std::left << std::setw(10) << s << " - ";
-            printItem(equipped.at(s));
-            std::cout << "\n";
+            ss << "|";
+            ss << "Equipped in ";
+            ss << std::left << std::setw(10) << s << " - ";
+            ss << getItemString(equipped.at(s));
+            ss << "\n";
         }
     }
+    return ss.str();
 }
 
-void printBackpack(const std::vector<Item> &backpack)
+std::string getBackpack(const std::vector<Item> &backpack)
 {
+    std::stringstream ss;
     if (backpack.size() > 0)
     {
-        std::cout << "Backpack:\n";
+        ss << "|"
+           << "Backpack:\n";
         for (auto a : backpack)
         {
-            std::cout << "    ";
-            printItem(a);
-            std::cout << "\n";
+            ss << "|";
+            ss << "    ";
+            ss << getItemString(a);
+            ss << "\n";
         }
-        std::cout << "\n";
     }
+    return ss.str();
 }
 
 void printHeroInventory(const Inventory &inventory)
 {
-    printEquippedItems(inventory.equipped);
-    printBackpack(inventory.backpack);
+    std::cout << getEquippedItemsString(inventory.equipped);
+    std::cout << getBackpack(inventory.backpack);
 }
 
-void printHero(Hero hero)
+void printHeroHeader(const std::string &name, const int level)
 {
     printBorder(130);
-    std::cout << "|" << COLOR_GREEN << hero.name << COLOR_END << " (Level " << hero.level << ") \n";
+    std::cout << "|" << COLOR_GREEN << name << COLOR_END << " (Level " << level << ") \n";
     printBorder(130);
+}
+
+void printHero(Hero &hero)
+{
+    printHeroHeader(hero.name, hero.level);
     std::cout << "|"
                  "HP: "
               << hero.health << "/" << hero.maxHealth << "\n";
@@ -298,7 +308,7 @@ unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std:
     return selected;
 }
 
-std::vector<int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute)
+std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute)
 {
     unsigned int row = 0;
 
@@ -325,7 +335,6 @@ std::vector<int> pointsDistributionMenu(std::function<void()> redrawFunction, st
         std::cout << availablePoints;
         std::cout << COLOR_END;
         std::cout << "\n\n";
-        std::cout << "Adjust attributes\n\n";
 
         c = 0;
 
@@ -400,7 +409,7 @@ std::vector<int> pointsDistributionMenu(std::function<void()> redrawFunction, st
 
     fflush(stdin);
 
-    return values;
+    return {values, availablePoints};
 }
 
 void clearScreen()

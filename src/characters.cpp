@@ -27,7 +27,6 @@ namespace Characters
 
     void assignAttributePoints(Hero &hero)
     {
-
         int availablePoints = hero.unspentPoints;
         if (availablePoints <= 0)
         {
@@ -51,17 +50,22 @@ namespace Characters
                 {"Intelligence", prevAtt.intelligence},
             };
 
-            auto prompt = [availablePoints]()
+            auto prompt = [availablePoints, hero]()
             {
+                printHeroHeader(hero.name, hero.level);
+                std::cout << "\n\n";
                 std::cout << "Assign points to attributes\n\n";
             };
 
-            auto results = pointsDistributionMenu(prompt, menu, availablePoints);
+            auto distributedPoints = pointsDistributionMenu(prompt, menu, availablePoints);
 
+            auto results = distributedPoints.first;
             attributes.strength = results[0];
             attributes.dexterity = results[1];
             attributes.vitality = results[2];
             attributes.intelligence = results[3];
+
+            availablePoints = distributedPoints.second;
 
             clearScreen();
 
