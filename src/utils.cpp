@@ -29,22 +29,26 @@ std::string getEquipmentSlotName(EquipmentSlot eSlot)
 
 void printAttributes(Attributes attributes)
 {
-    std::cout << "|"
-              << "Attributes:\n";
-    std::cout << "|" << std::left << std::setw(16) << "    Strength: " << std::left << std::setw(6) << attributes.strength << "\n";
-    std::cout << "|" << std::left << std::setw(16) << "    Dexterity: " << std::left << std::setw(6) << attributes.dexterity << "\n";
-    std::cout << "|" << std::left << std::setw(16) << "    Vitality: " << std::left << std::setw(6) << attributes.vitality << "\n";
-    std::cout << "|" << std::left << std::setw(16) << "    Intelligence: " << std::left << std::setw(6) << attributes.intelligence << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << attributes.vitality << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << attributes.intelligence << "\n";
+}
+
+void printAttributesAdjustment(Attributes base, Attributes adjustment)
+{
+    std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::right << std::setw(6) << "+" << adjustment.strength << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::right << std::setw(6) << "+" << adjustment.dexterity << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << base.vitality << std::right << std::setw(6) << "+" << adjustment.vitality << "\n";
+    std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::right << std::setw(6) << "+" << adjustment.intelligence << "\n";
 }
 
 void printHeroAbilities(const std::vector<Ability> &abilities)
 {
-    std::cout << "|"
-              << "Abilities:\n";
     for (auto a : abilities)
     {
         std::cout << "|"
-                  << "    " << a.name << " - " << a.description << "\n";
+                  << "Ability: " << a.name << " - " << a.description << "\n";
     }
 }
 
@@ -120,7 +124,7 @@ void printEquippedItems(const std::unordered_map<std::string, Item> &equipped)
         if (equipped.find(s) != equipped.end())
         {
             std::cout << "|";
-            std::cout << "    Equipped in ";
+            std::cout << "Equipped in ";
             std::cout << std::left << std::setw(10) << s << " - ";
             printItem(equipped.at(s));
             std::cout << "\n";
@@ -145,31 +149,31 @@ void printBackpack(const std::vector<Item> &backpack)
 
 void printHeroInventory(const Inventory &inventory)
 {
-    std::cout << "|";
-    std::cout << "Equippped:\n";
     printEquippedItems(inventory.equipped);
     printBackpack(inventory.backpack);
 }
 
 void printHero(Hero hero)
 {
-    std::cout << "+-------------------------------------------------+\n";
-    std::cout << "|" << hero.name << " (Level " << hero.level << ") \n";
-    std::cout << "+-------------------------------------------------+\n";
+    printBorder(130);
+    std::cout << "|" << START_GREEN << hero.name << END_GREEN << " (Level " << hero.level << ") \n";
+    printBorder(130);
     std::cout << "|"
                  "HP: "
               << hero.health << "/" << hero.maxHealth << "\n";
     std::cout << "|"
                  "XP: "
               << hero.xp << "/" << hero.xpToLevelUp << "\n";
-    std::cout << "+-------------------------------------------------+\n";
+    printBorder(130);
     printAttributes(hero.attributes);
+    printBorder(130);
     if (hero.abilities.size() > 0)
     {
         printHeroAbilities(hero.abilities);
     }
+    printBorder(130);
     printHeroInventory(hero.inventory);
-    std::cout << "+-------------------------------------------------+\n";
+    printBorder(130);
 }
 
 unsigned int pickOption(unsigned int numberOfOptions)
@@ -181,6 +185,23 @@ unsigned int pickOption(unsigned int numberOfOptions)
     while (std::cin.fail() || selection < 1 || selection > numberOfOptions)
     {
         std::cout << "Please choose (1-" << numberOfOptions << "): ";
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
+        std::cin >> selection;
+    }
+
+    return selection;
+}
+
+unsigned int pickOptionZeroBased(unsigned int numberOfOptions)
+{
+    unsigned int selection = 999;
+    std::cout << "Please choose (0-" << numberOfOptions << "): ";
+    std::cin >> selection;
+
+    while (std::cin.fail() || selection > numberOfOptions)
+    {
+        std::cout << "Please choose (0-" << numberOfOptions << "): ";
         std::cin.clear();
         std::cin.ignore(256, '\n');
         std::cin >> selection;
@@ -263,4 +284,14 @@ bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes)
         }
     }
     return sameName;
+}
+
+void printBorder(int length)
+{
+    std::cout << "+";
+    for (int i = 0; i < length - 2; i++)
+    {
+        std::cout << "-";
+    }
+    std::cout << "+\n";
 }

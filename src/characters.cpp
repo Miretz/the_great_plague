@@ -8,98 +8,116 @@
 
 namespace Characters
 {
-    Hero pickHeroPreset()
+    Hero pickHeroRace(std::string name)
     {
-        std::cout << "\nPlease select your hero preset\n";
+        std::cout << "\nPlease select your race\n";
 
-        for (size_t i = 0; i < presets.size(); i++)
+        for (size_t i = 0; i < startingRaces.size(); i++)
         {
-            std::cout << "+-------------------------------------------------+\n";
-            std::cout << "|" << i + 1 << ".) " << presets[i].name << "\n";
-            std::cout << "+-------------------------------------------------+\n";
-            printAttributes(presets[i].attributes);
-            std::cout << "+-------------------------------------------------+\n";
-            std::cout << "\n\n";
+            printBorder(130);
+            std::cout << "|" << i + 1 << ".) " << START_GREEN << startingRaces[i].name << END_GREEN << " - " << startingRaces[i].description << "\n";
+            printBorder(130);
+            printAttributes(startingRaces[i].attributes);
         }
-        std::cout << "\n";
+        printBorder(130);
 
-        int selection = pickOption(presets.size());
-        auto hero = presets[selection - 1];
-
-        clearScreen();
-
-        std::cout << "\nYour choice: \n";
-        std::cout << "+-------------------------------------------------+\n";
-        printAttributes(hero.attributes);
-        std::cout << "+-------------------------------------------------+\n";
-        return hero;
+        int selection = pickOption(startingRaces.size());
+        auto race = startingRaces[selection - 1];
+        return Hero{name, STARTING_HEALTH, 0, STARTING_HEALTH, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
     }
 
-    Attributes updateAttributes(Attributes attributes)
+    void assignAttributePoints(Hero &hero)
     {
-        std::cout << "\n";
-        if (pickOptionFromList({"Continue", "Customize"}) == 0)
-        {
-            return attributes;
-        }
-
         while (true)
         {
+
+            Attributes attributes = {0, 0, 0, 0};
+            int availablePoints = hero.unspentPoints;
+
+            int selected;
+            if (availablePoints > 0)
+            {
+                clearScreen();
+                std::cout << "\n\nAssign attribute points:\n";
+                printBorder(55);
+                printAttributesAdjustment(hero.attributes, attributes);
+                printBorder(55);
+
+                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
+                std::cout << "Add points to Strength (Current: " << attributes.strength << ")\n";
+                selected = pickOptionZeroBased(availablePoints);
+                attributes.strength += selected;
+                availablePoints -= selected;
+            }
+
+            if (availablePoints > 0)
+            {
+                clearScreen();
+                std::cout << "\n\nAssign attribute points:\n";
+                printBorder(55);
+                printAttributesAdjustment(hero.attributes, attributes);
+                printBorder(55);
+
+                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
+                std::cout << "Add points to Dexterity: (Current: " << attributes.dexterity << ")\n";
+                selected = pickOptionZeroBased(availablePoints);
+                attributes.dexterity += selected;
+                availablePoints -= selected;
+            }
+
+            if (availablePoints > 0)
+            {
+                clearScreen();
+                std::cout << "\n\nAssign attribute points:\n";
+                printBorder(55);
+                printAttributesAdjustment(hero.attributes, attributes);
+                printBorder(55);
+                
+                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
+                std::cout << "Add points to Vitality: (Current: " << attributes.vitality << ")\n";
+                selected = pickOptionZeroBased(availablePoints);
+                attributes.vitality += selected;
+                availablePoints -= selected;
+            }
+
+            if (availablePoints > 0)
+            {
+                clearScreen();
+                std::cout << "\n\nAssign attribute points:\n";
+                printBorder(55);
+                printAttributesAdjustment(hero.attributes, attributes);
+                printBorder(55);
+                
+                std::cout << START_GREEN << "\nPoints remaining: " << availablePoints << END_GREEN << "\n\n";
+                std::cout << "Add points to intelligence: (Current: " << attributes.intelligence << ")\n";
+                selected = pickOptionZeroBased(availablePoints);
+                attributes.intelligence += selected;
+                availablePoints -= selected;
+            }
+
             clearScreen();
 
-            std::cout << "\n\nOld attributes:\n";
-            printAttributes(attributes);
+            std::cout << "Unspent points: " << availablePoints << "\n\n";
 
-            int pointsSum = STARTING_POINTS;
-
-            attributes.strength = 0;
-            attributes.dexterity = 0;
-            attributes.vitality = 0;
-            attributes.intelligence = 0;
-
-            std::cout << "\nPoints reset to: " << pointsSum << "\n\n";
-
-            if (pointsSum > 0)
-            {
-                std::cout << "Pick Strength value: ";
-                attributes.strength = pickOption(pointsSum);
-                pointsSum -= attributes.strength;
-            }
-
-            if (pointsSum > 0)
-            {
-                std::cout << "Pick Dexterity value: ";
-                attributes.dexterity = pickOption(pointsSum);
-                pointsSum -= attributes.dexterity;
-            }
-
-            if (pointsSum > 0)
-            {
-                std::cout << "Pick Vitality value: ";
-                attributes.vitality = pickOption(pointsSum);
-                pointsSum -= attributes.vitality;
-            }
-
-            if (pointsSum > 0)
-            {
-                std::cout << "Pick Intelligence value: ";
-                attributes.intelligence = pickOption(pointsSum);
-                pointsSum -= attributes.intelligence;
-            }
-
-            std::cout << "Unspent points: " << pointsSum << "\n";
-            attributes.unspentPoints = pointsSum;
-
-            std::cout << "\nNew attributes:\n";
-            printAttributes(attributes);
+            printBorder(55);
+            std::cout << "|"
+                      << "New attributes:\n";
+            printBorder(55);
+            printAttributesAdjustment(hero.attributes, attributes);
+            printBorder(55);
 
             if (askConfirmation("\n\nDo you accept the new attributes?"))
             {
+                hero.unspentPoints = availablePoints;
+                hero.attributes = {
+                    hero.attributes.strength + attributes.strength,
+                    hero.attributes.dexterity + attributes.dexterity,
+                    hero.attributes.vitality + attributes.vitality,
+                    hero.attributes.intelligence + attributes.intelligence
+                };
                 break;
             }
         }
-
-        return attributes;
     }
 
     std::vector<Hero> createHeroes()
@@ -129,9 +147,9 @@ namespace Characters
 
             clearScreen();
 
-            Hero hero = pickHeroPreset();
-            hero.name = name;
-            hero.attributes = updateAttributes(hero.attributes);
+            Hero hero = pickHeroRace(name);
+
+            assignAttributePoints(hero);
 
             Abilities::learnAbility(hero, Abilities::pickStartingAbility());
 

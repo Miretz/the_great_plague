@@ -9,6 +9,16 @@
 ENUMS
 *************************************************************************************************/
 
+enum class Race
+{
+    Repsoris,
+    Ursobac,
+    Rodanto,
+    Felidae,
+    Strigifor,
+    Vulpotis,
+};
+
 enum class ItemType
 {
     Melee_OneHanded, // Sword, Hatched, Mace, Scimitar, Sabre, Katana
@@ -59,8 +69,14 @@ struct Attributes
     int dexterity;
     int vitality;
     int intelligence;
+};
 
-    int unspentPoints;
+struct RaceDetail
+{
+    Race id;
+    std::string name;
+    std::string description;
+    Attributes attributes;
 };
 
 struct Item
@@ -105,7 +121,9 @@ struct Hero
     int maxHealth;
     int level;
     int xpToLevelUp;
+    int unspentPoints;
 
+    Race race;
     Controller controller;
 
     Attributes attributes;

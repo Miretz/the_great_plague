@@ -2,9 +2,14 @@
 
 #include "entities.hpp"
 
+#define START_GREEN "\033[32m"
+#define END_GREEN "\033[0m"
+
 std::string getEquipmentSlotName(EquipmentSlot eSlot);
 
 void printAttributes(Attributes attributes);
+
+void printAttributesAdjustment(Attributes base, Attributes adjustment);
 
 void printHeroAbilities(const std::vector<Ability> &abilities);
 
@@ -20,6 +25,8 @@ void printHero(Hero hero);
 
 unsigned int pickOption(unsigned int numberOfOptions);
 
+unsigned int pickOptionZeroBased(unsigned int numberOfOptions);
+
 unsigned int pickOptionFromList(const std::vector<std::string>& list);
 
 void clearScreen();
@@ -33,3 +40,5 @@ bool askConfirmation(const std::string &question);
 std::string enterName();
 
 bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes);
+
+void printBorder(int length);
