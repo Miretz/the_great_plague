@@ -7,10 +7,10 @@
 
 #include <iostream>
 
-void startJourney(std::vector<Hero> heroes)
+bool startJourney(std::vector<Hero> heroes)
 {
     // Simulate 3 level ups
-    if (!askConfirmation("Simulate 3 level ups & inventory management"))
+    if (!askConfirmation("\n\nSimulate 3 level ups & inventory management?"))
     {
         exit(0);
     }
@@ -27,7 +27,20 @@ void startJourney(std::vector<Hero> heroes)
             InventoryManager::selectEquipment(h);
         }
     }
-    exit(0);
+
+    clearScreen();
+
+    std::cout << "\nList of Heroes:\n";
+    for (auto h : heroes)
+    {
+        std::cout << "\n";
+        printHero(h);
+    }
+    std::cout << "\n";
+
+    askConfirmation("End journey?");
+
+    return true;
 }
 
 int main(void)
@@ -45,7 +58,10 @@ int main(void)
             auto heroes = Characters::createHeroes();
             if (askConfirmation("Begin your journey?"))
             {
-                startJourney(heroes);
+                if (startJourney(heroes))
+                {
+                    continue;
+                };
             }
             else
             {

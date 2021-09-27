@@ -15,13 +15,14 @@ namespace Characters
 
         std::vector<std::string> menu;
 
-        for (auto r : startingRaces)
+        for (auto rId : startingRaces)
         {
+            auto r = g_AllRaces.at(rId);
             menu.push_back(r.name + " - " + r.description);
         }
 
         int selection = pickOptionFromList(prompt, menu);
-        auto race = startingRaces[selection];
+        auto race = g_AllRaces.at(startingRaces[selection]);
         return Hero{name, STARTING_HEALTH, 0, STARTING_HEALTH, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
     }
 

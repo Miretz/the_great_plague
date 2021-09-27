@@ -176,12 +176,11 @@ void printHeroHeader(const std::string &name, const int level)
 void printHero(Hero &hero)
 {
     printHeroHeader(hero.name, hero.level);
-    std::cout << "|"
-                 "HP: "
+    std::cout << "|HP: "
               << hero.health << "/" << hero.maxHealth << "\n";
-    std::cout << "|"
-                 "XP: "
+    std::cout << "|XP: "
               << hero.xp << "/" << hero.xpToLevelUp << "\n";
+    std::cout << "|Race: " << g_AllRaces.at(hero.race).name << "\n";
     printBorder(130);
     printAttributes(hero.attributes);
     printBorder(130);
@@ -267,7 +266,7 @@ unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std:
             {
                 std::cout << "  ";
             }
-            std::cout << list[i] << "\n";
+            std::cout << list[i] << "\n\n";
             if (i == selected)
             {
                 std::cout << COLOR_END;
@@ -356,7 +355,7 @@ std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> re
             }
 
             std::cout << " ";
-            std::cout << "<- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n";
+            std::cout << "<- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n\n";
         }
 
         fflush(stdin);
@@ -430,6 +429,7 @@ std::string trim(std::string s)
 
 void printIntro()
 {
+    std::cout << COLOR_GREEN;
     std::cout << ".s5SSSSs.                         .s5SSSs.                                              .s5SSSs.                                                   \n";
     std::cout << "   SSS    .s    s.  .s5SSSs.            SS. .s5SSSs.  .s5SSSs.  .s5SSSs.  .s5SSSSs.           SS. .s        .s5SSSs.  .s5SSSs.  .s    s.  .s5SSSs. \n";
     std::cout << "   S%S          SS.       SS.     sS    `:;       SS.       SS.       SS.    SSS        sS    S%S                 SS.       SS.       SS.       SS.\n";
@@ -440,7 +440,8 @@ void printIntro()
     std::cout << "   ;,.    SS    ;,. SS    ;,.     SS    ;,. SS    ;,. SS    ;,. SS    ;,.    ;,.        SS        SS    ;,. SS    ;,. SS    ;,. SS    ;,. SS    ;,.\n";
     std::cout << "   ;:'    :;    ;:' `:;;;;;:'     `:;;;;;:' `:    ;:' `:;;;;;:' :;    ;:'    ;:'        `:        `:;;;;;:' :;    ;:' `:;;;;;:' `:;;;;;:' `:;;;;;:'\n";
     std::cout << "\n\n";
-    std::cout << "---=== Main menu ===---\n";
+    std::cout << COLOR_END;
+    std::cout << "---=== Main menu ===---\n\n";
 }
 
 bool askConfirmation(const std::string &question)
