@@ -15,6 +15,7 @@ namespace Characters
         {{"Torso", basicClothes}, {"Legs", basicShoes}}};
 
     const std::vector<Race> startingRaces{
+        Race::Human,
         Race::Repsoris,
         Race::Ursobac,
         Race::Rodanto,
