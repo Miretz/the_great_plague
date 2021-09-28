@@ -5,6 +5,12 @@
 #include <iomanip>
 #include <sstream>
 
+#include <conio.h>
+
+#if defined _WIN32
+#include <windows.h>
+#endif
+
 std::string getEquipmentSlotName(EquipmentSlot eSlot)
 {
     switch (eSlot)
@@ -210,13 +216,22 @@ int slider(std::function<void()> redrawFunction, int min, int max)
     int c = 0;
     bool finished = false;
 
+    clearScreen();
+    redrawFunction();
+
+    std::cout << COLOR_GREY << "\nPress the LEFT & RIGHT arrows to adjust" << COLOR_END << "\n\n";
+
+    int y = getCursorPosition();
+
     while (!finished)
     {
-        clearScreen();
-        redrawFunction();
+        setCursorPosition(0, y);
 
-        std::cout << "Pick value between " << min << " and " << max << ": ";
-        std::cout << "<- " << COLOR_YELLOW << result << COLOR_END << " ->\n";
+        std::ostringstream ss;
+        ss << "Pick value between " << min << " and " << max << ": ";
+        ss << "<-  " << COLOR_YELLOW << std::left << std::setw(2) << result << COLOR_END << " ->\n";
+
+        std::cout << ss.str();
 
         fflush(stdin);
         switch ((c = getch()))
@@ -258,31 +273,35 @@ unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std:
     int c = 0;
     bool finished = false;
 
+    clearScreen();
+    redrawFunction();
+    int y = getCursorPosition();
+
     while (!finished)
     {
-        clearScreen();
-
-        redrawFunction();
-
         c = 0;
 
+        std::ostringstream ss;
         for (size_t i = 0; i < list.size(); i++)
         {
             if (i == selected)
             {
-                std::cout << COLOR_YELLOW;
-                std::cout << "> ";
+                ss << COLOR_YELLOW;
+                ss << "> ";
             }
             else
             {
-                std::cout << "  ";
+                ss << "  ";
             }
-            std::cout << list[i] << "\n\n";
+            ss << list[i] << "\n\n";
             if (i == selected)
             {
-                std::cout << COLOR_END;
+                ss << COLOR_END;
             }
         }
+
+        setCursorPosition(0, y);
+        std::cout << ss.str();
 
         fflush(stdin);
         switch ((c = getch()))
@@ -334,17 +353,21 @@ std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> re
     int c = 0;
     bool finished = false;
 
+    clearScreen();
+    redrawFunction();
+
+    std::cout << COLOR_GREY << "\nPress UP/DOWN/LEFT/RIGHT to adjust\n [Enter] to confirm settings" << COLOR_END << "\n\n";
+
+    int y = getCursorPosition();
+
     while (!finished)
     {
-        clearScreen();
-
-        redrawFunction();
-
-        std::cout << "Available points: ";
-        std::cout << COLOR_GREEN;
-        std::cout << availablePoints;
-        std::cout << COLOR_END;
-        std::cout << "\n\n";
+        std::ostringstream ss;
+        ss << "Available points: ";
+        ss << COLOR_GREEN;
+        ss << availablePoints;
+        ss << COLOR_END;
+        ss << "\n\n";
 
         c = 0;
 
@@ -352,22 +375,25 @@ std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> re
         {
             if (i == row)
             {
-                std::cout << COLOR_YELLOW;
-                std::cout << "> ";
+                ss << COLOR_YELLOW;
+                ss << "> ";
             }
             else
             {
-                std::cout << "  ";
+                ss << "  ";
             }
-            std::cout << std::left << std::setw(10) << elements[i].first;
+            ss << std::left << std::setw(10) << elements[i].first;
             if (i == row)
             {
-                std::cout << COLOR_END;
+                ss << COLOR_END;
             }
 
-            std::cout << " ";
-            std::cout << "<- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n\n";
+            ss << " ";
+            ss << "<- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n\n";
         }
+
+        setCursorPosition(0, y);
+        std::cout << ss.str();
 
         fflush(stdin);
         switch ((c = getch()))
@@ -394,6 +420,7 @@ std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> re
             if (values[row] <= elements[row].second)
             {
                 values[row] = elements[row].second;
+                break;
             }
             values[row] -= 1;
             availablePoints++;
@@ -515,10 +542,35 @@ bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes)
 
 void printBorder(int length)
 {
-    std::cout << "+";
+    std::stringstream ss;
+    ss << "+";
     for (int i = 0; i < length - 2; i++)
     {
-        std::cout << "-";
+        ss << "-";
     }
-    std::cout << "+\n";
+    ss << "+\n";
+    std::cout << ss.str();
+}
+
+// NOTE: Windows only fix for screen flicker,
+// TODO: fix on Unix!
+
+int getCursorPosition()
+{
+#if defined _WIN32
+    static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+    GetConsoleScreenBufferInfo(hOut, &csbiInfo);
+    return csbiInfo.dwCursorPosition.Y;
+#endif
+}
+
+void setCursorPosition(int x, int y)
+{
+#if defined _WIN32
+    static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    std::cout.flush();
+    COORD coord = {(SHORT)x, (SHORT)y};
+    SetConsoleCursorPosition(hOut, coord);
+#endif
 }

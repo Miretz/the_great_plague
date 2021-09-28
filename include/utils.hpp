@@ -2,10 +2,9 @@
 
 #include "entities.hpp"
 
-#include <conio.h>
-
 #define COLOR_GREEN "\033[1;32m"
 #define COLOR_YELLOW "\033[1;33m"
+#define COLOR_GREY "\033[2;37m"
 #define COLOR_END "\033[0m"
 
 constexpr int KEY_UP = 72;
@@ -25,7 +24,7 @@ void printHeroAbilities(const std::vector<Ability> &abilities);
 
 void printItem(Item a);
 
-void printListOfHeroes(const std::vector<Hero>& heroes);
+void printListOfHeroes(const std::vector<Hero> &heroes);
 
 std::string getItemString(Item a);
 
@@ -35,7 +34,7 @@ std::string getBackpack(const std::vector<Item> &backpack);
 
 void printHeroInventory(const Inventory &inventory);
 
-void printHeroHeader(const std::string& name, const int level);
+void printHeroHeader(const std::string &name, const int level);
 
 void printHero(Hero &hero);
 
@@ -58,3 +57,7 @@ std::string enterName();
 bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes);
 
 void printBorder(int length);
+
+int getCursorPosition();
+
+void setCursorPosition(int x, int y);

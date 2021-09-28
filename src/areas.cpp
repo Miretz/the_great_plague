@@ -14,7 +14,10 @@ namespace Areas
         clearScreen();
 
         // execute auxilary area function
-        area.auxFunction(heroes);
+        if (area.auxFunction != nullptr)
+        {
+            area.auxFunction(heroes);
+        }
 
         // display navigation menu
         std::vector<std::string> menu;
@@ -34,8 +37,8 @@ namespace Areas
             std::cout << "Go to:\n\n";
         };
 
-        int selection = pickOptionFromList(prompt, menu);
-        if(selection == menu.size()-1)
+        auto selection = pickOptionFromList(prompt, menu);
+        if (selection == area.connections.size())
         {
             return;
         }
@@ -43,6 +46,4 @@ namespace Areas
         navigateToArea(area.connections[selection], heroes);
     }
 
-    void f00_introduction(std::vector<Hero> &heroes) {}
-    void f01_shore(std::vector<Hero> &heroes) {}
 }

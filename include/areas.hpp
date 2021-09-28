@@ -49,7 +49,7 @@ a city called Alaxis nearby. You decided to disembark and head there by foot...
 
     const std::string t01_shore = R"--(
 +--------------------------------------------------------------------------------------------------------------------------------+
-Area text to be defined
+Area text to be defined ...
 +--------------------------------------------------------------------------------------------------------------------------------+
 )--";
 
@@ -63,11 +63,7 @@ Area text to be defined
 
     void navigateToArea(int areaId, std::vector<Hero> &heroes);
 
-    // Auxilary functions of areas
-    void f00_introduction(std::vector<Hero> &heroes);
-    void f01_shore(std::vector<Hero> &heroes);
-
     const std::vector<Area> areas{
-        {"Introduction", t00_introduction, {1}, f00_introduction},
-        {"Shore", t01_shore, {0}, f01_shore}};
+        {"Introduction", t00_introduction, {1}, nullptr},
+        {"Shore", t01_shore, {}, nullptr}};
 }

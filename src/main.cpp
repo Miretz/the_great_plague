@@ -8,11 +8,9 @@
 
 #include <iostream>
 
-bool startJourney(std::vector<Hero> heroes)
+void startJourney(std::vector<Hero> heroes)
 {
     Areas::navigateToArea(0, heroes);
-
-    return true;
 }
 
 int main(void)
@@ -23,21 +21,17 @@ int main(void)
     {
         clearScreen();
 
-        auto selection = pickOptionFromList(printIntro, {"Start new journey", "Save", "Load", "Exit"});
+        auto selection = pickOptionFromList(printIntro, {"Start new journey", "Continue journey", "Exit Game"});
 
         if (selection == 0)
         {
-            auto heroes = Characters::createHeroes();
-            if (askConfirmation("Begin your journey?"))
+            if (askConfirmation("Do you want to start a new journey? (Overwrite previous save)"))
             {
-                if (startJourney(heroes))
+                auto heroes = Characters::createHeroes();
+                if (askConfirmation("Begin journey?"))
                 {
-                    continue;
-                };
-            }
-            else
-            {
-                continue;
+                    startJourney(heroes);
+                }
             }
         }
         else if (selection == 1)
@@ -47,13 +41,12 @@ int main(void)
         }
         else if (selection == 2)
         {
-            std::cout << "Not yet implmenented!\n\n";
-            exit(0);
-        }
-        else if (selection == 3)
-        {
-            std::cout << "Thank you for playing!\n\n";
-            exit(0);
+            if (askConfirmation("Are you sure?"))
+            {
+                clearScreen();
+                std::cout << "\n\nThank you for playing!\n\n";
+                exit(0);
+            }
         }
     }
 
