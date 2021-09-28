@@ -26,14 +26,14 @@ namespace Characters
             menu.push_back(r.name + "\n  " + r.description);
         }
 
-        int selection = pickOptionFromList(prompt, menu);
+        uint32_t selection = pickOptionFromList(prompt, menu);
         auto race = g_AllRaces.at(startingRaces[selection]);
         return Hero{name, STARTING_HEALTH, 0, STARTING_HEALTH, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
     }
 
     void assignAttributePoints(Hero &hero)
     {
-        int availablePoints = hero.unspentPoints;
+        uint32_t availablePoints = hero.unspentPoints;
         if (availablePoints <= 0)
         {
             return;
@@ -49,7 +49,7 @@ namespace Characters
 
             availablePoints = hero.unspentPoints;
 
-            std::vector<std::pair<std::string, int>> menu{
+            std::vector<std::pair<std::string, uint32_t>> menu{
                 {"Strength", prevAtt.strength},
                 {"Dexterity", prevAtt.dexterity},
                 {"Vitality", prevAtt.vitality},
@@ -111,7 +111,7 @@ namespace Characters
             printBorder(130);
             std::cout << "\n";
         };
-        unsigned int numHeroes = slider(prompt, 1, 4);
+        uint32_t numHeroes = slider(prompt, 1, 4);
 
         clearScreen();
 

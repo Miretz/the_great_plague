@@ -26,7 +26,7 @@ namespace Abilities
             menu.push_back(sa.name + " - " + sa.description);
         }
 
-        int selection = pickOptionFromList(prompt, menu);
+        uint32_t selection = pickOptionFromList(prompt, menu);
         return startingAbilities[selection];
     }
 
@@ -40,7 +40,7 @@ namespace Abilities
         if (target.controller == Controller::Player || target.controller == Controller::AI_Friendly)
         {
             // level * 5
-            int newHealth = target.health + caster.level * 5;
+            uint32_t newHealth = target.health + caster.level * 5;
             if (newHealth >= target.maxHealth)
             {
                 target.health = target.maxHealth;
@@ -71,10 +71,10 @@ namespace Abilities
     void a_VampiricBite(Hero &caster, Hero &target)
     {
         // take level*5 from enemy health
-        int healthStolen = caster.level * 5;
+        uint32_t healthStolen = caster.level * 5;
 
         // if enemy has less than level*5 steal only remaining HP
-        if ((target.health - healthStolen) < 0)
+        if (target.health <= healthStolen)
         {
             healthStolen = target.health;
             target.health = 0;
@@ -85,13 +85,14 @@ namespace Abilities
         }
 
         // add the stolen health to ourselves
-        if (caster.health + healthStolen >= caster.maxHealth)
+        uint32_t newHealth = caster.health + healthStolen;
+        if (newHealth >= caster.maxHealth)
         {
-            target.health = target.maxHealth;
+            caster.health = caster.maxHealth;
         }
         else
         {
-            caster.health += healthStolen;
+            caster.health = newHealth;
         }
     }
 
@@ -114,6 +115,19 @@ namespace Abilities
     {
         //TODO: implement
         std::cout << "\nExecuted ability: Raise Corpse by " << caster.name << " on " << target.name << "\n";
+        exit(-1);
+    }
+
+    void a_Camouflage(Hero &caster, Hero &target)
+    {
+        //TODO: implement
+        std::cout << "\nExecuted ability: Summon Familiar by " << caster.name << " on " << target.name << "\n";
+        exit(-1);
+    }
+    void a_ArcaneBlast(Hero &caster, Hero &target)
+    {
+        //TODO: implement
+        std::cout << "\nExecuted ability: Summon Familiar by " << caster.name << " on " << target.name << "\n";
         exit(-1);
     }
 }

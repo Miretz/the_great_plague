@@ -65,10 +65,10 @@ CLASSES
 
 struct Attributes
 {
-    int strength;
-    int dexterity;
-    int vitality;
-    int intelligence;
+    uint32_t strength;
+    uint32_t dexterity;
+    uint32_t vitality;
+    uint32_t intelligence;
 };
 
 struct RaceDetail
@@ -86,8 +86,8 @@ struct Item
     ItemType type;
 
     Attributes requirements;
-    int damage;
-    int armor;
+    uint32_t damage;
+    uint32_t armor;
 };
 
 struct Inventory
@@ -108,20 +108,21 @@ struct Ability
 struct StatusEffect
 {
     std::string name;
-    int expireInTurns;
+    uint32_t expireInTurns;
     std::function<void(Hero &)> execute;
 };
 
 struct Hero
 {
     std::string name;
-    int health;
-    int xp;
 
-    int maxHealth;
-    int level;
-    int xpToLevelUp;
-    int unspentPoints;
+    uint32_t health;
+    uint32_t xp;
+
+    uint32_t maxHealth;
+    uint32_t level;
+    uint32_t xpToLevelUp;
+    uint32_t unspentPoints;
 
     Race race;
     Controller controller;

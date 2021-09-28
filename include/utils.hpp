@@ -7,12 +7,12 @@
 #define COLOR_GREY "\033[2;37m"
 #define COLOR_END "\033[0m"
 
-constexpr int KEY_UP = 72;
-constexpr int KEY_DOWN = 80;
-constexpr int KEY_LEFT = 75;
-constexpr int KEY_RIGHT = 77;
-constexpr int KEY_ENTER = 13;
-constexpr int KEY_ENTER_LF = 10;
+constexpr uint32_t KEY_UP = 72;
+constexpr uint32_t KEY_DOWN = 80;
+constexpr uint32_t KEY_LEFT = 75;
+constexpr uint32_t KEY_RIGHT = 77;
+constexpr uint32_t KEY_ENTER = 13;
+constexpr uint32_t KEY_ENTER_LF = 10;
 
 std::string getEquipmentSlotName(EquipmentSlot eSlot);
 
@@ -34,15 +34,15 @@ std::string getBackpack(const std::vector<Item> &backpack);
 
 void printHeroInventory(const Inventory &inventory);
 
-void printHeroHeader(const std::string &name, const int level);
+void printHeroHeader(const std::string &name, const uint32_t level);
 
 void printHero(Hero &hero);
 
-int slider(std::function<void()> redrawFunction, int min, int max);
+uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max);
 
-unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
+uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
-std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute);
+std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, uint32_t>> elements, uint32_t pointsToDistribute);
 
 void clearScreen();
 
@@ -52,12 +52,16 @@ void printIntro();
 
 bool askConfirmation(const std::string &question);
 
+void pressEnterToContinue();
+
+std::function<void()> createConversationPrompt(std::string who, std::string what, std::string picture);
+
 std::string enterName();
 
 bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes);
 
-void printBorder(int length);
+void printBorder(uint32_t length);
 
-int getCursorPosition();
+uint32_t getCursorPosition();
 
-void setCursorPosition(int x, int y);
+void setCursorPosition(uint32_t x, uint32_t y);

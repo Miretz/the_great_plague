@@ -4,6 +4,7 @@
 
 namespace InventoryManager
 {
+
     const std::vector<Item> startingItems{
         {"Dagger", "Knife you stole from your mom's kitchen", ItemType::Dual_Wielding, {0, 0, 0, 0}, 3, 0},
         {"Short sword", "Simple short sword that anyone can use", ItemType::Melee_OneHanded, {0, 0, 0, 0}, 5, 0},

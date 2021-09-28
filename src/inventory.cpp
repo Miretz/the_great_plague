@@ -40,7 +40,7 @@ namespace InventoryManager
             menu.push_back(getItemString(t));
         }
 
-        int selection = pickOptionFromList(prompt, menu);
+        uint32_t selection = pickOptionFromList(prompt, menu);
         return filtered[selection];
     }
 
@@ -325,7 +325,7 @@ namespace InventoryManager
                     chooseWeapon.push_back(getItemString(listOfEquipable[j]));
                 }
 
-                int itemSelection = pickOptionFromList([]()
+                uint32_t itemSelection = pickOptionFromList([]()
                                                        { std::cout << "Select equipment:\n\n"; },
                                                        chooseWeapon);
                 auto newItem = listOfEquipable[itemSelection];

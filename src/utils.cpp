@@ -172,7 +172,7 @@ void printHeroInventory(const Inventory &inventory)
     std::cout << getBackpack(inventory.backpack);
 }
 
-void printHeroHeader(const std::string &name, const int level)
+void printHeroHeader(const std::string &name, const uint32_t level)
 {
     printBorder(130);
     std::cout << "|" << COLOR_GREEN << name << COLOR_END << " (Level " << level << ") \n";
@@ -210,10 +210,10 @@ void printListOfHeroes(const std::vector<Hero> &heroes)
     std::cout << "\n";
 }
 
-int slider(std::function<void()> redrawFunction, int min, int max)
+uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max)
 {
-    int result = min;
-    int c = 0;
+    uint32_t result = min;
+    uint32_t c = 0;
     bool finished = false;
 
     clearScreen();
@@ -221,7 +221,7 @@ int slider(std::function<void()> redrawFunction, int min, int max)
 
     std::cout << COLOR_GREY << "\nPress the LEFT & RIGHT arrows to adjust" << COLOR_END << "\n\n";
 
-    int y = getCursorPosition();
+    uint32_t y = getCursorPosition();
 
     while (!finished)
     {
@@ -266,16 +266,16 @@ int slider(std::function<void()> redrawFunction, int min, int max)
     return result;
 }
 
-unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list)
+uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list)
 {
-    unsigned int selected = 0;
+    uint32_t selected = 0;
 
-    int c = 0;
+    uint32_t c = 0;
     bool finished = false;
 
     clearScreen();
     redrawFunction();
-    int y = getCursorPosition();
+    uint32_t y = getCursorPosition();
 
     while (!finished)
     {
@@ -337,28 +337,28 @@ unsigned int pickOptionFromList(std::function<void()> redrawFunction, const std:
     return selected;
 }
 
-std::pair<std::vector<int>, int> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, int>> elements, int pointsToDistribute)
+std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, uint32_t>> elements, uint32_t pointsToDistribute)
 {
-    unsigned int row = 0;
+    uint32_t row = 0;
 
-    int availablePoints = pointsToDistribute;
+    uint32_t availablePoints = pointsToDistribute;
 
     // put the base values into the list
-    std::vector<int> values;
+    std::vector<uint32_t> values;
     for (auto e : elements)
     {
         values.push_back(e.second);
     }
 
-    int c = 0;
+    uint32_t c = 0;
     bool finished = false;
 
     clearScreen();
     redrawFunction();
 
-    std::cout << COLOR_GREY << "\nPress UP/DOWN/LEFT/RIGHT to adjust\n [Enter] to confirm settings" << COLOR_END << "\n\n";
+    std::cout << COLOR_GREY << "\nPress UP/DOWN/LEFT/RIGHT to adjust\nPress [Enter] to confirm settings" << COLOR_END << "\n\n";
 
-    int y = getCursorPosition();
+    uint32_t y = getCursorPosition();
 
     while (!finished)
     {
@@ -487,7 +487,7 @@ bool askConfirmation(const std::string &question)
     std::cout << question << " (Y or n): ";
 
     bool result = false;
-    int c = 0;
+    uint32_t c = 0;
     fflush(stdin);
     switch ((c = getch()))
     {
@@ -508,6 +508,31 @@ bool askConfirmation(const std::string &question)
     }
 
     return result;
+}
+
+void pressEnterToContinue()
+{
+    std::cout << COLOR_GREY << "Press [Enter] to continue..." << COLOR_END << "\n\n";
+
+    fflush(stdin);
+    getch();
+    fflush(stdin);
+}
+
+std::function<void()> createConversationPrompt(std::string who, std::string what, std::string picture)
+{
+    auto prompt = [who, what, picture]()
+    {
+        printBorder(130);
+        std::cout << "|" << COLOR_GREEN << who << COLOR_END << "\n";
+        printBorder(130);
+        std::cout << picture;
+        printBorder(130);
+        std::cout << "|" << what << "\n";
+        printBorder(130);
+        std::cout << "\n";
+    };
+    return prompt;
 }
 
 std::string enterName()
@@ -540,11 +565,11 @@ bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes)
     return sameName;
 }
 
-void printBorder(int length)
+void printBorder(uint32_t length)
 {
     std::stringstream ss;
     ss << "+";
-    for (int i = 0; i < length - 2; i++)
+    for (uint32_t i = 0; i < length - 2; i++)
     {
         ss << "-";
     }
@@ -555,17 +580,22 @@ void printBorder(int length)
 // NOTE: Windows only fix for screen flicker,
 // TODO: fix on Unix!
 
-int getCursorPosition()
+uint32_t getCursorPosition()
 {
 #if defined _WIN32
     static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
     GetConsoleScreenBufferInfo(hOut, &csbiInfo);
     return csbiInfo.dwCursorPosition.Y;
+#else
+    clearScreen();
+    std::cout << "Screen redraw not implemented for Unix!";
+    exit(-1);
+    return 0;
 #endif
 }
 
-void setCursorPosition(int x, int y)
+void setCursorPosition(uint32_t x, uint32_t y)
 {
 #if defined _WIN32
     static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
