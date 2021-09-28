@@ -173,7 +173,7 @@ const std::string introText = R"--(
          "Q@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@gx!uDx9@@@@@@@#=                    
           *@@@@@@B8g8B@@@@@@@@@@@##@@@@@@@@@@@@@#Qg8#@@@@@@@@@@BQB@@@@@Q'                         
           .wGT*:-  `  _^Ym0BQGi=-``-~vcXPGGayi*"` ` `~}G0$$GY=_.'.~iaE0|
-          
+
 +--------------------------------------------------------------------------------------------------------------------------------+
 
 You have woken up aboard an old smelly vessel called The Lords Wisdom not quite remembering how long you were sailing the great 
@@ -196,5 +196,12 @@ called Alaxis nearby. You decided to disembark and head there by foot...
 
 )--";
 
+const std::string t01_shore = R"--(
++--------------------------------------------------------------------------------------------------------------------------------+
+TODO
++--------------------------------------------------------------------------------------------------------------------------------+
+)--";
+
 const std::unordered_map<std::string, std::string> g_AllText{
-    {"intro", introText}};
+    {"intro", introText},
+    {"t01_shore", t01_shore}};

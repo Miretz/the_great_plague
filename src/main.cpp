@@ -18,7 +18,7 @@ bool startJourney(std::vector<Hero> heroes)
     }
     else
     {
-        askConfirmation("Disembarky?");
+        askConfirmation("Disembark?");
     }
 
     return true;

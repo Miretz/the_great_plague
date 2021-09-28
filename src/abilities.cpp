@@ -13,7 +13,12 @@ namespace Abilities
         clearScreen();
 
         auto prompt = []()
-        { std::cout << "\nPick a starting ability:\n\n"; };
+        {
+            printBorder(130);
+            std::cout << "|Pick a starting ability:\n";
+            printBorder(130);
+            std::cout << "\n";
+        };
 
         std::vector<std::string> menu;
         for (auto sa : startingAbilities)

@@ -26,7 +26,12 @@ namespace InventoryManager
         clearScreen();
 
         auto prompt = []()
-        { std::cout << "\nPick a starting item:\n\n"; };
+        {
+            printBorder(130);
+            std::cout << "|Pick a starting item:\n";
+            printBorder(130);
+            std::cout << "\n";
+        };
 
         std::vector<std::string> menu;
 

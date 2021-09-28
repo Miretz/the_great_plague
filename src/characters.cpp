@@ -11,14 +11,19 @@ namespace Characters
     Hero pickHeroRace(std::string name)
     {
         auto prompt = []()
-        { std::cout << "Please select your race\n\n"; };
+        {
+            printBorder(130);
+            std::cout << "|Please select your race:\n";
+            printBorder(130);
+            std::cout << "\n";
+        };
 
         std::vector<std::string> menu;
 
         for (auto rId : startingRaces)
         {
             auto r = g_AllRaces.at(rId);
-            menu.push_back(r.name + " - " + r.description);
+            menu.push_back(r.name + "\n  " + r.description);
         }
 
         int selection = pickOptionFromList(prompt, menu);
@@ -54,8 +59,11 @@ namespace Characters
             auto prompt = [availablePoints, hero]()
             {
                 printHeroHeader(hero.name, hero.level);
+                std::cout << "\n";
+                printBorder(130);
+                std::cout << "|Assign points to attributes\n";
+                printBorder(130);
                 std::cout << "\n\n";
-                std::cout << "Assign points to attributes\n\n";
             };
 
             auto distributedPoints = pointsDistributionMenu(prompt, menu, availablePoints);
@@ -97,7 +105,12 @@ namespace Characters
 
         // pick number of players
         auto prompt = []()
-        { std::cout << "\nPlease select the number of heroes.\n"; };
+        {
+            printBorder(130);
+            std::cout << "|Please select the number of heroes.\n";
+            printBorder(130);
+            std::cout << "\n";
+        };
         unsigned int numHeroes = slider(prompt, 1, 4);
 
         clearScreen();
@@ -106,7 +119,10 @@ namespace Characters
         heroes.clear();
         while (heroes.size() < numHeroes)
         {
-            std::cout << "\nPlease enter the hero's name\n";
+            printBorder(130);
+            std::cout << "|Please enter the hero's name\n";
+            printBorder(130);
+            std::cout << "\n";
             auto name = enterName();
 
             if (isNameAlreadyInUse(name, heroes))
