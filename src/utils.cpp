@@ -193,6 +193,17 @@ void printHero(Hero &hero)
     printBorder(130);
 }
 
+void printListOfHeroes(const std::vector<Hero> &heroes)
+{
+    std::cout << "\nList of Heroes:\n";
+    for (auto h : heroes)
+    {
+        std::cout << "\n";
+        printHero(h);
+    }
+    std::cout << "\n";
+}
+
 int slider(std::function<void()> redrawFunction, int min, int max)
 {
     int result = min;

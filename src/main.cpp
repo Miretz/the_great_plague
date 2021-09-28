@@ -9,36 +9,17 @@
 
 bool startJourney(std::vector<Hero> heroes)
 {
-    // Simulate 3 level ups
-    if (!askConfirmation("\n\nSimulate 3 level ups & inventory management?"))
-    {
-        exit(0);
-    }
-
-    for (int i = 0; i < 3; i++)
-    {
-        for (auto &h : heroes)
-        {
-            h.level += 1;
-            h.unspentPoints += 1;
-
-            Characters::assignAttributePoints(h);
-
-            InventoryManager::selectEquipment(h);
-        }
-    }
-
     clearScreen();
+    std::cout << g_AllText.at("intro");
 
-    std::cout << "\nList of Heroes:\n";
-    for (auto h : heroes)
+    if (heroes.size() > 1)
     {
-        std::cout << "\n";
-        printHero(h);
+        askConfirmation("Disembark party?");
     }
-    std::cout << "\n";
-
-    askConfirmation("End journey?");
+    else
+    {
+        askConfirmation("Disembarky?");
+    }
 
     return true;
 }

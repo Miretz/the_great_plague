@@ -25,6 +25,8 @@ void printHeroAbilities(const std::vector<Ability> &abilities);
 
 void printItem(Item a);
 
+void printListOfHeroes(const std::vector<Hero>& heroes);
+
 std::string getItemString(Item a);
 
 std::string getEquippedItemsString(const std::unordered_map<std::string, Item> &equipped);

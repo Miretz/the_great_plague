@@ -145,13 +145,7 @@ namespace Characters
 
         clearScreen();
 
-        std::cout << "\nList of Heroes:\n";
-        for (auto h : heroes)
-        {
-            std::cout << "\n";
-            printHero(h);
-        }
-        std::cout << "\n";
+        printListOfHeroes(heroes);
 
         return heroes;
     }
