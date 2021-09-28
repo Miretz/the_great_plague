@@ -4,22 +4,13 @@
 #include "status_effects.hpp"
 #include "abilities.hpp"
 #include "inventory.hpp"
+#include "areas.hpp"
 
 #include <iostream>
 
 bool startJourney(std::vector<Hero> heroes)
 {
-    clearScreen();
-    std::cout << g_AllText.at("intro");
-
-    if (heroes.size() > 1)
-    {
-        askConfirmation("Disembark party?");
-    }
-    else
-    {
-        askConfirmation("Disembark?");
-    }
+    Areas::navigateToArea(0, heroes);
 
     return true;
 }
