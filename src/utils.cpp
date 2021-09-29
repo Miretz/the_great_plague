@@ -1,6 +1,7 @@
 #include "utils.hpp"
 
 #include "abilities.hpp"
+#include "inventory.hpp"
 
 #include <iostream>
 #include <regex>
@@ -188,7 +189,8 @@ void printHero(Hero &hero)
 {
     printHeroHeader(hero.name, hero.level);
     std::cout << "|HP: "
-              << hero.health << "/" << hero.maxHealth << "\n";
+              << hero.health << "/" << hero.maxHealth;
+    std::cout << " Armor: " << InventoryManager::getEquippedArmorValue(hero) << "\n";
     std::cout << "|XP: "
               << hero.xp << "/" << hero.xpToLevelUp << "\n";
     std::cout << "|Race: " << g_AllRaces.at(hero.race).name << "\n";
@@ -371,6 +373,7 @@ std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<
         ss << "Available points: ";
         ss << COLOR_GREEN;
         ss << availablePoints;
+        ss << "      ";
         ss << COLOR_END;
         ss << "\n\n";
 

@@ -1,7 +1,6 @@
 #include "entities.hpp"
 #include "utils.hpp"
 #include "characters.hpp"
-#include "status_effects.hpp"
 #include "abilities.hpp"
 #include "inventory.hpp"
 #include "areas.hpp"

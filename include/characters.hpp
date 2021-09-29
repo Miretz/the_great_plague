@@ -4,8 +4,8 @@
 
 namespace Characters
 {
-    constexpr uint32_t STARTING_POINTS = 4;
-    constexpr uint32_t STARTING_HEALTH = 100;
+    constexpr uint32_t STARTING_POINTS = 10;
+    constexpr uint32_t HEALTH_PER_VITALITY_POINT = 10;
 
     const Inventory basicInventory{
         {},
@@ -26,4 +26,6 @@ namespace Characters
     void assignAttributePoints(Hero &hero);
 
     std::vector<Hero> createHeroes();
+
+    void recalculateHeroHealth(Hero& hero);
 }

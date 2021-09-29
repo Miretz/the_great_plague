@@ -77,7 +77,9 @@ struct RaceDetail
     Race id;
     std::string name;
     std::string description;
+    std::string modifierDescription;
     Attributes attributes;
+    uint32_t abilityId;
 };
 
 struct Item
@@ -134,10 +136,11 @@ struct Hero
     Inventory inventory;
 };
 
-struct GameState {
+struct GameState
+{
     uint32_t areaId;
     std::vector<Hero> heroes;
-    
+
     uint32_t danseaLocation;
 };
 
@@ -146,13 +149,19 @@ GLOBAL LISTS
 *************************************************************************************************/
 
 const std::unordered_map<Race, RaceDetail> g_AllRaces{
-    {Race::Human, {Race::Human, "Human", "The most common among the races.", {5, 5, 5, 5}}},
-    {Race::Repsoris, {Race::Repsoris, "Repsoris", "Identified by their reptilian features and hatred for cold.", {8, 6, 2, 1}}},
-    {Race::Ursobac, {Race::Ursobac, "Ursobac", "Their large intimidating physique makes them valuable protectors.", {12, 1, 6, 1}}},
-    {Race::Rodanto, {Race::Rodanto, "Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", {1, 14, 2, 3}}},
-    {Race::Felidae, {Race::Felidae, "Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", {1, 11, 4, 4}}},
-    {Race::Strigifor, {Race::Strigifor, "Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", {1, 1, 1, 15}}},
-    {Race::Vulpotis, {Race::Vulpotis, "Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", {1, 4, 2, 13}}},
+    {Race::Human, {Race::Human, "Human", "The most common among the races.", "(+1 to all attributes)", {11, 11, 11, 11}, 0}},
+
+    {Race::Repsoris, {Race::Repsoris, "Repsoris", "Identified by their reptilian features and hatred of cold.", "(+1 Strength, +1 Vitality)", {11, 10, 11, 10}, 10}},
+
+    {Race::Ursobac, {Race::Ursobac, "Ursobac", "Their large intimidating physique makes them valuable protectors.", "(+2 Strength)", {12, 10, 10, 10}, 11}},
+
+    {Race::Rodanto, {Race::Rodanto, "Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", "(+2 Dexterity)", {10, 12, 10, 10}, 12}},
+
+    {Race::Felidae, {Race::Felidae, "Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "(+1 Dexterity, +1 Vitality)", {10, 11, 11, 10}, 13}},
+
+    {Race::Strigifor, {Race::Strigifor, "Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "(+2 Intelligence)", {10, 10, 10, 12}, 14}},
+
+    {Race::Vulpotis, {Race::Vulpotis, "Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "(+1 Dexterity, +1 Intelligence)", {10, 11, 10, 11}, 15}},
 };
 
 const std::vector<Item> g_AllItems{

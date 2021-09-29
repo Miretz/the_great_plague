@@ -3,6 +3,8 @@
 #include "utils.hpp"
 
 #include "abilities.hpp"
+#include "characters.hpp"
+#include "inventory.hpp"
 
 #include <iostream>
 
@@ -87,8 +89,8 @@ namespace Areas
             0,
             Race::Felidae,
             Controller::Player,
-            {2, 12, 5, 5},
-            {7},
+            {10, 11, 11, 10},
+            {13, 8},
             {},
             {{},
              {
@@ -97,6 +99,8 @@ namespace Areas
                  {"Head", 9},
                  {"Gloves", 10},
              }}};
+        Characters::recalculateHeroHealth(dansea);
+        InventoryManager::equipItem(dansea, 5, EquipmentSlot::MainHand);
 
         pickOptionFromList(
             createConversationPrompt(dansea.name, "Wait for me!!!", danseaPicture),
@@ -137,6 +141,7 @@ namespace Areas
                     clearScreen();
                     std::cout << "Dansea has joined your party.\n";
                     printHero(dansea);
+                    std::cout << "\n";
                     pressEnterToContinue();
                 }
                 else
@@ -171,6 +176,7 @@ namespace Areas
                     clearScreen();
                     std::cout << "Dansea has joined your party.\n";
                     printHero(dansea);
+                    std::cout << "\n";
                     pressEnterToContinue();
                 }
                 else

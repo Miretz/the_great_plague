@@ -23,12 +23,20 @@ namespace Characters
         for (auto rId : startingRaces)
         {
             auto r = g_AllRaces.at(rId);
-            menu.push_back(r.name + "\n  " + r.description);
+
+            std::string menuOption = r.name + "\n  " + r.description + "\n  " + r.modifierDescription;
+            menuOption += "\n  Ability: " + Abilities::allAbilities[r.abilityId].name + " - " + Abilities::allAbilities[r.abilityId].description;
+            menu.push_back(menuOption);
         }
 
         uint32_t selection = pickOptionFromList(prompt, menu);
         auto race = g_AllRaces.at(startingRaces[selection]);
-        return Hero{name, STARTING_HEALTH, 0, STARTING_HEALTH, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
+
+        uint32_t maxHealth = race.attributes.vitality * HEALTH_PER_VITALITY_POINT; 
+
+        auto hero = Hero{name, maxHealth, 0, maxHealth, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
+        Abilities::learnAbility(hero, race.abilityId);
+        return hero;
     }
 
     void assignAttributePoints(Hero &hero)
@@ -92,10 +100,19 @@ namespace Characters
             {
                 hero.unspentPoints = availablePoints;
                 hero.attributes = attributes;
+                recalculateHeroHealth(hero);
                 break;
             }
         }
     }
+
+    void recalculateHeroHealth(Hero& hero)
+    {
+        auto newValue = hero.attributes.vitality * HEALTH_PER_VITALITY_POINT * hero.level;
+        hero.health = newValue;
+        hero.maxHealth = newValue;       
+    }
+
 
     std::vector<Hero> createHeroes()
     {

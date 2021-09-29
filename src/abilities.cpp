@@ -1,7 +1,6 @@
 #include "abilities.hpp"
 
 #include "utils.hpp"
-#include "status_effects.hpp"
 
 #include <iostream>
 
@@ -32,7 +31,10 @@ namespace Abilities
 
     void learnAbility(Hero &hero, uint32_t abilityId)
     {
-        hero.abilities.push_back(abilityId);
+        if (abilityId != 0)
+        {
+            hero.abilities.push_back(abilityId);
+        }
     }
 
     void a_FirstAid(Hero &caster, Hero &target)
@@ -52,23 +54,7 @@ namespace Abilities
         }
     }
 
-    void a_Evasion(Hero &caster, Hero &target)
-    {
-        if (caster.name == target.name)
-        {
-            caster.statusEffects.push_back(StatusEffects::Evasion);
-        }
-    }
-
-    void a_Knockdown(Hero &caster, Hero &target)
-    {
-        if (caster.name != target.name && target.controller == Controller::AI_Enemy)
-        {
-            target.statusEffects.push_back(StatusEffects::Knockdown);
-        }
-    }
-
-    void a_VampiricBite(Hero &caster, Hero &target)
+    void a_LifeDrain(Hero &caster, Hero &target)
     {
         // take level*5 from enemy health
         uint32_t healthStolen = caster.level * 5;
@@ -96,38 +82,4 @@ namespace Abilities
         }
     }
 
-    void a_MagicShield(Hero &caster, Hero &target)
-    {
-        if (target.controller == Controller::Player || target.controller == Controller::AI_Friendly)
-        {
-            caster.statusEffects.push_back(StatusEffects::MagicShield);
-        }
-    }
-
-    void a_SummonImp(Hero &caster, Hero &target)
-    {
-        //TODO: implement
-        std::cout << "\nExecuted ability: Summon Familiar by " << caster.name << " on " << target.name << "\n";
-        exit(-1);
-    }
-
-    void a_RaiseCorpse(Hero &caster, Hero &target)
-    {
-        //TODO: implement
-        std::cout << "\nExecuted ability: Raise Corpse by " << caster.name << " on " << target.name << "\n";
-        exit(-1);
-    }
-
-    void a_Camouflage(Hero &caster, Hero &target)
-    {
-        //TODO: implement
-        std::cout << "\nExecuted ability: Summon Familiar by " << caster.name << " on " << target.name << "\n";
-        exit(-1);
-    }
-    void a_ArcaneBlast(Hero &caster, Hero &target)
-    {
-        //TODO: implement
-        std::cout << "\nExecuted ability: Summon Familiar by " << caster.name << " on " << target.name << "\n";
-        exit(-1);
-    }
 }

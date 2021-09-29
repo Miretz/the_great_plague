@@ -28,4 +28,5 @@ namespace InventoryManager
 
     void selectEquipment(Hero &hero);
 
+    uint32_t getEquippedArmorValue(const Hero &hero);
 }

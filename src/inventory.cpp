@@ -339,4 +339,29 @@ namespace InventoryManager
             }
         }
     }
+
+    uint32_t getEquippedArmorValue(const Hero &hero)
+    {
+
+        uint32_t value = 0;
+
+        std::vector<EquipmentSlot> armorSlots{
+            EquipmentSlot::Head,
+            EquipmentSlot::Torso,
+            EquipmentSlot::Gloves,
+            EquipmentSlot::Legs,
+        };
+
+        for (auto slot : armorSlots)
+        {
+            auto slotName = getEquipmentSlotName(slot);
+            if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
+            {
+                auto item = g_AllItems[hero.inventory.equipped.at(slotName)];
+                value += item.armor;
+            }
+        }
+
+        return value;
+    }
 }
