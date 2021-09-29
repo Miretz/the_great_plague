@@ -6,12 +6,13 @@
 
 namespace InventoryManager
 {
-    Item pickStartingItem(Attributes &attributes)
+    uint32_t pickStartingItem(Attributes &attributes)
     {
 
-        std::vector<Item> filtered;
-        for (Item it : startingItems)
+        std::vector<uint32_t> filtered;
+        for (uint32_t itemId : startingItems)
         {
+            auto it = g_AllItems[itemId];
             auto reqs = it.requirements;
             if (
                 attributes.strength >= reqs.strength &&
@@ -19,7 +20,7 @@ namespace InventoryManager
                 attributes.vitality >= reqs.vitality &&
                 attributes.intelligence >= reqs.intelligence)
             {
-                filtered.push_back(it);
+                filtered.push_back(itemId);
             }
         }
 
@@ -40,33 +41,28 @@ namespace InventoryManager
             menu.push_back(getItemString(t));
         }
 
-        uint32_t selection = pickOptionFromList(prompt, menu);
-        return filtered[selection];
+        return filtered[pickOptionFromList(prompt, menu)];
     }
 
-    void addToBackpack(Hero &hero, Item item)
+    void addToBackpack(Hero &hero, uint32_t itemId)
     {
-        hero.inventory.backpack.push_back(item);
+        hero.inventory.backpack.push_back(itemId);
     }
 
-    void removeFromBackpack(Hero &hero, Item item)
+    void removeFromBackpack(Hero &hero, uint32_t itemId)
     {
-        std::vector<Item> newBackpack;
+        std::vector<uint32_t> newBackpack;
         bool found = false;
 
         for (auto backpackItem : hero.inventory.backpack)
         {
-            if (!found && backpackItem.name == item.name &&
-                backpackItem.description == item.description &&
-                backpackItem.damage == item.damage &&
-                backpackItem.armor == item.armor)
+            if (!found && backpackItem == itemId)
             {
                 found = true;
                 continue;
             }
             newBackpack.push_back(backpackItem);
         }
-
         hero.inventory.backpack = newBackpack;
     }
 
@@ -77,8 +73,9 @@ namespace InventoryManager
 
         if (hero.inventory.equipped.find(mainHand) != hero.inventory.equipped.end())
         {
-            if (hero.inventory.equipped[mainHand].type == ItemType::Melee_TwoHanded ||
-                hero.inventory.equipped[mainHand].type == ItemType::Ranged_TwoHanded)
+            auto equippedMainHandItem = g_AllItems[hero.inventory.equipped[mainHand]];
+            if (equippedMainHandItem.type == ItemType::Melee_TwoHanded ||
+                equippedMainHandItem.type == ItemType::Ranged_TwoHanded)
             {
                 addToBackpack(hero, hero.inventory.equipped[mainHand]);
                 hero.inventory.equipped.erase(mainHand);
@@ -87,7 +84,7 @@ namespace InventoryManager
         }
     }
 
-    void replaceEquipped(Hero &hero, Item item, EquipmentSlot slot)
+    void replaceEquipped(Hero &hero, uint32_t itemId, EquipmentSlot slot)
     {
         if (slot == EquipmentSlot::MainHand || slot == EquipmentSlot::Offhand)
         {
@@ -99,8 +96,9 @@ namespace InventoryManager
         {
             addToBackpack(hero, hero.inventory.equipped[hand]);
         }
-        hero.inventory.equipped[hand] = item;
+        hero.inventory.equipped[hand] = itemId;
 
+        auto item = g_AllItems[itemId];
         if (item.type == ItemType::Melee_TwoHanded || item.type == ItemType::Ranged_TwoHanded)
         {
             auto offHand = getEquipmentSlotName(EquipmentSlot::Offhand);
@@ -109,10 +107,10 @@ namespace InventoryManager
                 addToBackpack(hero, hero.inventory.equipped[offHand]);
             }
 
-            hero.inventory.equipped[offHand] = item;
+            hero.inventory.equipped[offHand] = itemId;
         }
 
-        removeFromBackpack(hero, item);
+        removeFromBackpack(hero, itemId);
     }
 
     void unequipItem(Hero &hero, EquipmentSlot slot)
@@ -130,12 +128,13 @@ namespace InventoryManager
         }
     }
 
-    void equipItem(Hero &hero, Item item, EquipmentSlot slot)
+    void equipItem(Hero &hero, uint32_t itemId, EquipmentSlot slot)
     {
         // Can't equip these types
+        auto item = g_AllItems[itemId];
         if (item.type == ItemType::Scroll || item.type == ItemType::Throwable || item.type == ItemType::Consumable)
         {
-            addToBackpack(hero, item);
+            addToBackpack(hero, itemId);
             return;
         }
 
@@ -144,21 +143,22 @@ namespace InventoryManager
             hero.attributes.vitality >= item.requirements.vitality &&
             hero.attributes.intelligence >= item.requirements.intelligence)
         {
-            replaceEquipped(hero, item, slot);
+            replaceEquipped(hero, itemId, slot);
         }
         else
         {
             // can't equip because of attributes - put back to the backpack
-            addToBackpack(hero, item);
+            addToBackpack(hero, itemId);
         }
     }
 
-    std::vector<Item> equipableInHand(const Hero &hero, EquipmentSlot slot)
+    std::vector<uint32_t> equipableInHand(const Hero &hero, EquipmentSlot slot)
     {
-        std::vector<Item> equipable;
+        std::vector<uint32_t> equipable;
 
-        for (Item item : hero.inventory.backpack)
+        for (auto itemId : hero.inventory.backpack)
         {
+            auto item = g_AllItems[itemId];
             if (slot == EquipmentSlot::MainHand)
             {
                 if (item.type == ItemType::Melee_OneHanded ||
@@ -167,7 +167,7 @@ namespace InventoryManager
                     item.type == ItemType::Ranged_TwoHanded ||
                     item.type == ItemType::Dual_Wielding)
                 {
-                    equipable.push_back(item);
+                    equipable.push_back(itemId);
                 }
             }
             else if (slot == EquipmentSlot::Offhand)
@@ -175,24 +175,24 @@ namespace InventoryManager
                 if (item.type == ItemType::Shield ||
                     item.type == ItemType::Dual_Wielding)
                 {
-                    equipable.push_back(item);
+                    equipable.push_back(itemId);
                 }
             }
             else if (slot == EquipmentSlot::Gloves && item.type == ItemType::Armor_Gloves)
             {
-                equipable.push_back(item);
+                equipable.push_back(itemId);
             }
             else if (slot == EquipmentSlot::Torso && item.type == ItemType::Armor_Torso)
             {
-                equipable.push_back(item);
+                equipable.push_back(itemId);
             }
             else if (slot == EquipmentSlot::Legs && item.type == ItemType::Armor_Legs)
             {
-                equipable.push_back(item);
+                equipable.push_back(itemId);
             }
             else if (slot == EquipmentSlot::Head && item.type == ItemType::Armor_Head)
             {
-                equipable.push_back(item);
+                equipable.push_back(itemId);
             }
         }
 
@@ -204,7 +204,8 @@ namespace InventoryManager
         auto slotName = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
         {
-            return hero.inventory.equipped.at(slotName).name;
+            auto item = g_AllItems[hero.inventory.equipped.at(slotName)];
+            return item.name;
         }
 
         return "Empty";
@@ -326,8 +327,8 @@ namespace InventoryManager
                 }
 
                 uint32_t itemSelection = pickOptionFromList([]()
-                                                       { std::cout << "Select equipment:\n\n"; },
-                                                       chooseWeapon);
+                                                            { std::cout << "Select equipment:\n\n"; },
+                                                            chooseWeapon);
                 auto newItem = listOfEquipable[itemSelection];
 
                 equipItem(hero, newItem, selectedSlot);

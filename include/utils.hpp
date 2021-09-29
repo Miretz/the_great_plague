@@ -14,23 +14,25 @@ constexpr uint32_t KEY_RIGHT = 77;
 constexpr uint32_t KEY_ENTER = 13;
 constexpr uint32_t KEY_ENTER_LF = 10;
 
+#define SAVE_FILE "save.txt"
+
 std::string getEquipmentSlotName(EquipmentSlot eSlot);
 
 void printAttributes(Attributes attributes);
 
 void printAttributesAdjustment(Attributes base, Attributes adjustment);
 
-void printHeroAbilities(const std::vector<Ability> &abilities);
+void printHeroAbilities(const std::vector<uint32_t> &abilities);
 
-void printItem(Item a);
+void printItem(uint32_t a);
 
 void printListOfHeroes(const std::vector<Hero> &heroes);
 
-std::string getItemString(Item a);
+std::string getItemString(uint32_t a);
 
-std::string getEquippedItemsString(const std::unordered_map<std::string, Item> &equipped);
+std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
 
-std::string getBackpack(const std::vector<Item> &backpack);
+std::string getBackpack(const std::vector<uint32_t> &backpack);
 
 void printHeroInventory(const Inventory &inventory);
 
@@ -65,3 +67,11 @@ void printBorder(uint32_t length);
 uint32_t getCursorPosition();
 
 void setCursorPosition(uint32_t x, uint32_t y);
+
+std::string serializeHero(Hero hero);
+
+Hero deserializeHero(std::string serialized);
+
+void saveGame(std::vector<Hero> &heroes, uint32_t areaId);
+
+std::pair<uint32_t, std::vector<Hero>> loadGame();

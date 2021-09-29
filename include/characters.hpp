@@ -7,12 +7,9 @@ namespace Characters
     constexpr uint32_t STARTING_POINTS = 4;
     constexpr uint32_t STARTING_HEALTH = 100;
 
-    const Item basicClothes{"Worn clothes", "Basic clothing", ItemType::Armor_Torso, {}, 0, 2};
-    const Item basicShoes{"Worn boots", "Basic boots", ItemType::Armor_Legs, {}, 0, 2};
-
     const Inventory basicInventory{
         {},
-        {{"Torso", basicClothes}, {"Legs", basicShoes}}};
+        {{"Torso", 7}, {"Legs", 8}}};
 
     const std::vector<Race> startingRaces{
         Race::Human,

@@ -26,14 +26,13 @@ namespace Abilities
         {"Arcane Blast", "Shoot a projectile of magical energy.", a_ArcaneBlast},
     };
 
-    const std::vector<Ability> startingAbilities{
-        allAbilities[0], // First Aid
-        allAbilities[1], // Evasion
-        allAbilities[2], // Knockdown
-        allAbilities[7], // Camouflage
+    const std::vector<uint32_t> startingAbilities{
+        0, // First Aid
+        1, // Evasion
+        2, // Knockdown
+        7, // Camouflage
     };
 
-    Ability pickStartingAbility();
-    void learnAbility(Hero &hero, Ability ability);
-
+    uint32_t pickStartingAbility();
+    void learnAbility(Hero &hero, uint32_t abilityId);
 }

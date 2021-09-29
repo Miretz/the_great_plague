@@ -72,14 +72,14 @@ namespace Areas
             Race::Felidae,
             Controller::Player,
             {2, 12, 5, 5},
-            {Abilities::allAbilities[7]},
+            {7},
             {},
             {{},
              {
-                 {"Torso", {"Worn clothes", "Basic clothing", ItemType::Armor_Torso, {}, 0, 2}},
-                 {"Legs", {"Worn boots", "Basic boots", ItemType::Armor_Legs, {}, 0, 2}},
-                 {"Head", {"Worn hood", "Simple hood", ItemType::Armor_Head, {}, 0, 2}},
-                 {"Gloves", {"Worn gloves", "Worn gloves", ItemType::Armor_Gloves, {}, 0, 2}},
+                 {"Torso", 7},
+                 {"Legs", 8},
+                 {"Head", 9},
+                 {"Gloves", 10},
              }}};
 
         pickOptionFromList(
@@ -115,6 +115,7 @@ namespace Areas
             if (joinQuestion == 0)
             {
                 heroes.push_back(companion_Dansea);
+                saveGame(heroes, 2);
                 clearScreen();
                 std::cout << "Dansea has joined your party.\n";
                 printHero(companion_Dansea);
@@ -137,6 +138,7 @@ namespace Areas
             if (joinQuestion2 == 0)
             {
                 heroes.push_back(companion_Dansea);
+                saveGame(heroes, 2);
                 clearScreen();
                 std::cout << "Dansea has joined your party.\n";
                 printHero(companion_Dansea);

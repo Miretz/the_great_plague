@@ -8,7 +8,7 @@
 namespace Abilities
 {
 
-    Ability pickStartingAbility()
+    uint32_t pickStartingAbility()
     {
         clearScreen();
 
@@ -21,18 +21,18 @@ namespace Abilities
         };
 
         std::vector<std::string> menu;
-        for (auto sa : startingAbilities)
+        for (auto abilityId : startingAbilities)
         {
+            auto sa = allAbilities[abilityId];
             menu.push_back(sa.name + " - " + sa.description);
         }
 
-        uint32_t selection = pickOptionFromList(prompt, menu);
-        return startingAbilities[selection];
+        return startingAbilities[pickOptionFromList(prompt, menu)];
     }
 
-    void learnAbility(Hero &hero, Ability ability)
+    void learnAbility(Hero &hero, uint32_t abilityId)
     {
-        hero.abilities.push_back(ability);
+        hero.abilities.push_back(abilityId);
     }
 
     void a_FirstAid(Hero &caster, Hero &target)

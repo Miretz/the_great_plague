@@ -35,3 +35,6 @@ bin
 # Editor
 .vscode
 .idea
+
+# Game Data
+save.txt

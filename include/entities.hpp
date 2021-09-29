@@ -93,8 +93,8 @@ struct Item
 
 struct Inventory
 {
-    std::vector<Item> backpack;
-    std::unordered_map<std::string, Item> equipped;
+    std::vector<uint32_t> backpack;
+    std::unordered_map<std::string, uint32_t> equipped;
 };
 
 struct Hero;
@@ -129,7 +129,7 @@ struct Hero
     Controller controller;
 
     Attributes attributes;
-    std::vector<Ability> abilities;
+    std::vector<uint32_t> abilities;
     std::vector<StatusEffect> statusEffects;
     Inventory inventory;
 };
@@ -146,4 +146,19 @@ const std::unordered_map<Race, RaceDetail> g_AllRaces{
     {Race::Felidae, {Race::Felidae, "Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", {1, 11, 4, 4}}},
     {Race::Strigifor, {Race::Strigifor, "Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", {1, 1, 1, 15}}},
     {Race::Vulpotis, {Race::Vulpotis, "Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", {1, 4, 2, 13}}},
+};
+
+const std::vector<Item> g_AllItems{
+    {"Dagger", "Knife you stole from your mom's kitchen", ItemType::Dual_Wielding, {0, 0, 0, 0}, 3, 0},
+    {"Short sword", "Simple short sword that anyone can use", ItemType::Melee_OneHanded, {0, 0, 0, 0}, 5, 0},
+    {"Short bow", "Basic wooden bow", ItemType::Ranged_TwoHanded, {0, 0, 0, 0}, 5, 0},
+    {"Wand", "A simple tree branch", ItemType::Ranged_OneHanded, {0, 0, 0, 0}, 5, 0},
+    {"Long sword", "A long and heavy two-handed sword", ItemType::Melee_TwoHanded, {5, 0, 0, 0}, 8, 0},
+    {"Long bow", "Long bow", ItemType::Ranged_TwoHanded, {0, 5, 0, 0}, 8, 0},
+    {"Quarterstaff", "A solid broomstick", ItemType::Melee_TwoHanded, {0, 0, 0, 5}, 8, 0},
+
+    {"Worn clothes", "Basic clothing", ItemType::Armor_Torso, {}, 0, 2},
+    {"Worn boots", "Basic boots", ItemType::Armor_Legs, {}, 0, 2},
+    {"Worn hood", "Simple hood", ItemType::Armor_Head, {}, 0, 2},
+    {"Worn gloves", "Worn gloves", ItemType::Armor_Gloves, {}, 0, 2},
 };
