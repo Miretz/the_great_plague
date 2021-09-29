@@ -747,14 +747,15 @@ Hero deserializeHero(std::string serialized)
     return hero;
 }
 
-void saveGame(std::vector<Hero> &heroes, uint32_t areaId)
+void saveGame(GameState &gameState)
 {
     std::fstream saveFile;
     saveFile.open(SAVE_FILE, std::ios::out);
     if (saveFile.is_open())
     {
-        saveFile << areaId << "\n";
-        for (auto h : heroes)
+        saveFile << gameState.areaId << "\n";
+        saveFile << gameState.danseaLocation << "\n";
+        for (auto h : gameState.heroes)
         {
             saveFile << serializeHero(h) << "\n";
         }
@@ -762,10 +763,9 @@ void saveGame(std::vector<Hero> &heroes, uint32_t areaId)
     }
 }
 
-std::pair<uint32_t, std::vector<Hero>> loadGame()
+GameState loadGame()
 {
-    std::vector<Hero> heroes;
-    uint32_t areaId;
+    GameState gs;
 
     std::fstream saveFile;
     saveFile.open(SAVE_FILE, std::ios::in);
@@ -774,14 +774,16 @@ std::pair<uint32_t, std::vector<Hero>> loadGame()
         std::string line;
 
         getline(saveFile, line);
-        areaId = static_cast<uint32_t>(std::stoul(line));
+        gs.areaId = static_cast<uint32_t>(std::stoul(line));
+        getline(saveFile, line);
+        gs.danseaLocation = static_cast<uint32_t>(std::stoul(line));
 
         while (getline(saveFile, line))
         {
-            heroes.push_back(deserializeHero(line));
+            gs.heroes.push_back(deserializeHero(line));
         }
         saveFile.close();
     }
 
-    return {areaId, heroes};
+    return gs;
 }

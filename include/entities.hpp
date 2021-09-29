@@ -134,6 +134,13 @@ struct Hero
     Inventory inventory;
 };
 
+struct GameState {
+    uint32_t areaId;
+    std::vector<Hero> heroes;
+    
+    uint32_t danseaLocation;
+};
+
 /************************************************************************************************
 GLOBAL LISTS
 *************************************************************************************************/

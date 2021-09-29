@@ -72,6 +72,6 @@ std::string serializeHero(Hero hero);
 
 Hero deserializeHero(std::string serialized);
 
-void saveGame(std::vector<Hero> &heroes, uint32_t areaId);
+void saveGame(GameState& gameState);
 
-std::pair<uint32_t, std::vector<Hero>> loadGame();
+GameState loadGame();

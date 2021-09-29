@@ -8,9 +8,12 @@
 
 namespace Areas
 {
-    void navigateToArea(uint32_t areaId, std::vector<Hero> &heroes)
+    void navigateToArea(uint32_t areaId, GameState &game)
     {
-        auto area = areas[areaId];
+        auto area = allAreas[areaId];
+
+        // change game state
+        game.areaId = areaId;
 
         // print the area description
         clearScreen();
@@ -21,14 +24,14 @@ namespace Areas
             printBorder(130);
             std::cout << "|" << area.name << "\n";
             printBorder(130);
-            area.auxFunction(heroes);
+            area.auxFunction(game);
         }
 
         // display navigation menu
         std::vector<std::string> menu;
         for (uint32_t aId : area.connections)
         {
-            menu.push_back(areas[aId].name);
+            menu.push_back(allAreas[aId].name);
         }
         menu.push_back("Exit");
 
@@ -48,11 +51,24 @@ namespace Areas
             return;
         }
 
-        navigateToArea(area.connections[selection], heroes);
+        navigateToArea(area.connections[selection], game);
     }
 
-    void t01_shore_DanseaConversation(std::vector<Hero> &heroes)
+    void t01_shore_DanseaConversation(GameState &gameState)
     {
+        if (gameState.danseaLocation != 1)
+        {
+            return;
+        }
+
+        for (auto h : gameState.heroes)
+        {
+            if (h.name == "Dansea")
+            {
+                return;
+            }
+        }
+
         std::cout << danseaPicture;
         std::cout << danseaIntro;
         std::cout << "\n\n";
@@ -61,7 +77,7 @@ namespace Areas
         clearScreen();
 
         // Create Dansea
-        Hero companion_Dansea{
+        Hero dansea{
             "Dansea",
             100,
             0,
@@ -83,82 +99,91 @@ namespace Areas
              }}};
 
         pickOptionFromList(
-            createConversationPrompt(companion_Dansea.name, "Wait for me!!!", danseaPicture),
+            createConversationPrompt(dansea.name, "Wait for me!!!", danseaPicture),
             {"(Wait for her to get close)"});
 
         pickOptionFromList(
-            createConversationPrompt(companion_Dansea.name, "Hey! I bet you're also glad to be out of that boat.", danseaPicture),
+            createConversationPrompt(dansea.name, "Hey! I bet you're also glad to be out of that boat.", danseaPicture),
             {"Yeah. Where did you get that bow?"});
 
         pickOptionFromList(
-            createConversationPrompt(companion_Dansea.name, "My father gave it to me so I kept it safe. It reminds me of him.", danseaPicture),
+            createConversationPrompt(dansea.name, "My father gave it to me so I kept it safe. It reminds me of him.", danseaPicture),
             {"It's always good to keep a weapon on hand. You never know when you need it."});
 
         uint32_t planQuestion = pickOptionFromList(
-            createConversationPrompt(companion_Dansea.name, "So what's your plan?", danseaPicture),
+            createConversationPrompt(dansea.name, "So what's your plan?", danseaPicture),
             {"I am going to the city.", "I don't know yet."});
 
-        if (planQuestion == 0)
+        if (planQuestion == 0) // I am going to the city.
         {
-            if (heroes.size() == 4)
+            if (gameState.heroes.size() == 4) // Party is full
             {
                 clearScreen();
-                createConversationPrompt(companion_Dansea.name, "I am going there myself. Maybe we can catch up later.", danseaPicture)();
+                createConversationPrompt(dansea.name, "I am going there myself. Maybe we can catch up later. (Dansea leaves the area)", danseaPicture)();
+                gameState.danseaLocation = 2;
                 pressEnterToContinue();
-                return;
             }
-
-            uint32_t joinQuestion = pickOptionFromList(
-                createConversationPrompt(companion_Dansea.name, "I was planning to go there. Maybe we can go together?", danseaPicture),
-                {"Sounds good to me.", "No, thanks. Maybe we can meet later."});
-
-            if (joinQuestion == 0)
+            else // Ask for join
             {
-                heroes.push_back(companion_Dansea);
-                saveGame(heroes, 2);
+
+                uint32_t joinQuestion = pickOptionFromList(
+                    createConversationPrompt(dansea.name, "I was planning to go there. Maybe we can go together?", danseaPicture),
+                    {"Sounds good to me.", "No, thanks. I want to explore on my own."});
+
+                if (joinQuestion == 0)
+                {
+                    gameState.heroes.push_back(dansea);
+                    gameState.danseaLocation = 0;
+                    clearScreen();
+                    std::cout << "Dansea has joined your party.\n";
+                    printHero(dansea);
+                    pressEnterToContinue();
+                }
+                else
+                {
+                    clearScreen();
+                    createConversationPrompt(dansea.name, "Ok, I will head out to the city. (Dansea leaves the area)", danseaPicture)();
+                    gameState.danseaLocation = 2;
+                    pressEnterToContinue();
+                }
+            }
+        }
+        else if (planQuestion == 1) // I don't know yet.
+        {
+            if (gameState.heroes.size() == 4) // Party is full
+            {
                 clearScreen();
-                std::cout << "Dansea has joined your party.\n";
-                printHero(companion_Dansea);
+                createConversationPrompt(dansea.name, "I am heading out to the nearest city. Maybe you can find me there. (Dansea leaves the area)", danseaPicture)();
+                gameState.danseaLocation = 2;
                 pressEnterToContinue();
             }
             else
             {
-                clearScreen();
-                createConversationPrompt(companion_Dansea.name, "Ok, see you there.", danseaPicture)();
-                pressEnterToContinue();
-                return;
-            }
-        }
-        else if (planQuestion == 1)
-        {
-            uint32_t joinQuestion2 = pickOptionFromList(
-                createConversationPrompt(companion_Dansea.name, "I am off to the nearest town. Do you want to join me?", danseaPicture),
-                {"Sounds good to me.", "No. I would like to explore for a bit."});
 
-            if (joinQuestion2 == 0)
-            {
-                heroes.push_back(companion_Dansea);
-                saveGame(heroes, 2);
-                clearScreen();
-                std::cout << "Dansea has joined your party.\n";
-                printHero(companion_Dansea);
-                pressEnterToContinue();
-            }
-            else
-            {
-                clearScreen();
-                createConversationPrompt(companion_Dansea.name, "In that case you will probably find me in the nearest town.", danseaPicture)();
-                pressEnterToContinue();
-                return;
+                uint32_t joinQuestion2 = pickOptionFromList(
+                    createConversationPrompt(dansea.name, "I am heading out to the nearest city. Do you want to join me?", danseaPicture),
+                    {"Sounds good to me.", "No. I would like to explore for a bit."});
+
+                if (joinQuestion2 == 0)
+                {
+                    gameState.heroes.push_back(dansea);
+                    gameState.danseaLocation = 0;
+                    clearScreen();
+                    std::cout << "Dansea has joined your party.\n";
+                    printHero(dansea);
+                    pressEnterToContinue();
+                }
+                else
+                {
+                    clearScreen();
+                    createConversationPrompt(dansea.name, "In that case I'll see you around. (Dansea leaves the area)", danseaPicture)();
+                    gameState.danseaLocation = 2;
+                    pressEnterToContinue();
+                }
             }
         }
-        else
-        {
-            clearScreen();
-            createConversationPrompt(companion_Dansea.name, "Never mind then.", danseaPicture)();
-            pressEnterToContinue();
-            return;
-        }
+
+        saveGame(gameState);
     }
 
 }

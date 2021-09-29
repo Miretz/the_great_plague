@@ -124,15 +124,15 @@ TODO
         std::string name;
         std::string body;
         std::vector<uint32_t> connections;
-        std::function<void(std::vector<Hero> &)> auxFunction;
+        std::function<void(GameState &)> auxFunction;
     };
+    
+    void navigateToArea(uint32_t areaId, GameState &game);
 
-    void navigateToArea(uint32_t areaId, std::vector<Hero> &heroes);
+    void t01_shore_DanseaConversation(GameState &game);
 
-    void t01_shore_DanseaConversation(std::vector<Hero> &heroes);
-
-    const std::vector<Area> areas{
+    const std::vector<Area> allAreas{
         {"Introduction", t00_introduction, {1}, nullptr},
         {"Shore", t01_shore, {2}, t01_shore_DanseaConversation},
-        {"Forest", t02_forest, {}, nullptr}};
+        {"Forest", t02_forest, {1}, nullptr}};
 }

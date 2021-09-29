@@ -8,11 +8,6 @@
 
 #include <iostream>
 
-void startJourney(std::vector<Hero> heroes)
-{
-    Areas::navigateToArea(0, heroes);
-}
-
 int main(void)
 {
 
@@ -30,15 +25,16 @@ int main(void)
                 auto heroes = Characters::createHeroes();
                 if (askConfirmation("Begin journey?"))
                 {
-                    saveGame(heroes, 0);
-                    startJourney(heroes);
+                    GameState gs{0, heroes, 1};
+                    saveGame(gs);
+                    Areas::navigateToArea(gs.areaId, gs);
                 }
             }
         }
         else if (selection == 1) // Continue
         {
             auto saveGame = loadGame();
-            std::vector<Hero> heroes = saveGame.second;
+            std::vector<Hero> heroes = saveGame.heroes;
             if (heroes.size() == 0)
             {
                 std::cout << "Save file not found!\n\n";
@@ -51,7 +47,7 @@ int main(void)
                 clearScreen();
                 printListOfHeroes(heroes);
                 pressEnterToContinue();
-                Areas::navigateToArea(saveGame.first, heroes);
+                Areas::navigateToArea(saveGame.areaId, saveGame);
             }
         }
         else if (selection == 2) // Exit
