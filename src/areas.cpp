@@ -1,11 +1,11 @@
 #include "areas.hpp"
 
+#include "entities.hpp"
 #include "utils.hpp"
 #include "files.hpp"
-
 #include "abilities.hpp"
 #include "characters.hpp"
-#include "inventory.hpp"
+#include "inventory_manager.hpp"
 
 #include <iostream>
 
@@ -42,7 +42,7 @@ namespace Areas
         {
             Utils::printBorderedText(area.name);
             std::cout << areaDescription;
-            std::cout << "Go to:\n\n";
+            std::cout << "Go to:\n";
         };
 
         auto selection = Utils::pickOptionFromList(prompt, menu);
@@ -73,8 +73,7 @@ namespace Areas
         std::cout << danseaPicture;
         std::cout << Files::loadFile(f_danseaIntro);
         Utils::newLine();
-        Utils::newLine();
-
+        
         Utils::pressEnterToContinue();
         Utils::clearScreen();
 
@@ -100,7 +99,7 @@ namespace Areas
                  {"Gloves", 10},
              }}};
         Characters::recalculateHeroHealth(dansea);
-        InventoryManager::equipItem(dansea, 5, EquipmentSlot::MainHand);
+        InventoryManager::equipItem(dansea, 5, InventoryManager::EquipmentSlot::MainHand);
 
         Utils::pickOptionFromList(
             Utils::createConversationPrompt(dansea.name, "Wait for me!!!", danseaPicture),
@@ -125,6 +124,7 @@ namespace Areas
                 Utils::clearScreen();
                 Utils::createConversationPrompt(dansea.name, "I am going there myself. Maybe we can catch up later. (Dansea leaves the area)", danseaPicture)();
                 gameState.danseaLocation = 2;
+                Utils::newLine();
                 Utils::pressEnterToContinue();
             }
             else // Ask for join
@@ -149,6 +149,7 @@ namespace Areas
                     Utils::clearScreen();
                     Utils::createConversationPrompt(dansea.name, "Ok, I will head out to the city. (Dansea leaves the area)", danseaPicture)();
                     gameState.danseaLocation = 2;
+                    Utils::newLine();
                     Utils::pressEnterToContinue();
                 }
             }
@@ -160,6 +161,7 @@ namespace Areas
                 Utils::clearScreen();
                 Utils::createConversationPrompt(dansea.name, "I am heading out to the nearest city. Maybe you can find me there. (Dansea leaves the area)", danseaPicture)();
                 gameState.danseaLocation = 2;
+                Utils::newLine();
                 Utils::pressEnterToContinue();
             }
             else
@@ -184,6 +186,7 @@ namespace Areas
                     Utils::clearScreen();
                     Utils::createConversationPrompt(dansea.name, "In that case I'll see you around. (Dansea leaves the area)", danseaPicture)();
                     gameState.danseaLocation = 2;
+                    Utils::newLine();
                     Utils::pressEnterToContinue();
                 }
             }

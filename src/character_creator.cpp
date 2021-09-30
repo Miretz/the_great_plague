@@ -2,7 +2,7 @@
 
 #include "utils.hpp"
 #include "abilities.hpp"
-#include "inventory.hpp"
+#include "inventory_manager.hpp"
 #include "characters.hpp"
 
 namespace CharacterCreator
@@ -46,7 +46,7 @@ namespace CharacterCreator
             Abilities::learnAbility(hero, pickStartingAbility());
 
             auto startingItem = pickStartingItem(hero.attributes);
-            InventoryManager::equipItem(hero, startingItem, EquipmentSlot::MainHand);
+            InventoryManager::equipItem(hero, startingItem, InventoryManager::EquipmentSlot::MainHand);
 
             Utils::clearScreen();
 

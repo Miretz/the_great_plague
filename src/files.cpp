@@ -1,5 +1,7 @@
 #include "files.hpp"
 
+#include "entities.hpp"
+
 #include <sstream>
 #include <fstream>
 

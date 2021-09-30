@@ -1,15 +1,12 @@
 #include "characters.hpp"
 
+#include "entities.hpp"
 #include "utils.hpp"
 #include "abilities.hpp"
-#include "inventory.hpp"
-
-#include <iostream>
-#include <string>
+#include "inventory_manager.hpp"
 
 namespace Characters
 {
-    
 
     void assignAttributePoints(Hero &hero)
     {
@@ -53,15 +50,14 @@ namespace Characters
             availablePoints = distributedPoints.second;
 
             Utils::clearScreen();
-
-            Utils::printBorderedText("Unspent points: " + availablePoints);
+            Utils::printBorderedText("Unspent points: " + std::to_string(availablePoints));
             Utils::printBorderedText("New attributes:");
 
             Utils::printBorder(55);
             Utils::printAttributesAdjustment(hero.attributes, attributes);
             Utils::printBorder(55);
 
-            if (Utils::askConfirmation("\n\nDo you accept the new attributes?"))
+            if (Utils::askConfirmation("\nDo you accept the new attributes?"))
             {
                 hero.unspentPoints = availablePoints;
                 hero.attributes = attributes;
@@ -91,5 +87,4 @@ namespace Characters
         return sameName;
     }
 
-    
 }

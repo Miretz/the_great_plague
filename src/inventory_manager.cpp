@@ -1,5 +1,6 @@
-#include "inventory.hpp"
+#include "inventory_manager.hpp"
 
+#include "entities.hpp"
 #include "utils.hpp"
 
 #include <iostream>
@@ -114,7 +115,7 @@ namespace InventoryManager
         }
     }
 
-    std::vector<uint32_t> equipableInHand(const Hero &hero, EquipmentSlot slot)
+    std::vector<uint32_t> equipableInHand(Hero &hero, EquipmentSlot slot)
     {
         std::vector<uint32_t> equipable;
 
@@ -161,7 +162,7 @@ namespace InventoryManager
         return equipable;
     }
 
-    std::string getEquippedItemName(const Hero &hero, EquipmentSlot slot)
+    std::string getEquippedItemName(Hero &hero, EquipmentSlot slot)
     {
         auto slotName = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
@@ -173,7 +174,7 @@ namespace InventoryManager
         return "Empty";
     }
 
-    std::pair<bool, EquipmentSlot> selectSlot(const Hero &hero)
+    std::pair<bool, EquipmentSlot> selectSlot(Hero &hero)
     {
         std::vector<EquipmentSlot> availableSlots{
             EquipmentSlot::Head,
@@ -288,9 +289,11 @@ namespace InventoryManager
                     chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j]));
                 }
 
-                uint32_t itemSelection = Utils::pickOptionFromList([]()
-                                                                   { std::cout << "Select equipment:\n\n"; },
-                                                                   chooseWeapon);
+                auto pickItemPrompt = []()
+                {
+                    Utils::printBorderedText("Select equipment:");
+                };
+                auto itemSelection = Utils::pickOptionFromList(pickItemPrompt, chooseWeapon);
                 auto newItem = listOfEquipable[itemSelection];
 
                 equipItem(hero, newItem, selectedSlot);
@@ -302,7 +305,7 @@ namespace InventoryManager
         }
     }
 
-    uint32_t getEquippedArmorValue(const Hero &hero)
+    uint32_t getEquippedArmorValue(Hero &hero)
     {
 
         uint32_t value = 0;

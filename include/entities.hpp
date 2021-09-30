@@ -1,9 +1,10 @@
 #pragma once
+#ifndef entities_hpp
+#define entities_hpp
 
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <functional>
 
 /************************************************************************************************
 ENUMS
@@ -40,18 +41,6 @@ enum class ItemType
     Throwable, // Grenades, Throwing Knifes, Shuriken, Molotov, Oil Flask
     Scroll
 };
-
-enum class EquipmentSlot
-{
-    MainHand,
-    Offhand,
-    Torso,
-    Head,
-    Legs,
-    Gloves
-};
-
-const std::vector<std::string> equipmentSlotNames{"Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves"};
 
 enum class Controller
 {
@@ -101,20 +90,6 @@ struct Inventory
 
 struct Hero;
 
-struct Ability
-{
-    std::string name;
-    std::string description;
-    std::function<void(Hero &, Hero &)> action;
-};
-
-struct StatusEffect
-{
-    std::string name;
-    uint32_t expireInTurns;
-    std::function<void(Hero &)> execute;
-};
-
 struct Hero
 {
     std::string name;
@@ -132,7 +107,7 @@ struct Hero
 
     Attributes attributes;
     std::vector<uint32_t> abilities;
-    std::vector<StatusEffect> statusEffects;
+    std::vector<uint32_t> statusEffects;
     Inventory inventory;
 };
 
@@ -178,3 +153,5 @@ const std::vector<Item> g_AllItems{
     {"Worn hood", "Simple hood", ItemType::Armor_Head, {}, 0, 2},
     {"Worn gloves", "Worn gloves", ItemType::Armor_Gloves, {}, 0, 2},
 };
+
+#endif

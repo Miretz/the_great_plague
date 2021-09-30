@@ -1,11 +1,24 @@
 #pragma once
+#ifndef abilities_hpp
+#define abilities_hpp
 
-#include "entities.hpp"
+#include <vector>
+#include <string>
+#include <functional>
+
+struct Hero;
 
 namespace Abilities
 {
     void a_FirstAid(Hero &caster, Hero &target);
     void a_LifeDrain(Hero &caster, Hero &target);
+
+    struct Ability
+    {
+        std::string name;
+        std::string description;
+        std::function<void(Hero &, Hero &)> action;
+    };
 
     const std::vector<Ability> allAbilities{
         {"None", "None", nullptr},
@@ -30,3 +43,5 @@ namespace Abilities
 
     void learnAbility(Hero &hero, uint32_t abilityId);
 }
+
+#endif

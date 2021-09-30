@@ -1,6 +1,11 @@
 #pragma once
+#ifndef characters_hpp
+#define characters_hpp
 
-#include "entities.hpp"
+#include <string>
+#include <vector>
+
+struct Hero;
 
 namespace Characters
 {
@@ -8,7 +13,9 @@ namespace Characters
 
     void assignAttributePoints(Hero &hero);
 
-    void recalculateHeroHealth(Hero& hero);
+    void recalculateHeroHealth(Hero &hero);
 
     bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes);
 }
+
+#endif

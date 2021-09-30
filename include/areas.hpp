@@ -1,6 +1,12 @@
 #pragma once
+#ifndef areas_hpp
+#define areas_hpp
 
-#include "entities.hpp"
+#include <string>
+#include <vector>
+#include <functional>
+
+struct GameState;
 
 namespace Areas
 {
@@ -29,3 +35,5 @@ namespace Areas
         {"Shore", f_t01_shore, {2}, t01_shore_DanseaConversation},
         {"Forest", f_t02_forest, {1}, nullptr}};
 }
+
+#endif

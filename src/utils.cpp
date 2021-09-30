@@ -1,7 +1,7 @@
 #include "utils.hpp"
 
 #include "abilities.hpp"
-#include "inventory.hpp"
+#include "inventory_manager.hpp"
 #include "files.hpp"
 
 #include <iostream>
@@ -20,18 +20,18 @@ namespace Utils
 
     void printAttributes(Attributes attributes)
     {
-        std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength << "\n";
-        std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity << "\n";
-        std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << attributes.vitality << "\n";
-        std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << attributes.intelligence << "\n";
+        std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength << '\n';
+        std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity << '\n';
+        std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << attributes.vitality << '\n';
+        std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << attributes.intelligence << '\n';
     }
 
     void printAttributesAdjustment(Attributes base, Attributes adjustment)
     {
-        std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::left << std::setw(6) << adjustment.strength << "\n";
-        std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::left << std::setw(6) << adjustment.dexterity << "\n";
-        std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << base.vitality << std::left << std::setw(6) << adjustment.vitality << "\n";
-        std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::left << std::setw(6) << adjustment.intelligence << "\n";
+        std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::left << std::setw(6) << adjustment.strength << '\n';
+        std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::left << std::setw(6) << adjustment.dexterity << '\n';
+        std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << base.vitality << std::left << std::setw(6) << adjustment.vitality << '\n';
+        std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::left << std::setw(6) << adjustment.intelligence << '\n';
     }
 
     void printHeroAbilities(const std::vector<uint32_t> &abilities)
@@ -40,7 +40,7 @@ namespace Utils
         {
             auto a = Abilities::allAbilities[id];
             std::cout << "|"
-                      << "Ability: " << a.name << " - " << a.description << "\n";
+                      << "Ability: " << a.name << " - " << a.description << '\n';
         }
     }
 
@@ -120,15 +120,15 @@ namespace Utils
     std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped)
     {
         std::stringstream ss;
-        for (auto s : equipmentSlotNames)
+        for (auto s : InventoryManager::equipmentSlotNames)
         {
             if (equipped.find(s) != equipped.end())
             {
-                ss << "|";
+                ss << '|';
                 ss << "Equipped in ";
                 ss << std::left << std::setw(10) << s << " - ";
                 ss << getItemString(equipped.at(s));
-                ss << "\n";
+                ss << '\n';
             }
         }
         return ss.str();
@@ -139,14 +139,14 @@ namespace Utils
         std::stringstream ss;
         if (backpack.size() > 0)
         {
-            ss << "|"
+            ss << '|'
                << "Backpack:\n";
             for (auto a : backpack)
             {
-                ss << "|";
+                ss << '|';
                 ss << "    ";
                 ss << getItemString(a);
-                ss << "\n";
+                ss << '\n';
             }
         }
         return ss.str();
@@ -168,14 +168,13 @@ namespace Utils
     void printBorderedText(const std::string &text)
     {
         printBorder(130);
-        std::cout << "|" << text << "\n";
+        std::cout << "|" << text << '\n';
         printBorder(130);
-        std::cout << "\n";
     }
 
     void newLine()
     {
-        std::cout << "\n";
+        std::cout << '\n';
     }
 
     void printHero(Hero &hero)
@@ -183,10 +182,10 @@ namespace Utils
         printHeroHeader(hero.name, hero.level);
         std::cout << "|HP: "
                   << hero.health << "/" << hero.maxHealth;
-        std::cout << " Armor: " << InventoryManager::getEquippedArmorValue(hero) << "\n";
+        std::cout << " Armor: " << InventoryManager::getEquippedArmorValue(hero) << '\n';
         std::cout << "|XP: "
-                  << hero.xp << "/" << hero.xpToLevelUp << "\n";
-        std::cout << "|Race: " << g_AllRaces.at(hero.race).name << "\n";
+                  << hero.xp << "/" << hero.xpToLevelUp << '\n';
+        std::cout << "|Race: " << g_AllRaces.at(hero.race).name << '\n';
         printBorder(130);
         printAttributes(hero.attributes);
         printBorder(130);
@@ -204,10 +203,10 @@ namespace Utils
         std::cout << "\nList of Heroes:\n";
         for (auto h : heroes)
         {
-            std::cout << "\n";
+            std::cout << '\n';
             printHero(h);
         }
-        std::cout << "\n";
+        std::cout << '\n';
     }
 
     uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max)
@@ -218,8 +217,9 @@ namespace Utils
 
         clearScreen();
         redrawFunction();
+        newLine();
 
-        std::cout << COLOR_GREY << "\nPress the LEFT & RIGHT arrows to adjust" << COLOR_END << "\n\n";
+        std::cout << COLOR_GREY << "Press the LEFT & RIGHT arrows to adjust" << COLOR_END << "\n\n";
 
         uint32_t y = getCursorPosition();
 
@@ -275,6 +275,8 @@ namespace Utils
 
         clearScreen();
         redrawFunction();
+        newLine();
+
         uint32_t y = getCursorPosition();
 
         while (!finished)
@@ -471,7 +473,7 @@ namespace Utils
         std::cout << COLOR_GREEN;
         std::cout << Files::loadFile("assets/logo.txt");
         std::cout << COLOR_END;
-        std::cout << "---=== Main menu ===---\n\n";
+        std::cout << "---=== Main menu ===---\n";
     }
 
     bool askConfirmation(const std::string &question)
@@ -516,19 +518,19 @@ namespace Utils
         auto prompt = [who, what, picture]()
         {
             printBorder(130);
-            std::cout << "|" << COLOR_GREEN << who << COLOR_END << "\n";
+            std::cout << "|" << COLOR_GREEN << who << COLOR_END << '\n';
             printBorder(130);
             std::cout << picture;
             printBorder(130);
-            std::cout << "|" << what << "\n";
+            std::cout << "|" << what << '\n';
             printBorder(130);
-            std::cout << "\n";
         };
         return prompt;
     }
 
     std::string enterName()
     {
+        newLine();
         std::string name = "";
         std::cout << "Name: ";
         std::cin >> name;

@@ -1,5 +1,6 @@
 #include "abilities.hpp"
 
+#include "entities.hpp"
 #include "utils.hpp"
 
 namespace Abilities

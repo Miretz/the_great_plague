@@ -1,6 +1,11 @@
 #pragma once
+#ifndef files_hpp
+#define files_hpp
 
-#include "entities.hpp"
+#include <string>
+
+struct Hero;
+struct GameState;
 
 namespace Files
 {
@@ -14,5 +19,7 @@ namespace Files
 
     GameState loadGame();
 
-    std::string loadFile(const std::string& filePath);
+    std::string loadFile(const std::string &filePath);
 }
+
+#endif

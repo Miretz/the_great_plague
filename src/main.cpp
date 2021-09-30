@@ -1,8 +1,5 @@
 #include "entities.hpp"
 #include "utils.hpp"
-#include "characters.hpp"
-#include "abilities.hpp"
-#include "inventory.hpp"
 #include "areas.hpp"
 #include "files.hpp"
 #include "character_creator.hpp"
@@ -35,7 +32,7 @@ int main(void)
         else if (selection == 1) // Continue
         {
             auto saveGame = Files::loadGame();
-            std::vector<Hero> heroes = saveGame.heroes;
+            auto heroes = saveGame.heroes;
             if (heroes.size() == 0)
             {
                 std::cout << "Save file not found!\n\n";

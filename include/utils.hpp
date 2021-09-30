@@ -1,6 +1,10 @@
 #pragma once
+#ifndef utils_hpp
+#define utils_hpp
 
 #include "entities.hpp"
+
+#include <functional>
 
 namespace Utils
 {
@@ -16,8 +20,6 @@ namespace Utils
     const uint32_t KEY_RIGHT = 77;
     const uint32_t KEY_ENTER = 13;
     const uint32_t KEY_ENTER_LF = 10;
-
-    std::string getEquipmentSlotName(EquipmentSlot eSlot);
 
     void printAttributes(Attributes attributes);
 
@@ -72,3 +74,5 @@ namespace Utils
     void setCursorPosition(uint32_t x, uint32_t y);
 
 }
+
+#endif

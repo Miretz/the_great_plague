@@ -1,4 +1,6 @@
 #pragma once
+#ifndef character_creator_hpp
+#define character_creator_hpp
 
 #include "entities.hpp"
 
@@ -39,3 +41,5 @@ namespace CharacterCreator
 
     uint32_t pickStartingItem(Attributes &attributes);
 }
+
+#endif
