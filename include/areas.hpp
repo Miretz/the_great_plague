@@ -14,6 +14,7 @@ namespace Areas
     const std::string f_t00_introduction = "assets/areas/t00_introduction.txt";
     const std::string f_t01_shore = "assets/areas/t01_shore.txt";
     const std::string f_t02_forest = "assets/areas/t02_forest.txt";
+    const std::string f_t03_cityGate = "assets/areas/t02_city_gate.txt";
 
     const std::string f_danseaPicture = "assets/characters/dansea.txt";
     const std::string f_danseaIntro = "assets/characters/dansea_introduction.txt";
@@ -33,7 +34,8 @@ namespace Areas
     const std::vector<Area> allAreas{
         {"Introduction", f_t00_introduction, {1}, nullptr},
         {"Shore", f_t01_shore, {2}, t01_shore_DanseaConversation},
-        {"Forest", f_t02_forest, {1}, nullptr}};
+        {"Forest", f_t02_forest, {1, 3}, nullptr},
+        {"City Gate", f_t03_cityGate, {}, nullptr}};
 }
 
 #endif
