@@ -2,32 +2,8 @@
 
 #include "utils.hpp"
 
-#include <iostream>
-
 namespace Abilities
 {
-
-    uint32_t pickStartingAbility()
-    {
-        clearScreen();
-
-        auto prompt = []()
-        {
-            printBorder(130);
-            std::cout << "|Pick a starting ability:\n";
-            printBorder(130);
-            std::cout << "\n";
-        };
-
-        std::vector<std::string> menu;
-        for (auto abilityId : startingAbilities)
-        {
-            auto sa = allAbilities[abilityId];
-            menu.push_back(sa.name + " - " + sa.description);
-        }
-
-        return startingAbilities[pickOptionFromList(prompt, menu)];
-    }
 
     void learnAbility(Hero &hero, uint32_t abilityId)
     {

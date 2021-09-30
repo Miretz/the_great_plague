@@ -1,6 +1,7 @@
 #include "areas.hpp"
 
 #include "utils.hpp"
+#include "files.hpp"
 
 #include "abilities.hpp"
 #include "characters.hpp"
@@ -18,14 +19,12 @@ namespace Areas
         game.areaId = areaId;
 
         // print the area description
-        clearScreen();
+        Utils::clearScreen();
 
         // execute auxilary area function
         if (area.auxFunction != nullptr)
         {
-            printBorder(130);
-            std::cout << "|" << area.name << "\n";
-            printBorder(130);
+            Utils::printBorderedText(area.name);
             area.auxFunction(game);
         }
 
@@ -38,16 +37,15 @@ namespace Areas
         menu.push_back("Exit");
 
         // print the area text and navigation menu
-        auto prompt = [area]()
+        auto areaDescription = Files::loadFile(area.descriptionFile);
+        auto prompt = [area, areaDescription]()
         {
-            printBorder(130);
-            std::cout << "|" << area.name << "\n";
-            printBorder(130);
-            std::cout << area.body;
+            Utils::printBorderedText(area.name);
+            std::cout << areaDescription;
             std::cout << "Go to:\n\n";
         };
 
-        auto selection = pickOptionFromList(prompt, menu);
+        auto selection = Utils::pickOptionFromList(prompt, menu);
         if (selection == area.connections.size())
         {
             return;
@@ -71,12 +69,14 @@ namespace Areas
             }
         }
 
+        auto danseaPicture = Files::loadFile(f_danseaPicture);
         std::cout << danseaPicture;
-        std::cout << danseaIntro;
-        std::cout << "\n\n";
+        std::cout << Files::loadFile(f_danseaIntro);
+        Utils::newLine();
+        Utils::newLine();
 
-        pressEnterToContinue();
-        clearScreen();
+        Utils::pressEnterToContinue();
+        Utils::clearScreen();
 
         // Create Dansea
         Hero dansea{
@@ -102,54 +102,54 @@ namespace Areas
         Characters::recalculateHeroHealth(dansea);
         InventoryManager::equipItem(dansea, 5, EquipmentSlot::MainHand);
 
-        pickOptionFromList(
-            createConversationPrompt(dansea.name, "Wait for me!!!", danseaPicture),
+        Utils::pickOptionFromList(
+            Utils::createConversationPrompt(dansea.name, "Wait for me!!!", danseaPicture),
             {"(Wait for her to get close)"});
 
-        pickOptionFromList(
-            createConversationPrompt(dansea.name, "Hey! I bet you're also glad to be out of that boat.", danseaPicture),
+        Utils::pickOptionFromList(
+            Utils::createConversationPrompt(dansea.name, "Hey! I bet you're also glad to be out of that boat.", danseaPicture),
             {"Yeah. Where did you get that bow?"});
 
-        pickOptionFromList(
-            createConversationPrompt(dansea.name, "My father gave it to me so I kept it safe. It reminds me of him.", danseaPicture),
+        Utils::pickOptionFromList(
+            Utils::createConversationPrompt(dansea.name, "My father gave it to me so I kept it safe. It reminds me of him.", danseaPicture),
             {"It's always good to keep a weapon on hand. You never know when you need it."});
 
-        uint32_t planQuestion = pickOptionFromList(
-            createConversationPrompt(dansea.name, "So what's your plan?", danseaPicture),
+        uint32_t planQuestion = Utils::pickOptionFromList(
+            Utils::createConversationPrompt(dansea.name, "So what's your plan?", danseaPicture),
             {"I am going to the city.", "I don't know yet."});
 
         if (planQuestion == 0) // I am going to the city.
         {
             if (gameState.heroes.size() == 4) // Party is full
             {
-                clearScreen();
-                createConversationPrompt(dansea.name, "I am going there myself. Maybe we can catch up later. (Dansea leaves the area)", danseaPicture)();
+                Utils::clearScreen();
+                Utils::createConversationPrompt(dansea.name, "I am going there myself. Maybe we can catch up later. (Dansea leaves the area)", danseaPicture)();
                 gameState.danseaLocation = 2;
-                pressEnterToContinue();
+                Utils::pressEnterToContinue();
             }
             else // Ask for join
             {
 
-                uint32_t joinQuestion = pickOptionFromList(
-                    createConversationPrompt(dansea.name, "I was planning to go there. Maybe we can go together?", danseaPicture),
+                uint32_t joinQuestion = Utils::pickOptionFromList(
+                    Utils::createConversationPrompt(dansea.name, "I was planning to go there. Maybe we can go together?", danseaPicture),
                     {"Sounds good to me.", "No, thanks. I want to explore on my own."});
 
                 if (joinQuestion == 0)
                 {
                     gameState.heroes.push_back(dansea);
                     gameState.danseaLocation = 0;
-                    clearScreen();
-                    std::cout << "Dansea has joined your party.\n";
-                    printHero(dansea);
-                    std::cout << "\n";
-                    pressEnterToContinue();
+                    Utils::clearScreen();
+                    Utils::printBorderedText("Dansea has joined your party.");
+                    Utils::printHero(dansea);
+                    Utils::newLine();
+                    Utils::pressEnterToContinue();
                 }
                 else
                 {
-                    clearScreen();
-                    createConversationPrompt(dansea.name, "Ok, I will head out to the city. (Dansea leaves the area)", danseaPicture)();
+                    Utils::clearScreen();
+                    Utils::createConversationPrompt(dansea.name, "Ok, I will head out to the city. (Dansea leaves the area)", danseaPicture)();
                     gameState.danseaLocation = 2;
-                    pressEnterToContinue();
+                    Utils::pressEnterToContinue();
                 }
             }
         }
@@ -157,39 +157,39 @@ namespace Areas
         {
             if (gameState.heroes.size() == 4) // Party is full
             {
-                clearScreen();
-                createConversationPrompt(dansea.name, "I am heading out to the nearest city. Maybe you can find me there. (Dansea leaves the area)", danseaPicture)();
+                Utils::clearScreen();
+                Utils::createConversationPrompt(dansea.name, "I am heading out to the nearest city. Maybe you can find me there. (Dansea leaves the area)", danseaPicture)();
                 gameState.danseaLocation = 2;
-                pressEnterToContinue();
+                Utils::pressEnterToContinue();
             }
             else
             {
 
-                uint32_t joinQuestion2 = pickOptionFromList(
-                    createConversationPrompt(dansea.name, "I am heading out to the nearest city. Do you want to join me?", danseaPicture),
+                uint32_t joinQuestion2 = Utils::pickOptionFromList(
+                    Utils::createConversationPrompt(dansea.name, "I am heading out to the nearest city. Do you want to join me?", danseaPicture),
                     {"Sounds good to me.", "No. I would like to explore for a bit."});
 
                 if (joinQuestion2 == 0)
                 {
                     gameState.heroes.push_back(dansea);
                     gameState.danseaLocation = 0;
-                    clearScreen();
-                    std::cout << "Dansea has joined your party.\n";
-                    printHero(dansea);
-                    std::cout << "\n";
-                    pressEnterToContinue();
+                    Utils::clearScreen();
+                    Utils::printBorderedText("Dansea has joined your party.");
+                    Utils::printHero(dansea);
+                    Utils::newLine();
+                    Utils::pressEnterToContinue();
                 }
                 else
                 {
-                    clearScreen();
-                    createConversationPrompt(dansea.name, "In that case I'll see you around. (Dansea leaves the area)", danseaPicture)();
+                    Utils::clearScreen();
+                    Utils::createConversationPrompt(dansea.name, "In that case I'll see you around. (Dansea leaves the area)", danseaPicture)();
                     gameState.danseaLocation = 2;
-                    pressEnterToContinue();
+                    Utils::pressEnterToContinue();
                 }
             }
         }
 
-        saveGame(gameState);
+        Files::saveGame(gameState);
     }
 
 }

@@ -26,18 +26,7 @@ namespace Abilities
         {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", nullptr},
         {"Gust", "Command the wind to strike to enemy with a powerful blast.", nullptr},
         {"Pounce", "Sudden attack that knocks down the enemy.", nullptr},
-
     };
 
-    const std::vector<uint32_t> startingAbilities{
-        1, // First Aid
-        2, // Evasion
-        3, // Knockdown
-        4, // Life Drain
-        5, // Magic Shield
-        8, // Camouflage
-    };
-
-    uint32_t pickStartingAbility();
     void learnAbility(Hero &hero, uint32_t abilityId);
 }

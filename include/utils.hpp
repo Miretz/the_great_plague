@@ -2,76 +2,73 @@
 
 #include "entities.hpp"
 
-#define COLOR_GREEN "\033[1;32m"
-#define COLOR_YELLOW "\033[1;33m"
-#define COLOR_GREY "\033[2;37m"
-#define COLOR_END "\033[0m"
+namespace Utils
+{
 
-constexpr uint32_t KEY_UP = 72;
-constexpr uint32_t KEY_DOWN = 80;
-constexpr uint32_t KEY_LEFT = 75;
-constexpr uint32_t KEY_RIGHT = 77;
-constexpr uint32_t KEY_ENTER = 13;
-constexpr uint32_t KEY_ENTER_LF = 10;
+    const std::string COLOR_GREEN = "\033[1;32m";
+    const std::string COLOR_YELLOW = "\033[1;33m";
+    const std::string COLOR_GREY = "\033[2;37m";
+    const std::string COLOR_END = "\033[0m";
 
-#define SAVE_FILE "save.txt"
+    const uint32_t KEY_UP = 72;
+    const uint32_t KEY_DOWN = 80;
+    const uint32_t KEY_LEFT = 75;
+    const uint32_t KEY_RIGHT = 77;
+    const uint32_t KEY_ENTER = 13;
+    const uint32_t KEY_ENTER_LF = 10;
 
-std::string getEquipmentSlotName(EquipmentSlot eSlot);
+    std::string getEquipmentSlotName(EquipmentSlot eSlot);
 
-void printAttributes(Attributes attributes);
+    void printAttributes(Attributes attributes);
 
-void printAttributesAdjustment(Attributes base, Attributes adjustment);
+    void printAttributesAdjustment(Attributes base, Attributes adjustment);
 
-void printHeroAbilities(const std::vector<uint32_t> &abilities);
+    void printHeroAbilities(const std::vector<uint32_t> &abilities);
 
-void printItem(uint32_t a);
+    void printItem(uint32_t a);
 
-void printListOfHeroes(const std::vector<Hero> &heroes);
+    void printListOfHeroes(const std::vector<Hero> &heroes);
 
-std::string getItemString(uint32_t a);
+    std::string getItemString(uint32_t a);
 
-std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
+    std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
 
-std::string getBackpack(const std::vector<uint32_t> &backpack);
+    std::string getBackpack(const std::vector<uint32_t> &backpack);
 
-void printHeroInventory(const Inventory &inventory);
+    void printHeroInventory(const Inventory &inventory);
 
-void printHeroHeader(const std::string &name, const uint32_t level);
+    void printHeroHeader(const std::string &name, const uint32_t level);
 
-void printHero(Hero &hero);
+    void printBorderedText(const std::string &text);
 
-uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max);
+    void newLine();
 
-uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
+    void printHero(Hero &hero);
 
-std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, uint32_t>> elements, uint32_t pointsToDistribute);
+    uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max);
 
-void clearScreen();
+    uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
-std::string trim(std::string s);
+    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, uint32_t>> elements, uint32_t pointsToDistribute);
 
-void printIntro();
+    void clearScreen();
 
-bool askConfirmation(const std::string &question);
+    std::string trim(std::string s);
 
-void pressEnterToContinue();
+    void printIntro();
 
-std::function<void()> createConversationPrompt(std::string who, std::string what, std::string picture);
+    bool askConfirmation(const std::string &question);
 
-std::string enterName();
+    void pressEnterToContinue();
 
-bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes);
+    std::function<void()> createConversationPrompt(std::string who, std::string what, std::string picture);
 
-void printBorder(uint32_t length);
+    std::string enterName();
 
-uint32_t getCursorPosition();
+    void printBorder(uint32_t length);
 
-void setCursorPosition(uint32_t x, uint32_t y);
+    uint32_t getCursorPosition();
 
-std::string serializeHero(Hero hero);
+    void setCursorPosition(uint32_t x, uint32_t y);
 
-Hero deserializeHero(std::string serialized);
-
-void saveGame(GameState& gameState);
-
-GameState loadGame();
+}

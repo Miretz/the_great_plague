@@ -4,6 +4,8 @@
 #include "abilities.hpp"
 #include "inventory.hpp"
 #include "areas.hpp"
+#include "files.hpp"
+#include "character_creator.hpp"
 
 #include <iostream>
 
@@ -13,48 +15,48 @@ int main(void)
     bool running = true;
     while (running)
     {
-        clearScreen();
+        Utils::clearScreen();
 
-        auto selection = pickOptionFromList(printIntro, {"Start new journey", "Continue journey", "Exit Game"});
+        auto selection = Utils::pickOptionFromList(Utils::printIntro, {"Start new journey", "Continue journey", "Exit Game"});
 
         if (selection == 0) // Start new journey
         {
-            if (askConfirmation("Do you want to start a new journey? (Overwrite previous save)"))
+            if (Utils::askConfirmation("Do you want to start a new journey? (Overwrite previous save)"))
             {
-                auto heroes = Characters::createHeroes();
-                if (askConfirmation("Begin journey?"))
+                auto heroes = CharacterCreator::createHeroes();
+                if (Utils::askConfirmation("Begin journey?"))
                 {
                     GameState gs{0, heroes, 1};
-                    saveGame(gs);
+                    Files::saveGame(gs);
                     Areas::navigateToArea(gs.areaId, gs);
                 }
             }
         }
         else if (selection == 1) // Continue
         {
-            auto saveGame = loadGame();
+            auto saveGame = Files::loadGame();
             std::vector<Hero> heroes = saveGame.heroes;
             if (heroes.size() == 0)
             {
                 std::cout << "Save file not found!\n\n";
-                pressEnterToContinue();
+                Utils::pressEnterToContinue();
                 continue;
             }
 
-            if (askConfirmation("Continue the journey?"))
+            if (Utils::askConfirmation("Continue the journey?"))
             {
-                clearScreen();
-                printListOfHeroes(heroes);
-                pressEnterToContinue();
+                Utils::clearScreen();
+                Utils::printListOfHeroes(heroes);
+                Utils::pressEnterToContinue();
                 Areas::navigateToArea(saveGame.areaId, saveGame);
             }
         }
         else if (selection == 2) // Exit
         {
-            if (askConfirmation("Are you sure?"))
+            if (Utils::askConfirmation("Are you sure?"))
             {
-                clearScreen();
-                std::cout << "\n\nThank you for playing!\n\n";
+                Utils::clearScreen();
+                Utils::printBorderedText("Thank you for playing!");
                 exit(0);
             }
         }

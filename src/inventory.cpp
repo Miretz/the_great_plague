@@ -6,44 +6,6 @@
 
 namespace InventoryManager
 {
-    uint32_t pickStartingItem(Attributes &attributes)
-    {
-
-        std::vector<uint32_t> filtered;
-        for (uint32_t itemId : startingItems)
-        {
-            auto it = g_AllItems[itemId];
-            auto reqs = it.requirements;
-            if (
-                attributes.strength >= reqs.strength &&
-                attributes.dexterity >= reqs.dexterity &&
-                attributes.vitality >= reqs.vitality &&
-                attributes.intelligence >= reqs.intelligence)
-            {
-                filtered.push_back(itemId);
-            }
-        }
-
-        clearScreen();
-
-        auto prompt = []()
-        {
-            printBorder(130);
-            std::cout << "|Pick a starting item:\n";
-            printBorder(130);
-            std::cout << "\n";
-        };
-
-        std::vector<std::string> menu;
-
-        for (auto t : filtered)
-        {
-            menu.push_back(getItemString(t));
-        }
-
-        return filtered[pickOptionFromList(prompt, menu)];
-    }
-
     void addToBackpack(Hero &hero, uint32_t itemId)
     {
         hero.inventory.backpack.push_back(itemId);
@@ -222,18 +184,18 @@ namespace InventoryManager
             EquipmentSlot::Offhand,
         };
 
-        auto heroEquipped = getEquippedItemsString(hero.inventory.equipped);
-        auto heroBackpack = getBackpack(hero.inventory.backpack);
+        auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
+        auto heroBackpack = Utils::getBackpack(hero.inventory.backpack);
 
         auto prompt = [hero, heroEquipped, heroBackpack]()
         {
-            printHeroHeader(hero.name, hero.level);
+            Utils::printHeroHeader(hero.name, hero.level);
             std::cout << "|"
                       << "Inventory\n";
-            printBorder(130);
+            Utils::printBorder(130);
             std::cout << heroEquipped;
             std::cout << heroBackpack;
-            printBorder(130);
+            Utils::printBorder(130);
             std::cout << "\n\n";
             std::cout << "\nPick a slot to edit:\n\n";
         };
@@ -247,7 +209,7 @@ namespace InventoryManager
         }
         slotMenu.push_back("Exit");
 
-        auto selection = pickOptionFromList(prompt, slotMenu);
+        auto selection = Utils::pickOptionFromList(prompt, slotMenu);
         if (selection == availableSlots.size())
         {
             return std::make_pair(false, EquipmentSlot::MainHand);
@@ -264,7 +226,7 @@ namespace InventoryManager
         while (true)
         {
 
-            clearScreen();
+            Utils::clearScreen();
 
             auto selectedSlotTuple = selectSlot(hero);
             if (!selectedSlotTuple.first)
@@ -292,23 +254,23 @@ namespace InventoryManager
             }
             actions.push_back("Back");
 
-            auto heroEquipped = getEquippedItemsString(hero.inventory.equipped);
-            auto heroBackpack = getBackpack(hero.inventory.backpack);
+            auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
+            auto heroBackpack = Utils::getBackpack(hero.inventory.backpack);
 
             auto prompt = [hero, heroEquipped, heroBackpack]()
             {
-                printHeroHeader(hero.name, hero.level);
+                Utils::printHeroHeader(hero.name, hero.level);
                 std::cout << "|"
                           << "Inventory\n";
-                printBorder(130);
+                Utils::printBorder(130);
                 std::cout << heroEquipped;
                 std::cout << heroBackpack;
-                printBorder(130);
+                Utils::printBorder(130);
                 std::cout << "\n\n";
                 std::cout << "Pick action:\n\n";
             };
 
-            auto selectedAction = actions[pickOptionFromList(prompt, actions)];
+            auto selectedAction = actions[Utils::pickOptionFromList(prompt, actions)];
 
             // execute the action
 
@@ -318,17 +280,17 @@ namespace InventoryManager
             }
             else if (selectedAction == "Equip")
             {
-                clearScreen();
+                Utils::clearScreen();
 
                 std::vector<std::string> chooseWeapon;
                 for (size_t j = 0; j < listOfEquipable.size(); j++)
                 {
-                    chooseWeapon.push_back(getItemString(listOfEquipable[j]));
+                    chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j]));
                 }
 
-                uint32_t itemSelection = pickOptionFromList([]()
-                                                            { std::cout << "Select equipment:\n\n"; },
-                                                            chooseWeapon);
+                uint32_t itemSelection = Utils::pickOptionFromList([]()
+                                                                   { std::cout << "Select equipment:\n\n"; },
+                                                                   chooseWeapon);
                 auto newItem = listOfEquipable[itemSelection];
 
                 equipItem(hero, newItem, selectedSlot);
@@ -363,5 +325,28 @@ namespace InventoryManager
         }
 
         return value;
+    }
+
+    std::string getEquipmentSlotName(EquipmentSlot eSlot)
+    {
+        switch (eSlot)
+        {
+        case EquipmentSlot::MainHand:
+            return equipmentSlotNames[0];
+        case EquipmentSlot::Offhand:
+            return equipmentSlotNames[1];
+        case EquipmentSlot::Torso:
+            return equipmentSlotNames[2];
+        case EquipmentSlot::Head:
+            return equipmentSlotNames[3];
+        case EquipmentSlot::Legs:
+            return equipmentSlotNames[4];
+        case EquipmentSlot::Gloves:
+            return equipmentSlotNames[5];
+        default:
+            std::cout << "Bad Slot!\n";
+        }
+
+        return equipmentSlotNames[0];
     }
 }

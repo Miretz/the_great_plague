@@ -4,10 +4,6 @@
 
 namespace InventoryManager
 {
-    const std::vector<uint32_t> startingItems{0,1,2,3,4,5,6};
-
-    uint32_t pickStartingItem(Attributes &attributes);
-
     void addToBackpack(Hero &hero, uint32_t itemId);
 
     void removeFromBackpack(Hero &hero, uint32_t itemId);
@@ -29,4 +25,6 @@ namespace InventoryManager
     void selectEquipment(Hero &hero);
 
     uint32_t getEquippedArmorValue(const Hero &hero);
+
+    std::string getEquipmentSlotName(EquipmentSlot eSlot);
 }
