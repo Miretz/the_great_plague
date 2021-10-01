@@ -11,6 +11,7 @@ struct Hero;
 namespace Abilities
 {
     void a_FirstAid(Hero &caster, Hero &target);
+    void a_Maul(Hero &caster, Hero &target);
     void a_LifeDrain(Hero &caster, Hero &target);
 
     struct Ability
@@ -34,8 +35,8 @@ namespace Abilities
 
         // Race specific
         {"Poisonous Touch", "Scratch your opponent with your poisonous claws.", nullptr},
-        {"Maul", "Hit the opponent twice with a strong attack.", nullptr},
-        {"Vicious Bite", "Bite your enemy and heal yourself in the process.", nullptr},
+        {"Maul", "Hit the opponent twice with a strong attack.", a_Maul},
+        {"Vicious Bite", "Bite your enemy and heal yourself in the process.", a_LifeDrain},
         {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", nullptr},
         {"Gust", "Command the wind to strike to enemy with a powerful blast.", nullptr},
         {"Pounce", "Sudden attack that knocks down the enemy.", nullptr},

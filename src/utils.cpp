@@ -161,7 +161,24 @@ namespace Utils
     void printHeroHeader(const std::string &name, const uint32_t level)
     {
         printBorder(130);
-        std::cout << "|" << COLOR_GREEN << name << COLOR_END << " (Level " << level << ") \n";
+        std::cout << '|' << COLOR_GREEN << name << COLOR_END << " (Level " << level << ") \n";
+        printBorder(130);
+    }
+
+    void printCombatHeroHeader(const Hero &hero)
+    {
+        printBorder(130);
+        std::cout << '|';
+        const auto color = hero.controller == Controller::AI_Enemy ? COLOR_RED : COLOR_GREEN;
+        std::cout << color;
+        std::cout << std::left << std::setw(20) << hero.name << COLOR_END;
+        std::cout << " (Level " << hero.level << ") ";
+        std::cout << " | HP: ";
+        std::cout << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
+        std::cout << " | Armor: ";
+        std::cout << std::left << std::setw(4);
+        std::cout << InventoryManager::getEquippedArmorValue(hero);
+        std::cout << " | Race: " << g_AllRaces.at(hero.race).name << '\n';
         printBorder(130);
     }
 
@@ -170,6 +187,11 @@ namespace Utils
         printBorder(130);
         std::cout << "|" << text << '\n';
         printBorder(130);
+    }
+
+    void printSpacedText(const std::string &text)
+    {
+        std::cout << "\n" << text << "\n\n";
     }
 
     void newLine()

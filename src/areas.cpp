@@ -6,6 +6,7 @@
 #include "abilities.hpp"
 #include "characters.hpp"
 #include "inventory_manager.hpp"
+#include "combat_system.hpp"
 
 #include <iostream>
 
@@ -73,7 +74,7 @@ namespace Areas
         std::cout << danseaPicture;
         std::cout << Files::loadFile(f_danseaIntro);
         Utils::newLine();
-        
+
         Utils::pressEnterToContinue();
         Utils::clearScreen();
 
@@ -193,6 +194,58 @@ namespace Areas
         }
 
         Files::saveGame(gameState);
+    }
+
+    void t03_gateCombat(GameState &game)
+    {
+        Hero e1{
+            "Salomon",
+            100,
+            0,
+            100,
+            1,
+            100,
+            0,
+            Race::Repsoris,
+            Controller::AI_Enemy,
+            {10, 10, 10, 10},
+            {10},
+            {},
+            {{},
+             {
+                 {"Torso", 7},
+                 {"Legs", 8},
+                 {"Head", 9},
+                 {"Gloves", 10},
+             }}};
+        Characters::recalculateHeroHealth(e1);
+        InventoryManager::equipItem(e1, 0, InventoryManager::EquipmentSlot::MainHand);
+
+        Hero e2{
+            "Frederic",
+            100,
+            0,
+            100,
+            1,
+            100,
+            0,
+            Race::Repsoris,
+            Controller::AI_Enemy,
+            {10, 10, 10, 10},
+            {10},
+            {},
+            {{},
+             {
+                 {"Torso", 7},
+                 {"Legs", 8},
+                 {"Head", 9},
+                 {"Gloves", 10},
+             }}};
+
+        Characters::recalculateHeroHealth(e2);
+        InventoryManager::equipItem(e2, 0, InventoryManager::EquipmentSlot::MainHand);
+
+        CombatSystem::startCombat(game.heroes, {e1, e2});
     }
 
 }

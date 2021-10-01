@@ -5,6 +5,7 @@
 #include "entities.hpp"
 
 #include <functional>
+#include <random>
 
 namespace Utils
 {
@@ -12,6 +13,7 @@ namespace Utils
     const std::string COLOR_GREEN = "\033[1;32m";
     const std::string COLOR_YELLOW = "\033[1;33m";
     const std::string COLOR_GREY = "\033[2;37m";
+    const std::string COLOR_RED = "\33[1;31m";
     const std::string COLOR_END = "\033[0m";
 
     const uint32_t KEY_UP = 72;
@@ -39,7 +41,11 @@ namespace Utils
 
     void printHeroHeader(const std::string &name, const uint32_t level);
 
+    void printCombatHeroHeader(const Hero& hero);
+
     void printBorderedText(const std::string &text);
+
+    void printSpacedText(const std::string &text);
 
     void newLine();
 

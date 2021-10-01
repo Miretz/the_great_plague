@@ -81,6 +81,18 @@ namespace Characters
         hero.maxHealth = newValue;
     }
 
+    void takeDamage(Hero &hero, const uint32_t amount)
+    {
+        if (amount >= hero.health)
+        {
+            hero.health = 0;
+        }
+        else
+        {
+            hero.health -= amount;
+        }
+    }
+
     bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes)
     {
         bool sameName = false;

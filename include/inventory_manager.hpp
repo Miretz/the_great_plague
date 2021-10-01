@@ -43,6 +43,8 @@ namespace InventoryManager
 
     uint32_t getEquippedArmorValue(const Hero &hero);
 
+    uint32_t getEquippedDamageValue(const Hero &hero);
+
     const std::string getEquipmentSlotName(const EquipmentSlot eSlot);
 }
 

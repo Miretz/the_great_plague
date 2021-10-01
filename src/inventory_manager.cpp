@@ -330,6 +330,34 @@ namespace InventoryManager
         return value;
     }
 
+    uint32_t getEquippedDamageValue(const Hero &hero)
+    {
+
+        uint32_t value = 0;
+
+        std::vector<EquipmentSlot> slots{
+            EquipmentSlot::MainHand,
+            EquipmentSlot::Offhand,
+        };
+
+        for (auto slot : slots)
+        {
+            auto slotName = getEquipmentSlotName(slot);
+            if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
+            {
+                auto item = g_AllItems[hero.inventory.equipped.at(slotName)];
+                if (item.type == ItemType::Melee_TwoHanded || item.type == ItemType::Ranged_TwoHanded)
+                {
+                    return item.damage;
+                }
+
+                value += item.damage;
+            }
+        }
+
+        return value;
+    }
+
     const std::string getEquipmentSlotName(const EquipmentSlot eSlot)
     {
         switch (eSlot)

@@ -19,6 +19,8 @@ namespace Characters
     void recalculateHeroHealth(Hero &hero);
 
     bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes);
+
+    void takeDamage(Hero &hero, const uint32_t amount);
 }
 
 #endif

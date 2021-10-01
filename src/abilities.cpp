@@ -2,6 +2,8 @@
 
 #include "entities.hpp"
 #include "utils.hpp"
+#include "characters.hpp"
+#include "inventory_manager.hpp"
 
 namespace Abilities
 {
@@ -12,6 +14,12 @@ namespace Abilities
         {
             hero.abilities.push_back(abilityId);
         }
+    }
+
+    void a_Maul(Hero &caster, Hero &target)
+    {
+        auto damage = InventoryManager::getEquippedDamageValue(caster) + caster.attributes.strength;
+        Characters::takeDamage(target, damage);
     }
 
     void a_FirstAid(Hero &caster, Hero &target)

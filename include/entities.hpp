@@ -140,13 +140,13 @@ const std::unordered_map<Race, RaceDetail> g_AllRaces{
 };
 
 const std::vector<Item> g_AllItems{
-    {"Dagger", "Knife you stole from your mom's kitchen", ItemType::Dual_Wielding, {0, 0, 0, 0}, 3, 0},
-    {"Short sword", "Simple short sword that anyone can use", ItemType::Melee_OneHanded, {0, 0, 0, 0}, 5, 0},
-    {"Short bow", "Basic wooden bow", ItemType::Ranged_TwoHanded, {0, 0, 0, 0}, 5, 0},
-    {"Wand", "A simple tree branch", ItemType::Ranged_OneHanded, {0, 0, 0, 0}, 5, 0},
-    {"Long sword", "A long and heavy two-handed sword", ItemType::Melee_TwoHanded, {5, 0, 0, 0}, 8, 0},
-    {"Long bow", "Long bow", ItemType::Ranged_TwoHanded, {0, 5, 0, 0}, 8, 0},
-    {"Quarterstaff", "A solid broomstick", ItemType::Melee_TwoHanded, {0, 0, 0, 5}, 8, 0},
+    {"Dagger", "Knife you stole from your mom's kitchen", ItemType::Dual_Wielding, {0, 0, 0, 0}, 10, 0},
+    {"Short sword", "Simple short sword that anyone can use", ItemType::Melee_OneHanded, {0, 0, 0, 0}, 20, 0},
+    {"Short bow", "Basic wooden bow", ItemType::Ranged_TwoHanded, {0, 0, 0, 0}, 20, 0},
+    {"Wand", "A simple tree branch", ItemType::Ranged_OneHanded, {0, 0, 0, 0}, 20, 0},
+    {"Long sword", "A long and heavy two-handed sword", ItemType::Melee_TwoHanded, {5, 0, 0, 0}, 30, 0},
+    {"Long bow", "Long bow", ItemType::Ranged_TwoHanded, {0, 5, 0, 0}, 30, 0},
+    {"Quarterstaff", "A solid broomstick", ItemType::Melee_TwoHanded, {0, 0, 0, 5}, 30, 0},
 
     {"Worn clothes", "Basic clothing", ItemType::Armor_Torso, {}, 0, 2},
     {"Worn boots", "Basic boots", ItemType::Armor_Legs, {}, 0, 2},
