@@ -21,29 +21,29 @@ namespace InventoryManager
 
     const std::vector<std::string> equipmentSlotNames{"Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves"};
 
-    void addToBackpack(Hero &hero, uint32_t itemId);
+    void addToBackpack(Hero &hero, const uint32_t itemId);
 
-    void removeFromBackpack(Hero &hero, uint32_t itemId);
+    void removeFromBackpack(Hero &hero, const uint32_t itemId);
 
     void clearIfTwoHanded(Hero &hero);
 
-    void replaceEquipped(Hero &hero, uint32_t itemId, EquipmentSlot slot);
+    void replaceEquipped(Hero &hero, const uint32_t itemId, const EquipmentSlot slot);
 
-    void unequipItem(Hero &hero, EquipmentSlot slot);
+    void unequipItem(Hero &hero, const EquipmentSlot slot);
 
-    void equipItem(Hero &hero, uint32_t itemId, EquipmentSlot slot);
+    void equipItem(Hero &hero, const uint32_t itemId, const EquipmentSlot slot);
 
-    std::vector<uint32_t> equipableInHand(Hero &hero, EquipmentSlot slot);
+    const std::vector<uint32_t> equipableInHand(const Hero &hero, const EquipmentSlot slot);
 
-    std::string getEquippedItemName(Hero &hero, EquipmentSlot slot);
+    const std::string getEquippedItemName(const Hero &hero, const EquipmentSlot slot);
 
-    std::pair<bool, EquipmentSlot> selectSlot(Hero &hero);
+    std::pair<bool, EquipmentSlot> selectSlot(const Hero &hero);
 
     void selectEquipment(Hero &hero);
 
-    uint32_t getEquippedArmorValue(Hero &hero);
+    uint32_t getEquippedArmorValue(const Hero &hero);
 
-    std::string getEquipmentSlotName(EquipmentSlot eSlot);
+    const std::string getEquipmentSlotName(const EquipmentSlot eSlot);
 }
 
 #endif

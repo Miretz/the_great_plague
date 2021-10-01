@@ -7,7 +7,7 @@
 
 namespace Files
 {
-    std::string serializeHero(Hero hero)
+    const std::string serializeHero(const Hero &hero)
     {
         std::ostringstream ss;
 
@@ -144,7 +144,7 @@ namespace Files
         return hero;
     }
 
-    void saveGame(GameState &gameState)
+    void saveGame(const GameState &gameState)
     {
         std::fstream saveFile;
         saveFile.open(SAVE_FILE, std::ios::out);
@@ -185,7 +185,7 @@ namespace Files
         return gs;
     }
 
-    std::string loadFile(const std::string &filePath)
+    const std::string loadFile(const std::string &filePath)
     {
 
         std::ostringstream ss;

@@ -18,7 +18,7 @@
 namespace Utils
 {
 
-    void printAttributes(Attributes attributes)
+    void printAttributes(const Attributes &attributes)
     {
         std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength << '\n';
         std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity << '\n';
@@ -26,7 +26,7 @@ namespace Utils
         std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << attributes.intelligence << '\n';
     }
 
-    void printAttributesAdjustment(Attributes base, Attributes adjustment)
+    void printAttributesAdjustment(const Attributes &base, const Attributes &adjustment)
     {
         std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::left << std::setw(6) << adjustment.strength << '\n';
         std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::left << std::setw(6) << adjustment.dexterity << '\n';
@@ -44,12 +44,12 @@ namespace Utils
         }
     }
 
-    void printItem(uint32_t a)
+    void printItem(const uint32_t a)
     {
         std::cout << getItemString(a);
     }
 
-    std::string getItemString(uint32_t itemId)
+    const std::string getItemString(const uint32_t itemId)
     {
         auto a = g_AllItems[itemId];
         std::stringstream ss;
@@ -117,7 +117,7 @@ namespace Utils
         return ss.str();
     }
 
-    std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped)
+    const std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped)
     {
         std::stringstream ss;
         for (auto s : InventoryManager::equipmentSlotNames)
@@ -134,7 +134,7 @@ namespace Utils
         return ss.str();
     }
 
-    std::string getBackpack(const std::vector<uint32_t> &backpack)
+    const std::string getBackpack(const std::vector<uint32_t> &backpack)
     {
         std::stringstream ss;
         if (backpack.size() > 0)
@@ -177,7 +177,7 @@ namespace Utils
         std::cout << '\n';
     }
 
-    void printHero(Hero &hero)
+    void printHero(const Hero &hero)
     {
         printHeroHeader(hero.name, hero.level);
         std::cout << "|HP: "
@@ -209,7 +209,7 @@ namespace Utils
         std::cout << '\n';
     }
 
-    uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max)
+    uint32_t slider(std::function<void()> redrawFunction, const uint32_t min, const uint32_t max)
     {
         uint32_t result = min;
         uint32_t c = 0;
@@ -513,7 +513,7 @@ namespace Utils
         fflush(stdin);
     }
 
-    std::function<void()> createConversationPrompt(std::string who, std::string what, std::string picture)
+    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
     {
         auto prompt = [who, what, picture]()
         {
@@ -528,7 +528,7 @@ namespace Utils
         return prompt;
     }
 
-    std::string enterName()
+    const std::string enterName()
     {
         newLine();
         std::string name = "";
@@ -546,7 +546,7 @@ namespace Utils
         return trim(name);
     }
 
-    void printBorder(uint32_t length)
+    void printBorder(const uint32_t length)
     {
         std::stringstream ss;
         ss << "+";
@@ -576,7 +576,7 @@ namespace Utils
 #endif
     }
 
-    void setCursorPosition(uint32_t x, uint32_t y)
+    void setCursorPosition(const uint32_t x, const uint32_t y)
     {
 #if defined _WIN32
         static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);

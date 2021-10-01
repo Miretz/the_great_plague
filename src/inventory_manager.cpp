@@ -7,12 +7,12 @@
 
 namespace InventoryManager
 {
-    void addToBackpack(Hero &hero, uint32_t itemId)
+    void addToBackpack(Hero &hero, const uint32_t itemId)
     {
         hero.inventory.backpack.push_back(itemId);
     }
 
-    void removeFromBackpack(Hero &hero, uint32_t itemId)
+    void removeFromBackpack(Hero &hero, const uint32_t itemId)
     {
         std::vector<uint32_t> newBackpack;
         bool found = false;
@@ -47,7 +47,7 @@ namespace InventoryManager
         }
     }
 
-    void replaceEquipped(Hero &hero, uint32_t itemId, EquipmentSlot slot)
+    void replaceEquipped(Hero &hero, const uint32_t itemId, const EquipmentSlot slot)
     {
         if (slot == EquipmentSlot::MainHand || slot == EquipmentSlot::Offhand)
         {
@@ -76,7 +76,7 @@ namespace InventoryManager
         removeFromBackpack(hero, itemId);
     }
 
-    void unequipItem(Hero &hero, EquipmentSlot slot)
+    void unequipItem(Hero &hero, const EquipmentSlot slot)
     {
         if (slot == EquipmentSlot::MainHand || slot == EquipmentSlot::Offhand)
         {
@@ -91,7 +91,7 @@ namespace InventoryManager
         }
     }
 
-    void equipItem(Hero &hero, uint32_t itemId, EquipmentSlot slot)
+    void equipItem(Hero &hero, const uint32_t itemId, const EquipmentSlot slot)
     {
         // Can't equip these types
         auto item = g_AllItems[itemId];
@@ -115,7 +115,7 @@ namespace InventoryManager
         }
     }
 
-    std::vector<uint32_t> equipableInHand(Hero &hero, EquipmentSlot slot)
+    const std::vector<uint32_t> equipableInHand(const Hero &hero, const EquipmentSlot slot)
     {
         std::vector<uint32_t> equipable;
 
@@ -162,7 +162,7 @@ namespace InventoryManager
         return equipable;
     }
 
-    std::string getEquippedItemName(Hero &hero, EquipmentSlot slot)
+    const std::string getEquippedItemName(const Hero &hero, const EquipmentSlot slot)
     {
         auto slotName = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
@@ -174,7 +174,7 @@ namespace InventoryManager
         return "Empty";
     }
 
-    std::pair<bool, EquipmentSlot> selectSlot(Hero &hero)
+    std::pair<bool, EquipmentSlot> selectSlot(const Hero &hero)
     {
         std::vector<EquipmentSlot> availableSlots{
             EquipmentSlot::Head,
@@ -305,7 +305,7 @@ namespace InventoryManager
         }
     }
 
-    uint32_t getEquippedArmorValue(Hero &hero)
+    uint32_t getEquippedArmorValue(const Hero &hero)
     {
 
         uint32_t value = 0;
@@ -330,7 +330,7 @@ namespace InventoryManager
         return value;
     }
 
-    std::string getEquipmentSlotName(EquipmentSlot eSlot)
+    const std::string getEquipmentSlotName(const EquipmentSlot eSlot)
     {
         switch (eSlot)
         {

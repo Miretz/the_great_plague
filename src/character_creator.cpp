@@ -72,7 +72,7 @@ namespace CharacterCreator
         return heroes;
     }
 
-    Hero pickHeroRace(std::string name)
+    Hero pickHeroRace(const std::string &name)
     {
         auto prompt = []()
         {

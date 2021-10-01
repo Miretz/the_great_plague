@@ -11,15 +11,15 @@ namespace Files
 {
     const std::string SAVE_FILE = "save.txt";
 
-    std::string serializeHero(Hero hero);
+    const std::string serializeHero(const Hero &hero);
 
     Hero deserializeHero(std::string serialized);
 
-    void saveGame(GameState &gameState);
+    void saveGame(const GameState &gameState);
 
     GameState loadGame();
 
-    std::string loadFile(const std::string &filePath);
+    const std::string loadFile(const std::string &filePath);
 }
 
 #endif

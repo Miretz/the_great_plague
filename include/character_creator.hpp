@@ -35,7 +35,7 @@ namespace CharacterCreator
 
     std::vector<Hero> createHeroes();
 
-    Hero pickHeroRace(std::string name);
+    Hero pickHeroRace(const std::string &name);
 
     uint32_t pickStartingAbility();
 

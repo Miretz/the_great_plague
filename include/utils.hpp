@@ -21,21 +21,19 @@ namespace Utils
     const uint32_t KEY_ENTER = 13;
     const uint32_t KEY_ENTER_LF = 10;
 
-    void printAttributes(Attributes attributes);
+    void printAttributes(const Attributes &attributes);
 
-    void printAttributesAdjustment(Attributes base, Attributes adjustment);
+    void printAttributesAdjustment(const Attributes &base, const Attributes &adjustment);
 
     void printHeroAbilities(const std::vector<uint32_t> &abilities);
 
-    void printItem(uint32_t a);
+    void printItem(const uint32_t a);
 
-    void printListOfHeroes(const std::vector<Hero> &heroes);
+    const std::string getItemString(const uint32_t a);
 
-    std::string getItemString(uint32_t a);
+    const std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
 
-    std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
-
-    std::string getBackpack(const std::vector<uint32_t> &backpack);
+    const std::string getBackpack(const std::vector<uint32_t> &backpack);
 
     void printHeroInventory(const Inventory &inventory);
 
@@ -45,9 +43,11 @@ namespace Utils
 
     void newLine();
 
-    void printHero(Hero &hero);
+    void printHero(const Hero &hero);
 
-    uint32_t slider(std::function<void()> redrawFunction, uint32_t min, uint32_t max);
+    void printListOfHeroes(const std::vector<Hero> &heroes);
+
+    uint32_t slider(std::function<void()> redrawFunction, const uint32_t min, const uint32_t max);
 
     uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
@@ -63,15 +63,15 @@ namespace Utils
 
     void pressEnterToContinue();
 
-    std::function<void()> createConversationPrompt(std::string who, std::string what, std::string picture);
+    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture);
 
-    std::string enterName();
+    const std::string enterName();
 
-    void printBorder(uint32_t length);
+    void printBorder(const uint32_t length);
 
     uint32_t getCursorPosition();
 
-    void setCursorPosition(uint32_t x, uint32_t y);
+    void setCursorPosition(const uint32_t x, const uint32_t y);
 
 }
 

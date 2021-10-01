@@ -8,6 +8,13 @@
 namespace Characters
 {
 
+    void levelUp(Hero &hero)
+    {
+        hero.level += 1;
+        hero.unspentPoints += POINTS_PER_LEVEL;
+        assignAttributePoints(hero);
+    }
+
     void assignAttributePoints(Hero &hero)
     {
         auto availablePoints = hero.unspentPoints;
@@ -26,7 +33,7 @@ namespace Characters
 
             availablePoints = hero.unspentPoints;
 
-            std::vector<std::pair<std::string, uint32_t>> menu{
+            const std::vector<std::pair<std::string, uint32_t>> menu{
                 {"Strength", prevAtt.strength},
                 {"Dexterity", prevAtt.dexterity},
                 {"Vitality", prevAtt.vitality},
@@ -74,7 +81,7 @@ namespace Characters
         hero.maxHealth = newValue;
     }
 
-    bool isNameAlreadyInUse(std::string name, const std::vector<Hero> &heroes)
+    bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes)
     {
         bool sameName = false;
         for (auto h : heroes)
