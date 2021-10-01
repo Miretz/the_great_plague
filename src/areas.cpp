@@ -38,7 +38,7 @@ namespace Areas
         menu.push_back("Exit");
 
         // print the area text and navigation menu
-        auto areaDescription = Files::loadFile(area.descriptionFile);
+        auto areaDescription = Files::loadFile(AREA_FOLDER + area.folder + DESC_FILE);
         auto prompt = [area, areaDescription]()
         {
             Utils::printBorderedText(area.name);
@@ -70,6 +70,8 @@ namespace Areas
             }
         }
 
+        Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
+
         auto danseaPicture = Files::loadFile(f_danseaPicture);
         std::cout << danseaPicture;
         std::cout << Files::loadFile(f_danseaIntro);
@@ -77,30 +79,6 @@ namespace Areas
 
         Utils::pressEnterToContinue();
         Utils::clearScreen();
-
-        // Create Dansea
-        Hero dansea{
-            "Dansea",
-            100,
-            0,
-            100,
-            1,
-            100,
-            0,
-            Race::Felidae,
-            Controller::Player,
-            {10, 11, 11, 10},
-            {13, 8},
-            {},
-            {{},
-             {
-                 {"Torso", 7},
-                 {"Legs", 8},
-                 {"Head", 9},
-                 {"Gloves", 10},
-             }}};
-        Characters::recalculateHeroHealth(dansea);
-        InventoryManager::equipItem(dansea, 5, InventoryManager::EquipmentSlot::MainHand);
 
         Utils::pickOptionFromList(
             Utils::createConversationPrompt(dansea.name, "Wait for me!!!", danseaPicture),
@@ -198,53 +176,8 @@ namespace Areas
 
     void t03_gateCombat(GameState &game)
     {
-        Hero e1{
-            "Salomon",
-            100,
-            0,
-            100,
-            1,
-            100,
-            0,
-            Race::Repsoris,
-            Controller::AI_Enemy,
-            {10, 10, 10, 10},
-            {10},
-            {},
-            {{},
-             {
-                 {"Torso", 7},
-                 {"Legs", 8},
-                 {"Head", 9},
-                 {"Gloves", 10},
-             }}};
-        Characters::recalculateHeroHealth(e1);
-        InventoryManager::equipItem(e1, 0, InventoryManager::EquipmentSlot::MainHand);
-
-        Hero e2{
-            "Frederic",
-            100,
-            0,
-            100,
-            1,
-            100,
-            0,
-            Race::Repsoris,
-            Controller::AI_Enemy,
-            {10, 10, 10, 10},
-            {10},
-            {},
-            {{},
-             {
-                 {"Torso", 7},
-                 {"Legs", 8},
-                 {"Head", 9},
-                 {"Gloves", 10},
-             }}};
-
-        Characters::recalculateHeroHealth(e2);
-        InventoryManager::equipItem(e2, 0, InventoryManager::EquipmentSlot::MainHand);
-
+        auto e1 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e1.txt");
+        auto e2 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e2.txt");
         CombatSystem::startCombat(game.heroes, {e1, e2});
     }
 

@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include <fstream>
+#include <iostream>
 
 namespace Files
 {
@@ -204,5 +205,26 @@ namespace Files
         }
 
         return ss.str();
+    }
+
+    void saveFile(const std::string &data, const std::string &filePath)
+    {
+        std::fstream saveFile;
+        saveFile.open(filePath, std::ios::out);
+        if (saveFile.is_open())
+        {
+            saveFile << data << "\n";
+            saveFile.close();
+        }
+    }
+
+    Hero loadHeroFromConfig(const std::string &filePath)
+    {
+        return deserializeHero(loadFile(filePath));
+    }
+
+    void saveHeroToFile(const Hero &hero, const std::string &filePath)
+    {
+        saveFile(serializeHero(hero), filePath);
     }
 }

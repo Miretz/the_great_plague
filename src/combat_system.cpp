@@ -116,7 +116,6 @@ namespace CombatSystem
             // if all heros had their turn
             if (combat.currentHero >= combat.turnQueue.size())
             {
-                std::random_shuffle(combat.turnQueue.begin(), combat.turnQueue.end());
                 combat.currentHero = 0;
                 combat.turn += 1;
             }
@@ -134,11 +133,137 @@ namespace CombatSystem
         }
     }
 
+    void miss(const Hero &hero, const Hero &target)
+    {
+        Utils::clearScreen();
+        Utils::printCombatHeroHeader(hero);
+        Utils::printSpacedText("Miss!");
+        Utils::printCombatHeroHeader(target);
+        Utils::newLine();
+        Utils::pressEnterToContinue();
+    }
+
+    void basicAttack(Hero &hero, Hero &target)
+    {
+        auto d20Result = Dice::rollDiceD20();
+        bool critical = d20Result == 20;
+
+        auto damageValue = InventoryManager::getEquippedDamageValue(hero);
+        if (critical)
+        {
+            damageValue = damageValue * 2;
+        }
+
+        Characters::takeDamage(target, damageValue);
+
+        Utils::clearScreen();
+        Utils::printCombatHeroHeader(hero);
+        if (critical)
+        {
+            Utils::printSpacedText("Critical hit on: ");
+        }
+        else
+        {
+            Utils::printSpacedText("Used basic attack on: ");
+        }
+        Utils::printCombatHeroHeader(target);
+        Utils::printSpacedText("Damage: " + std::to_string(damageValue));
+        Utils::pressEnterToContinue();
+    }
+
+    void abilityAttack(Hero &hero, Hero &target, const uint32_t abilityId)
+    {
+        const auto ability = Abilities::allAbilities[hero.abilities[abilityId]];
+
+        auto oldHeroHP = hero.health;
+        auto oldTargetHP = target.health;
+
+        if (ability.action != nullptr)
+        {
+            ability.action(hero, target);
+        }
+
+        Utils::clearScreen();
+        Utils::printCombatHeroHeader(hero);
+        Utils::printSpacedText("Used ability " + ability.name + " on: ");
+        Utils::printCombatHeroHeader(target);
+
+        if (oldHeroHP < hero.health)
+        {
+            Utils::printSpacedText("Restored health of " + hero.name + ": " + std::to_string(hero.health - oldHeroHP));
+        }
+
+        if (oldTargetHP < target.health)
+        {
+            Utils::printSpacedText("Restored health of " + target.name + ": " + std::to_string(hero.health - oldHeroHP));
+        }
+        else
+        {
+            Utils::printSpacedText("Damage: " + std::to_string(oldTargetHP - target.health));
+        }
+
+        Utils::pressEnterToContinue();
+    }
+
+    std::vector<uint32_t> getTargetableHeroes(Combat &combat)
+    {
+        std::vector<uint32_t> targetable;
+        for (uint32_t i = 0; i < combat.turnQueue.size(); ++i)
+        {
+            if (i == combat.currentHero || combat.turnQueue[i].controller == combat.turnQueue[combat.currentHero].controller)
+            {
+                continue;
+            }
+            targetable.push_back(i);
+        }
+        return targetable;
+    }
+
+    // TODO: extract to AI system later
+    void executeHeroAITurn(Combat &combat)
+    {
+        auto &hero = combat.turnQueue[combat.currentHero];
+
+        auto d20Result = Dice::rollDiceD20();
+        const auto isSkipTurn = d20Result == 1;
+        if (!isSkipTurn)
+        {
+            // pick enemy
+            auto targetable = getTargetableHeroes(combat);
+            auto &target = combat.turnQueue[targetable[Dice::randomSelection(0, targetable.size() - 1)]];
+
+            if (Dice::rollDiceD20() == 1) // Miss
+            {
+                miss(hero, target);
+            }
+            else
+            {
+                auto abilityId = Dice::randomSelection(0, hero.abilities.size());
+                if (abilityId == hero.abilities.size())
+                {
+                    basicAttack(hero, target);
+                }
+                else
+                {
+                    abilityAttack(hero, target, abilityId);
+                }
+            }
+        }
+
+        combat.currentHero += 1;
+    }
+
     void executeHeroTurn(Combat &combat)
     {
         Utils::clearScreen();
 
         auto &hero = combat.turnQueue[combat.currentHero];
+
+        if (hero.controller == Controller::AI_Enemy)
+        {
+            executeHeroAITurn(combat);
+            return;
+        }
 
         //pick action
         auto pickActionPrompt = [hero]()
@@ -171,84 +296,34 @@ namespace CombatSystem
                 Utils::printCombatHeroHeader(hero);
                 Utils::printBorderedText("Pick target:");
             };
+
+            // get targetable heroes
+            auto targetable = getTargetableHeroes(combat);
+
             std::vector<std::string> targets;
-            for (auto h : combat.turnQueue)
+            for (auto t : targetable)
             {
+                auto h = combat.turnQueue[t];
                 const auto color = h.controller == Controller::AI_Enemy ? Utils::COLOR_RED : Utils::COLOR_GREEN;
-                targets.push_back("Attack " + color + h.name + Utils::COLOR_END);
+                targets.push_back("Attack " + color + h.name + Utils::COLOR_END + " (Level: " + std::to_string(h.level) + " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
             }
-            auto &target = combat.turnQueue[Utils::pickOptionFromList(pickTargetPrompt, targets)];
+            auto &target = combat.turnQueue[targetable[Utils::pickOptionFromList(pickTargetPrompt, targets)]];
 
             // roll for Miss chance (5%)
             auto d20Result = Dice::rollDiceD20();
             if (d20Result == 1)
             {
-                Utils::clearScreen();
-                Utils::printCombatHeroHeader(hero);
-                Utils::printSpacedText("Miss!");
-                Utils::printCombatHeroHeader(target);
-                Utils::pressEnterToContinue();
+                miss(hero, target);
             }
             else
             {
                 if (isBasicAttack)
                 {
-                    bool critical = d20Result == 20;
-
-                    auto damageValue = InventoryManager::getEquippedDamageValue(hero);
-                    if (critical)
-                    {
-                        damageValue = damageValue * 2;
-                    }
-
-                    Characters::takeDamage(target, damageValue);
-
-                    Utils::clearScreen();
-                    Utils::printCombatHeroHeader(hero);
-                    if (critical)
-                    {
-                        Utils::printSpacedText("Critical hit on: ");
-                    }
-                    else
-                    {
-                        Utils::printSpacedText("Used basic attack on: ");
-                    }
-                    Utils::printCombatHeroHeader(target);
-                    Utils::printSpacedText("Damage: " + std::to_string(damageValue));
-                    Utils::pressEnterToContinue();
+                    basicAttack(hero, target);
                 }
                 else
                 {
-                    const auto ability = Abilities::allAbilities[hero.abilities[selection]];
-
-                    auto oldHeroHP = hero.health;
-                    auto oldTargetHP = target.health;
-
-                    if (ability.action != nullptr)
-                    {
-                        ability.action(hero, target);
-                    }
-
-                    Utils::clearScreen();
-                    Utils::printCombatHeroHeader(hero);
-                    Utils::printSpacedText("Used ability " + ability.name + " on: ");
-                    Utils::printCombatHeroHeader(target);
-
-                    if (oldHeroHP < hero.health)
-                    {
-                        Utils::printSpacedText("Restored health of " + hero.name + ": " + std::to_string(hero.health - oldHeroHP));
-                    }
-
-                    if (oldTargetHP < target.health)
-                    {
-                        Utils::printSpacedText("Restored health of " + target.name + ": " + std::to_string(hero.health - oldHeroHP));
-                    }
-                    else
-                    {
-                        Utils::printSpacedText("Damage: " + std::to_string(oldTargetHP - target.health));
-                    }
-
-                    Utils::pressEnterToContinue();
+                    abilityAttack(hero, target, selection);
                 }
             }
         }

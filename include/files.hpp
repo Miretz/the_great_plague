@@ -20,6 +20,12 @@ namespace Files
     GameState loadGame();
 
     const std::string loadFile(const std::string &filePath);
+
+    void saveFile(const std::string &data, const std::string &filePath);
+
+    Hero loadHeroFromConfig(const std::string &filePath);
+
+    void saveHeroToFile(const Hero &hero, const std::string &filePath);
 }
 
 #endif

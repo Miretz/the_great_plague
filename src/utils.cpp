@@ -168,17 +168,51 @@ namespace Utils
     void printCombatHeroHeader(const Hero &hero)
     {
         printBorder(130);
-        std::cout << '|';
+
+        std::ostringstream ss;
+
+        ss << '|';
         const auto color = hero.controller == Controller::AI_Enemy ? COLOR_RED : COLOR_GREEN;
-        std::cout << color;
-        std::cout << std::left << std::setw(20) << hero.name << COLOR_END;
-        std::cout << " (Level " << hero.level << ") ";
-        std::cout << " | HP: ";
-        std::cout << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
-        std::cout << " | Armor: ";
-        std::cout << std::left << std::setw(4);
-        std::cout << InventoryManager::getEquippedArmorValue(hero);
-        std::cout << " | Race: " << g_AllRaces.at(hero.race).name << '\n';
+
+        // hero name
+        ss << color;
+        ss << std::left << std::setw(20);
+        ss << hero.name;
+        ss << COLOR_END;
+        ss << " (Level " << hero.level << ") ";
+
+        ss << std::left << std::setw(10);
+        ss << " | HP: ";
+        ss << std::left << std::setw(10);
+        ss << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
+        ss << '|';
+
+        // health bar
+        auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN;
+        healthBarColor = hero.health < 25 ? COLOR_RED : healthBarColor;
+        ss << healthBarColor;
+        ss << std::left << std::setw(20);
+
+        std::ostringstream healthBarSs;
+        for (uint32_t i = 0; i < hero.health; i += 10)
+        {
+            healthBarSs << '|';
+        }
+        ss << healthBarSs.str();
+
+        ss << COLOR_END;
+
+        // armor
+        ss << std::left << std::setw(20);
+        ss << " | Armor: ";
+        ss << std::left << std::setw(10);
+
+        // race
+        ss << InventoryManager::getEquippedArmorValue(hero);
+        ss << " | Race: " << g_AllRaces.at(hero.race).name << '\n';
+
+        std::cout << ss.str();
+
         printBorder(130);
     }
 
@@ -191,7 +225,8 @@ namespace Utils
 
     void printSpacedText(const std::string &text)
     {
-        std::cout << "\n" << text << "\n\n";
+        std::cout << "\n"
+                  << text << "\n\n";
     }
 
     void newLine()

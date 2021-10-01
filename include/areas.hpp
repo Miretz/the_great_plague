@@ -11,18 +11,17 @@ struct GameState;
 namespace Areas
 {
 
-    const std::string f_t00_introduction = "assets/areas/t00_introduction.txt";
-    const std::string f_t01_shore = "assets/areas/t01_shore.txt";
-    const std::string f_t02_forest = "assets/areas/t02_forest.txt";
-    const std::string f_t03_cityGate = "assets/areas/t03_city_gate.txt";
+    const std::string AREA_FOLDER = "assets/areas/";
+    const std::string DESC_FILE = "/description.txt";
 
-    const std::string f_danseaPicture = "assets/characters/dansea.txt";
-    const std::string f_danseaIntro = "assets/characters/dansea_introduction.txt";
+    const std::string f_danseaConfig = "assets/characters/dansea/dansea.txt";
+    const std::string f_danseaPicture = "assets/characters/dansea/dansea_image.txt";
+    const std::string f_danseaIntro = "assets/characters/dansea/dansea_introduction.txt";
 
     struct Area
     {
         std::string name;
-        std::string descriptionFile;
+        std::string folder;
         std::vector<uint32_t> connections;
         std::function<void(GameState &)> auxFunction;
     };
@@ -34,10 +33,10 @@ namespace Areas
     void t03_gateCombat(GameState &game);
 
     const std::vector<Area> allAreas{
-        {"Introduction", f_t00_introduction, {1}, nullptr},
-        {"Shore", f_t01_shore, {2}, t01_shore_DanseaConversation},
-        {"Forest", f_t02_forest, {3}, nullptr},
-        {"City Gate", f_t03_cityGate, {}, t03_gateCombat}};
+        {"Introduction", "00_introduction", {1}, nullptr},
+        {"Shore", "01_shore", {2}, t01_shore_DanseaConversation},
+        {"Forest", "02_forest", {3}, nullptr},
+        {"City Gate", "03_city_gate", {}, t03_gateCombat}};
 }
 
 #endif

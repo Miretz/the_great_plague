@@ -34,12 +34,12 @@ namespace Abilities
         {"Energy Blast", "Shoot a projectile of magical energy.", nullptr},
 
         // Race specific
-        {"Poisonous Touch", "Scratch your opponent with your poisonous claws.", nullptr},
+        {"Poisonous Touch", "Scratch your opponent with your poisonous claws.", a_Maul},
         {"Maul", "Hit the opponent twice with a strong attack.", a_Maul},
         {"Vicious Bite", "Bite your enemy and heal yourself in the process.", a_LifeDrain},
-        {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", nullptr},
-        {"Gust", "Command the wind to strike to enemy with a powerful blast.", nullptr},
-        {"Pounce", "Sudden attack that knocks down the enemy.", nullptr},
+        {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", a_Maul},
+        {"Gust", "Command the wind to strike to enemy with a powerful blast.", a_Maul},
+        {"Pounce", "Sudden attack that knocks down the enemy.", a_Maul},
     };
 
     void learnAbility(Hero &hero, uint32_t abilityId);

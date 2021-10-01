@@ -14,7 +14,7 @@ int main(void)
     {
         Utils::clearScreen();
 
-        auto selection = Utils::pickOptionFromList(Utils::printIntro, {"Start new journey", "Continue journey", "Exit Game"});
+        auto selection = Utils::pickOptionFromList(Utils::printIntro, {"Start a new journey", "Continue journey", "Exit Game"});
 
         if (selection == 0) // Start new journey
         {

@@ -18,7 +18,7 @@ namespace Abilities
 
     void a_Maul(Hero &caster, Hero &target)
     {
-        auto damage = InventoryManager::getEquippedDamageValue(caster) + caster.attributes.strength;
+        auto damage = 5 + caster.level * 10;
         Characters::takeDamage(target, damage);
     }
 
@@ -42,7 +42,7 @@ namespace Abilities
     void a_LifeDrain(Hero &caster, Hero &target)
     {
         // take level*5 from enemy health
-        uint32_t healthStolen = caster.level * 5;
+        uint32_t healthStolen = 10 + caster.level * 5;
 
         // if enemy has less than level*5 steal only remaining HP
         if (target.health <= healthStolen)

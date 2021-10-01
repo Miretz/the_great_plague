@@ -8,7 +8,8 @@
 
 namespace Dice
 {
-    std::default_random_engine generator;
+    std::random_device rd;
+    std::mt19937 generator(rd());
 
     // used for weapon attacks, healing, spells, etc.
     std::uniform_int_distribution<int> D4(1, 4);
@@ -31,6 +32,12 @@ namespace Dice
     auto rollDiceD12 = std::bind(D12, generator);
 
     auto rollDiceD20 = std::bind(D20, generator);
+
+    uint32_t randomSelection(uint32_t min, uint32_t max)
+    {
+        std::uniform_int_distribution<> distr(min, max);
+        return distr(generator);
+    }
 
 }
 
