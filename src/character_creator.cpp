@@ -86,8 +86,13 @@ namespace CharacterCreator
         {
             auto r = g_AllRaces.at(rId);
 
-            std::string menuOption = r.name + "\n  " + r.description + "\n  " + r.modifierDescription;
-            menuOption += "\n  Ability: " + Abilities::allAbilities[r.abilityId].name + " - " + Abilities::allAbilities[r.abilityId].description;
+            std::string menuOption = r.name;
+            menuOption += Utils::COLOR_END;
+            menuOption += Utils::COLOR_GREY;
+            menuOption += "\n  " + r.description;
+            menuOption += "\n  Grants ability: " + Abilities::allAbilities[r.abilityId].name + " - " + Abilities::allAbilities[r.abilityId].description;
+            menuOption += Utils::COLOR_END;
+
             menu.push_back(menuOption);
         }
 
@@ -95,7 +100,7 @@ namespace CharacterCreator
         auto race = g_AllRaces.at(startingRaces[selection]);
 
         Attributes defaultAttributes{10, 10, 10, 10};
-        Specialties defaultSpecialties{0,0,0,0,0,0,0,0,0};
+        Specialties defaultSpecialties{0, 0, 0, 0, 0, 0, 0, 0, 0};
         uint32_t maxHealth = 100;
         uint32_t xp = 0;
         uint32_t level = 1;
@@ -155,7 +160,7 @@ namespace CharacterCreator
 
         for (auto t : filtered)
         {
-            menu.push_back(Utils::getItemString(t));
+            menu.push_back(Utils::getItemString(t, true));
         }
 
         return filtered[Utils::pickOptionFromList(prompt, menu)];

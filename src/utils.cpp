@@ -95,16 +95,29 @@ namespace Utils
         }
     }
 
-    void printItem(const uint32_t a)
-    {
-        std::cout << getItemString(a);
-    }
-
-    const std::string getItemString(const uint32_t itemId)
+    const std::string getItemString(const uint32_t itemId, bool describe)
     {
         auto a = g_AllItems[itemId];
         std::stringstream ss;
-        ss << std::left << std::setw(15) << a.name << " ";
+        ss << std::left << std::setw(40) << a.name << " ";
+
+        ss << std::left << std::setw(20);
+
+        switch (a.primaryAttribute)
+        {
+        case PrimaryAttribute::Strength:
+            ss << " [Strength] ";
+            break;
+        case PrimaryAttribute::Dexterity:
+            ss << " [Dexterity] ";
+            break;
+        case PrimaryAttribute::Intelligence:
+            ss << " [Intelligence] ";
+            break;
+        default:
+            ss << " [None] ";
+            break;
+        }
 
         ss << std::left << std::setw(23);
         switch (a.type)
@@ -133,9 +146,6 @@ namespace Utils
         case ItemType::Ranged_TwoHanded:
             ss << " [Ranged two-handed] ";
             break;
-        case ItemType::Dual_Wielding:
-            ss << " [Dual wielding] ";
-            break;
         case ItemType::Shield:
             ss << " [Shield] ";
             break;
@@ -153,18 +163,24 @@ namespace Utils
             break;
         }
 
-        ss << std::left << std::setw(42) << a.description;
-
         ss << "(";
         if (a.damage > 0)
         {
-            ss << " DMG: " << a.damage;
+            ss << " Base DMG: " << a.damage;
         }
         if (a.armor > 0)
         {
-            ss << " DEF: " << a.armor;
+            ss << " Defence: " << a.armor;
         }
         ss << " )";
+
+        if (describe)
+        {
+            ss << "\n  "
+               << COLOR_END
+               << COLOR_GREY << a.description << COLOR_END;
+        }
+
         return ss.str();
     }
 
@@ -178,7 +194,7 @@ namespace Utils
                 ss << '|';
                 ss << "Equipped in ";
                 ss << std::left << std::setw(10) << s << " - ";
-                ss << getItemString(equipped.at(s));
+                ss << getItemString(equipped.at(s), false);
                 ss << '\n';
             }
         }
@@ -196,7 +212,7 @@ namespace Utils
             {
                 ss << '|';
                 ss << "    ";
-                ss << getItemString(a);
+                ss << getItemString(a, false);
                 ss << '\n';
             }
         }
@@ -285,6 +301,19 @@ namespace Utils
         std::cout << '\n';
     }
 
+    const std::string getFullPhysicalDamage(const Hero &hero)
+    {
+        std::ostringstream ss;
+        ss << "|Full physical Damage: " << InventoryManager::getEquippedDamageValue(hero);
+        ss << COLOR_GREY << " (Based on equipped weapons + Attributes + Specialties) " << COLOR_END << '\n';
+        return ss.str();
+    }
+
+    void printFullPhysicalDamage(const Hero &hero)
+    {
+        std::cout << getFullPhysicalDamage(hero);
+    }
+
     void printHero(const Hero &hero)
     {
         printHeroHeader(hero.name, hero.level);
@@ -303,6 +332,8 @@ namespace Utils
         {
             printHeroAbilities(hero.abilities);
         }
+        printBorder(130);
+        printFullPhysicalDamage(hero);
         printBorder(130);
         printHeroInventory(hero.inventory);
         printBorder(130);

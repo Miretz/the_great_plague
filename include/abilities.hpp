@@ -40,6 +40,7 @@ namespace Abilities
         {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", a_Maul},
         {"Gust", "Command the wind to strike to enemy with a powerful blast.", a_Maul},
         {"Pounce", "Sudden attack that knocks down the enemy.", a_Maul},
+        {"Mans best friend", "Summon a dog companion to aid you in battle.", nullptr},
     };
 
     void learnAbility(Hero &hero, uint32_t abilityId);

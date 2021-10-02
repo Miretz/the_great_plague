@@ -35,6 +35,7 @@ namespace Areas
         {
             menu.push_back(allAreas[aId].name);
         }
+        menu.push_back("Open Inventory");
         menu.push_back("Exit");
 
         // print the area text and navigation menu
@@ -47,8 +48,17 @@ namespace Areas
         };
 
         auto selection = Utils::pickOptionFromList(prompt, menu);
-        if (selection == area.connections.size())
+
+        // Exit
+        if (selection == menu.size() - 1)
         {
+            return;
+        }
+
+        // Inventory option
+        if (selection == menu.size() - 2)
+        {
+            InventoryManager::selectPartyEquipment(game.heroes);
             return;
         }
 

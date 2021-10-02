@@ -6,6 +6,7 @@
 #include <string>
 
 struct Hero;
+struct Item;
 
 namespace InventoryManager
 {
@@ -41,11 +42,15 @@ namespace InventoryManager
 
     void selectEquipment(Hero &hero);
 
+    void selectPartyEquipment(std::vector<Hero>& heroes);
+
     uint32_t getEquippedArmorValue(const Hero &hero);
 
     uint32_t getEquippedDamageValue(const Hero &hero);
 
     const std::string getEquipmentSlotName(const EquipmentSlot eSlot);
+
+    uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero);
 }
 
 #endif

@@ -2,6 +2,7 @@
 
 #include "entities.hpp"
 #include "utils.hpp"
+#include "dice.hpp"
 
 #include <iostream>
 
@@ -127,8 +128,7 @@ namespace InventoryManager
                 if (item.type == ItemType::Melee_OneHanded ||
                     item.type == ItemType::Melee_TwoHanded ||
                     item.type == ItemType::Ranged_OneHanded ||
-                    item.type == ItemType::Ranged_TwoHanded ||
-                    item.type == ItemType::Dual_Wielding)
+                    item.type == ItemType::Ranged_TwoHanded)
                 {
                     equipable.push_back(itemId);
                 }
@@ -136,7 +136,8 @@ namespace InventoryManager
             else if (slot == EquipmentSlot::Offhand)
             {
                 if (item.type == ItemType::Shield ||
-                    item.type == ItemType::Dual_Wielding)
+                    item.type == ItemType::Melee_OneHanded ||
+                    item.type == ItemType::Ranged_OneHanded)
                 {
                     equipable.push_back(itemId);
                 }
@@ -187,8 +188,9 @@ namespace InventoryManager
 
         auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
         auto heroBackpack = Utils::getBackpack(hero.inventory.backpack);
+        auto fullDamage = Utils::getFullPhysicalDamage(hero);
 
-        auto prompt = [hero, heroEquipped, heroBackpack]()
+        auto prompt = [hero, heroEquipped, heroBackpack, fullDamage]()
         {
             Utils::printHeroHeader(hero.name, hero.level);
             std::cout << "|"
@@ -196,6 +198,8 @@ namespace InventoryManager
             Utils::printBorder(130);
             std::cout << heroEquipped;
             std::cout << heroBackpack;
+            Utils::printBorder(130);
+            std::cout << fullDamage;
             Utils::printBorder(130);
             std::cout << "\n\n";
             std::cout << "\nPick a slot to edit:\n\n";
@@ -220,6 +224,21 @@ namespace InventoryManager
         std::cout << "\nSelected slot " << getEquipmentSlotName(selectedSlot) << " (current: " << getEquippedItemName(hero, selectedSlot) << ")\n";
 
         return std::make_pair(true, selectedSlot);
+    }
+
+    void selectPartyEquipment(std::vector<Hero> &heroes)
+    {
+        std::vector<std::string> names;
+        for (auto h : heroes)
+        {
+            names.push_back(h.name);
+        }
+
+        auto selection = Utils::pickOptionFromList([]()
+                                                   { Utils::printBorderedText("Manage inventory of:"); },
+                                                   names);
+        auto &hero = heroes[selection];
+        selectEquipment(hero);
     }
 
     void selectEquipment(Hero &hero)
@@ -257,8 +276,9 @@ namespace InventoryManager
 
             auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
             auto heroBackpack = Utils::getBackpack(hero.inventory.backpack);
+            auto slotName = getEquipmentSlotName(selectedSlot);
 
-            auto prompt = [hero, heroEquipped, heroBackpack]()
+            auto prompt = [hero, heroEquipped, heroBackpack, slotName]()
             {
                 Utils::printHeroHeader(hero.name, hero.level);
                 std::cout << "|"
@@ -266,6 +286,8 @@ namespace InventoryManager
                 Utils::printBorder(130);
                 std::cout << heroEquipped;
                 std::cout << heroBackpack;
+                Utils::printBorder(130);
+                std::cout << "|Manage slot: " << slotName << '\n';
                 Utils::printBorder(130);
                 std::cout << "\n\n";
                 std::cout << "Pick action:\n\n";
@@ -286,7 +308,7 @@ namespace InventoryManager
                 std::vector<std::string> chooseWeapon;
                 for (size_t j = 0; j < listOfEquipable.size(); j++)
                 {
-                    chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j]));
+                    chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j], true));
                 }
 
                 auto pickItemPrompt = []()
@@ -335,24 +357,72 @@ namespace InventoryManager
 
         uint32_t value = 0;
 
-        std::vector<EquipmentSlot> slots{
-            EquipmentSlot::MainHand,
-            EquipmentSlot::Offhand,
-        };
+        // handle main hand
+        auto mainHandSlot = getEquipmentSlotName(EquipmentSlot::MainHand);
+        auto offHandSlot = getEquipmentSlotName(EquipmentSlot::Offhand);
 
-        for (auto slot : slots)
+        // check which slots are equipped
+        bool isMainHand = hero.inventory.equipped.find(mainHandSlot) != hero.inventory.equipped.end();
+        bool isOffHand = hero.inventory.equipped.find(offHandSlot) != hero.inventory.equipped.end();
+
+        // both hands are equipped
+        if (isMainHand && isOffHand)
         {
-            auto slotName = getEquipmentSlotName(slot);
-            if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
-            {
-                auto item = g_AllItems[hero.inventory.equipped.at(slotName)];
-                if (item.type == ItemType::Melee_TwoHanded || item.type == ItemType::Ranged_TwoHanded)
-                {
-                    return item.damage;
-                }
+            auto mainItem = g_AllItems[hero.inventory.equipped.at(mainHandSlot)];
+            auto offItem = g_AllItems[hero.inventory.equipped.at(offHandSlot)];
 
-                value += item.damage;
+            // if it's a two handed melee weapon
+            if (mainItem.type == ItemType::Melee_TwoHanded)
+            {
+                value += mainItem.damage;
+                value += getPrimaryAttributeValueFromHero(mainItem, hero);
+                value += hero.specialties.twoHanded;
             }
+            // if it's a two handed ranged weapon
+            else if (mainItem.type == ItemType::Ranged_TwoHanded)
+            {
+                value += mainItem.damage;
+                value += getPrimaryAttributeValueFromHero(mainItem, hero);
+                value += hero.specialties.ranged;
+            }
+            // if it's dual wielding
+            else if (mainItem.type == offItem.type)
+            {
+                value += mainItem.damage;
+                value += getPrimaryAttributeValueFromHero(mainItem, hero);
+
+                // dual wielding penalty on the offhand weapon
+                value += static_cast<uint32_t>(
+                    std::ceil(
+                        static_cast<double>(offItem.damage) / 2.0 + 0.25 * static_cast<double>(hero.specialties.dualWielding)));
+            }
+            // sword + shield and other combinations
+            else
+            {
+                value += mainItem.damage;
+                value += getPrimaryAttributeValueFromHero(mainItem, hero);
+                value += hero.specialties.oneHanded;
+
+                value += offItem.damage;
+            }
+        }
+        // only main hand is equipped
+        else if (isMainHand)
+        {
+            auto mainItem = g_AllItems[hero.inventory.equipped.at(mainHandSlot)];
+
+            value += mainItem.damage;
+            value += getPrimaryAttributeValueFromHero(mainItem, hero);
+            value += hero.specialties.oneHanded;
+        }
+        // only offhand is eqipped
+        else if (isOffHand)
+        {
+            auto offItem = g_AllItems[hero.inventory.equipped.at(offHandSlot)];
+
+            value += offItem.damage;
+            value += getPrimaryAttributeValueFromHero(offItem, hero);
+            value += hero.specialties.oneHanded;
         }
 
         return value;
@@ -379,5 +449,23 @@ namespace InventoryManager
         }
 
         return equipmentSlotNames[0];
+    }
+
+    uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero)
+    {
+
+        switch (item.primaryAttribute)
+        {
+        case PrimaryAttribute::Strength:
+            return hero.attributes.strength;
+        case PrimaryAttribute::Dexterity:
+            return hero.attributes.dexterity;
+        case PrimaryAttribute::Intelligence:
+            return hero.attributes.intelligence;
+        case PrimaryAttribute::None:
+            return 0;
+        default:
+            return 0;
+        }
     }
 }

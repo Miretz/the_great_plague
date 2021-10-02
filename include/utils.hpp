@@ -37,9 +37,7 @@ namespace Utils
 
     void printHeroAbilities(const std::vector<uint32_t> &abilities);
 
-    void printItem(const uint32_t a);
-
-    const std::string getItemString(const uint32_t a);
+    const std::string getItemString(const uint32_t a, bool describe);
 
     const std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
 
@@ -56,6 +54,10 @@ namespace Utils
     void printSpacedText(const std::string &text);
 
     void newLine();
+
+    const std::string getFullPhysicalDamage(const Hero &hero);
+
+    void printFullPhysicalDamage(const Hero &hero);
 
     void printHero(const Hero &hero);
 

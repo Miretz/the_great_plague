@@ -29,8 +29,7 @@ enum class ItemType
     Ranged_OneHanded, // Wand, Pistol, Hand crossbow
     Ranged_TwoHanded, // Bow, Crossbow, Long Bow, Musket
 
-    Shield,        // Round Shield, Buckler, Large Shield
-    Dual_Wielding, // Dagger,
+    Shield, // Round Shield, Buckler, Large Shield
 
     Armor_Head,
     Armor_Torso,
@@ -87,7 +86,6 @@ struct RaceDetail
 {
     std::string name;
     std::string description;
-    std::string modifierDescription;
     uint32_t abilityId;
 };
 
@@ -148,19 +146,19 @@ GLOBAL LISTS
 *************************************************************************************************/
 
 const std::unordered_map<Race, RaceDetail> g_AllRaces{
-    {Race::Human, {"Human", "The most common among the races.", "(+1 to all attributes)", 0}},
-    {Race::Repsoris, {"Repsoris", "Identified by their reptilian features and hatred of cold.", "(+1 Strength, +1 Vitality)", 10}},
-    {Race::Ursobac, {"Ursobac", "Their large intimidating physique makes them valuable protectors.", "(+2 Strength)", 11}},
-    {Race::Rodanto, {"Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", "(+2 Dexterity)", 12}},
-    {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "(+1 Dexterity, +1 Vitality)", 13}},
-    {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "(+2 Intelligence)", 14}},
-    {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "(+1 Dexterity, +1 Intelligence)", 15}},
+    {Race::Human, {"Human", "The most common among the races.", 16}},
+    {Race::Repsoris, {"Repsoris", "Identified by their reptilian features and hatred of cold.", 10}},
+    {Race::Ursobac, {"Ursobac", "Their large intimidating physique makes them valuable protectors.", 11}},
+    {Race::Rodanto, {"Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", 12}},
+    {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", 13}},
+    {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", 14}},
+    {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", 15}},
 };
 
 const std::vector<Item> g_AllItems{
     {"Dagger",
      "Knife you stole from your mom's kitchen",
-     ItemType::Dual_Wielding,
+     ItemType::Melee_OneHanded,
      PrimaryAttribute::Dexterity,
      {0, 0, 0, 0},
      10,

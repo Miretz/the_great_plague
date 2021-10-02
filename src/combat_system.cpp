@@ -145,7 +145,7 @@ namespace CombatSystem
 
     void basicAttack(Hero &hero, Hero &target)
     {
-        auto d20Result = Dice::rollDiceD20();
+        auto d20Result = Dice::rollDice(Dice::D20);
         bool critical = d20Result == 20;
 
         auto damageValue = InventoryManager::getEquippedDamageValue(hero);
@@ -235,7 +235,7 @@ namespace CombatSystem
     {
         auto &hero = combat.turnQueue[combat.currentHero];
 
-        auto d20Result = Dice::rollDiceD20();
+        auto d20Result = Dice::rollDice(Dice::D20);
         const auto isSkipTurn = d20Result == 1;
         if (!isSkipTurn)
         {
@@ -243,7 +243,7 @@ namespace CombatSystem
             auto targetable = getTargetableHeroes(combat);
             auto &target = combat.turnQueue[targetable[Dice::randomSelection(0, targetable.size() - 1)]];
 
-            if (Dice::rollDiceD20() == 1) // Miss
+            if (Dice::rollDice(Dice::D20) == 1) // Miss
             {
                 miss(hero, target);
             }
@@ -321,7 +321,7 @@ namespace CombatSystem
             auto &target = combat.turnQueue[targetable[Utils::pickOptionFromList(pickTargetPrompt, targets)]];
 
             // roll for Miss chance (5%)
-            auto d20Result = Dice::rollDiceD20();
+            auto d20Result = Dice::rollDice(Dice::D20);
             if (d20Result == 1)
             {
                 miss(hero, target);
