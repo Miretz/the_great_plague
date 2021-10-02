@@ -172,8 +172,10 @@ namespace CombatSystem
         if (target.health == 0)
         {
             Utils::printBorderedText(target.name + " has died.");
+            Utils::newLine();
         }
 
+        Utils::newLine();
         Utils::pressEnterToContinue();
     }
 
@@ -259,6 +261,14 @@ namespace CombatSystem
                     abilityAttack(hero, target, abilityId);
                 }
             }
+        }
+        else
+        {
+            Utils::clearScreen();
+            Utils::printCombatHeroHeader(hero);
+            Utils::printSpacedText("Skipped their turn.");
+            Utils::newLine();
+            Utils::pressEnterToContinue();
         }
 
         combat.currentHero += 1;

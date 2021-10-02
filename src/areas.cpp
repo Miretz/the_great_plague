@@ -59,6 +59,7 @@ namespace Areas
         if (selection == menu.size() - 2)
         {
             InventoryManager::selectPartyEquipment(game.heroes);
+            navigateToArea(game.areaId, game);
             return;
         }
 

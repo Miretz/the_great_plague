@@ -233,12 +233,16 @@ namespace InventoryManager
         {
             names.push_back(h.name);
         }
+        names.push_back("Exit");
 
         auto selection = Utils::pickOptionFromList([]()
                                                    { Utils::printBorderedText("Manage inventory of:"); },
                                                    names);
-        auto &hero = heroes[selection];
-        selectEquipment(hero);
+        if (selection < names.size() - 1)
+        {
+            auto &hero = heroes[selection];
+            selectEquipment(hero);
+        }
     }
 
     void selectEquipment(Hero &hero)
@@ -425,6 +429,12 @@ namespace InventoryManager
             value += hero.specialties.oneHanded;
         }
 
+        // you can still do some damage with empty hands
+        if (value == 0)
+        {
+            value += 5;
+        }
+
         return value;
     }
 
@@ -453,15 +463,16 @@ namespace InventoryManager
 
     uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero)
     {
+        const uint32_t scaleDownBy = 9;
 
         switch (item.primaryAttribute)
         {
         case PrimaryAttribute::Strength:
-            return hero.attributes.strength;
+            return hero.attributes.strength - scaleDownBy;
         case PrimaryAttribute::Dexterity:
-            return hero.attributes.dexterity;
+            return hero.attributes.dexterity - scaleDownBy;
         case PrimaryAttribute::Intelligence:
-            return hero.attributes.intelligence;
+            return hero.attributes.intelligence - scaleDownBy;
         case PrimaryAttribute::None:
             return 0;
         default:
