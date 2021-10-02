@@ -713,10 +713,7 @@ namespace Utils
         GetConsoleScreenBufferInfo(hOut, &csbiInfo);
         return csbiInfo.dwCursorPosition.Y;
 #else
-        clearScreen();
-        std::cout << "Screen redraw not implemented for Unix!";
-        exit(-1);
-        return 0;
+        std::cout << "\033[s";
 #endif
     }
 
@@ -727,6 +724,8 @@ namespace Utils
         std::cout.flush();
         COORD coord = {(SHORT)x, (SHORT)y};
         SetConsoleCursorPosition(hOut, coord);
+#else
+        std::cout << "\033[u";
 #endif
     }
 
