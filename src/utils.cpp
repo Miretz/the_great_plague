@@ -18,20 +18,71 @@
 namespace Utils
 {
 
+    const std::string addPlus(uint32_t value)
+    {
+        if (value > 0)
+        {
+            return "+" + std::to_string(value);
+        }
+        return " 0";
+    }
+
     void printAttributes(const Attributes &attributes)
     {
-        std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength << '\n';
-        std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity << '\n';
-        std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << attributes.vitality << '\n';
-        std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << attributes.intelligence << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Constitution: " << std::left << std::setw(6) << attributes.constitution << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << attributes.intelligence << '\n';
     }
 
     void printAttributesAdjustment(const Attributes &base, const Attributes &adjustment)
     {
-        std::cout << "|" << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::left << std::setw(6) << adjustment.strength << '\n';
-        std::cout << "|" << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::left << std::setw(6) << adjustment.dexterity << '\n';
-        std::cout << "|" << std::left << std::setw(16) << "Vitality: " << std::left << std::setw(6) << base.vitality << std::left << std::setw(6) << adjustment.vitality << '\n';
-        std::cout << "|" << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::left << std::setw(6) << adjustment.intelligence << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength << std::left << std::setw(6) << adjustment.strength << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity << std::left << std::setw(6) << adjustment.dexterity << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Constitution: " << std::left << std::setw(6) << base.constitution << std::left << std::setw(6) << adjustment.constitution << '\n';
+        std::cout << '|' << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence << std::left << std::setw(6) << adjustment.intelligence << '\n';
+    }
+
+    void printSpecialties(const Specialties &specialties)
+    {
+        auto printSpecialty = [](std::string name, uint32_t value)
+        {
+            if (value > 0)
+            {
+                std::cout << '|' << std::left << std::setw(16) << name << std::left << std::setw(6) << addPlus(value) << '\n';
+            }
+        };
+
+        printSpecialty("One-handed", specialties.oneHanded);
+        printSpecialty("Two-handed", specialties.twoHanded);
+        printSpecialty("Ranged", specialties.ranged);
+        printSpecialty("Dual wielding", specialties.dualWielding);
+        printSpecialty("Terramancy", specialties.terramancy);
+        printSpecialty("Necromancy", specialties.necromancy);
+        printSpecialty("Hydromancy", specialties.hydromancy);
+        printSpecialty("Pyromancy", specialties.pyromancy);
+        printSpecialty("Mysticism", specialties.mysticism);
+    }
+
+    void printSpecialtiesAdjustment(const Specialties &base, const Specialties &adjustment)
+    {
+        auto printAdjustment = [](std::string name, uint32_t v1, uint32_t v2)
+        {
+            if (v2 > v1)
+            {
+                std::cout << "|" << std::left << std::setw(16) << name << std::left << std::setw(6) << addPlus(v1) << std::left << std::setw(6) << addPlus(v2) << '\n';
+            }
+        };
+
+        printAdjustment("One-handed", base.oneHanded, adjustment.oneHanded);
+        printAdjustment("Two-handed", base.twoHanded, adjustment.twoHanded);
+        printAdjustment("Ranged", base.ranged, adjustment.ranged);
+        printAdjustment("Dual wielding", base.dualWielding, adjustment.dualWielding);
+        printAdjustment("Terramancy", base.terramancy, adjustment.terramancy);
+        printAdjustment("Necromancy", base.necromancy, adjustment.necromancy);
+        printAdjustment("Hydromancy", base.hydromancy, adjustment.hydromancy);
+        printAdjustment("Pyromancy", base.pyromancy, adjustment.pyromancy);
+        printAdjustment("Mysticism", base.mysticism, adjustment.mysticism);
     }
 
     void printHeroAbilities(const std::vector<uint32_t> &abilities)
@@ -246,6 +297,8 @@ namespace Utils
         printBorder(130);
         printAttributes(hero.attributes);
         printBorder(130);
+        printSpecialties(hero.specialties);
+        printBorder(130);
         if (hero.abilities.size() > 0)
         {
             printHeroAbilities(hero.abilities);
@@ -396,7 +449,7 @@ namespace Utils
         return selected;
     }
 
-    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, uint32_t>> elements, uint32_t pointsToDistribute)
+    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute)
     {
         uint32_t row = 0;
 
@@ -406,7 +459,7 @@ namespace Utils
         std::vector<uint32_t> values;
         for (auto e : elements)
         {
-            values.push_back(e.second);
+            values.push_back(std::get<2>(e));
         }
 
         uint32_t c = 0;
@@ -442,14 +495,17 @@ namespace Utils
                 {
                     ss << "  ";
                 }
-                ss << std::left << std::setw(10) << elements[i].first;
+                ss << std::left << std::setw(15) << std::get<0>(elements[i]);
                 if (i == row)
                 {
                     ss << COLOR_END;
                 }
 
-                ss << " ";
-                ss << "<- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n\n";
+                ss << " <- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n  ";
+                ss << COLOR_GREY;
+                ss << std::get<1>(elements[i]);
+                ss << COLOR_END;
+                ss << "\n\n";
             }
 
             setCursorPosition(0, y);
@@ -477,9 +533,9 @@ namespace Utils
                 {
                     break;
                 }
-                if (values[row] <= elements[row].second)
+                if (values[row] <= std::get<2>(elements[row]))
                 {
-                    values[row] = elements[row].second;
+                    values[row] = std::get<2>(elements[row]);
                     break;
                 }
                 values[row] -= 1;

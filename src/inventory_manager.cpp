@@ -103,7 +103,7 @@ namespace InventoryManager
 
         if (hero.attributes.strength >= item.requirements.strength &&
             hero.attributes.dexterity >= item.requirements.dexterity &&
-            hero.attributes.vitality >= item.requirements.vitality &&
+            hero.attributes.constitution >= item.requirements.constitution &&
             hero.attributes.intelligence >= item.requirements.intelligence)
         {
             replaceEquipped(hero, itemId, slot);

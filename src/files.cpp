@@ -21,15 +21,26 @@ namespace Files
         ss << hero.maxHealth << delimiter;
         ss << hero.level << delimiter;
         ss << hero.xpToLevelUp << delimiter;
-        ss << hero.unspentPoints << delimiter;
+        ss << hero.unspentAttributePoints << delimiter;
+        ss << hero.unspentSpecialtyPoints << delimiter;
 
         ss << static_cast<uint32_t>(hero.race) << delimiter;
         ss << static_cast<uint32_t>(hero.controller) << delimiter;
 
         ss << hero.attributes.strength << delimiter;
         ss << hero.attributes.dexterity << delimiter;
-        ss << hero.attributes.vitality << delimiter;
+        ss << hero.attributes.constitution << delimiter;
         ss << hero.attributes.intelligence << delimiter;
+
+        ss << hero.specialties.oneHanded << delimiter;
+        ss << hero.specialties.twoHanded << delimiter;
+        ss << hero.specialties.ranged << delimiter;
+        ss << hero.specialties.dualWielding << delimiter;
+        ss << hero.specialties.terramancy << delimiter;
+        ss << hero.specialties.necromancy << delimiter;
+        ss << hero.specialties.hydromancy << delimiter;
+        ss << hero.specialties.pyromancy << delimiter;
+        ss << hero.specialties.mysticism << delimiter;
 
         for (auto a : hero.abilities)
         {
@@ -76,7 +87,10 @@ namespace Files
         hero.xpToLevelUp = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
-        hero.unspentPoints = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        hero.unspentAttributePoints = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.unspentSpecialtyPoints = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         hero.race = static_cast<Race>(static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter)))));
@@ -85,17 +99,50 @@ namespace Files
         hero.controller = static_cast<Controller>(static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter)))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
+        // Attributes
+
         hero.attributes.strength = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         hero.attributes.dexterity = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
-        hero.attributes.vitality = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        hero.attributes.constitution = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         hero.attributes.intelligence = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        // Specialties
+
+        hero.specialties.oneHanded = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.twoHanded = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.ranged = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.dualWielding = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.terramancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.necromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.hydromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.pyromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        hero.specialties.mysticism = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
+
+        // Abilities & Inventory
 
         auto abilitiesStr = serialized.substr(0, serialized.find(delimiter));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());

@@ -6,7 +6,8 @@
 
 namespace CharacterCreator
 {
-    constexpr uint32_t STARTING_POINTS = 2;
+    constexpr uint32_t STARTING_ATTRIBUTE_POINTS = 2;
+    constexpr uint32_t STARTING_SPECIALTY_POINTS = 2;
 
     const Inventory basicInventory{
         {},

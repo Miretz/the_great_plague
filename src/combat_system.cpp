@@ -168,6 +168,12 @@ namespace CombatSystem
         }
         Utils::printCombatHeroHeader(target);
         Utils::printSpacedText("Damage: " + std::to_string(damageValue));
+
+        if (target.health == 0)
+        {
+            Utils::printBorderedText(target.name + " has died.");
+        }
+
         Utils::pressEnterToContinue();
     }
 
@@ -200,6 +206,11 @@ namespace CombatSystem
         else
         {
             Utils::printSpacedText("Damage: " + std::to_string(oldTargetHP - target.health));
+        }
+
+        if (target.health == 0)
+        {
+            Utils::printBorderedText(target.name + " has died.");
         }
 
         Utils::pressEnterToContinue();

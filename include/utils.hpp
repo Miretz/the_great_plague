@@ -7,6 +7,8 @@
 #include <functional>
 #include <random>
 
+using PointsMenuInput = std::vector<std::tuple<std::string, std::string, uint32_t>>;
+
 namespace Utils
 {
 
@@ -23,9 +25,15 @@ namespace Utils
     const uint32_t KEY_ENTER = 13;
     const uint32_t KEY_ENTER_LF = 10;
 
+    const std::string addPlus(uint32_t value);
+
     void printAttributes(const Attributes &attributes);
 
     void printAttributesAdjustment(const Attributes &base, const Attributes &adjustment);
+
+    void printSpecialties(const Specialties &specialties);
+
+    void printSpecialtiesAdjustment(const Specialties &base, const Specialties &adjustment);
 
     void printHeroAbilities(const std::vector<uint32_t> &abilities);
 
@@ -41,7 +49,7 @@ namespace Utils
 
     void printHeroHeader(const std::string &name, const uint32_t level);
 
-    void printCombatHeroHeader(const Hero& hero);
+    void printCombatHeroHeader(const Hero &hero);
 
     void printBorderedText(const std::string &text);
 
@@ -57,7 +65,7 @@ namespace Utils
 
     uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
-    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, std::vector<std::pair<std::string, uint32_t>> elements, uint32_t pointsToDistribute);
+    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute);
 
     void clearScreen();
 

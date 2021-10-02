@@ -42,6 +42,7 @@ namespace CharacterCreator
             auto hero = pickHeroRace(name);
 
             Characters::assignAttributePoints(hero);
+            Characters::assignSpecialtyPoints(hero);
 
             Abilities::learnAbility(hero, pickStartingAbility());
 
@@ -93,9 +94,15 @@ namespace CharacterCreator
         auto selection = Utils::pickOptionFromList(prompt, menu);
         auto race = g_AllRaces.at(startingRaces[selection]);
 
-        auto maxHealth = race.attributes.vitality * Characters::HEALTH_PER_VITALITY_POINT;
+        Attributes defaultAttributes{10, 10, 10, 10};
+        Specialties defaultSpecialties{0,0,0,0,0,0,0,0,0};
+        uint32_t maxHealth = 100;
+        uint32_t xp = 0;
+        uint32_t level = 1;
+        uint32_t xpToLevelUp = 100;
 
-        auto hero = Hero{name, maxHealth, 0, maxHealth, 1, 100, STARTING_POINTS, race.id, Controller::Player, race.attributes, {}, {}, basicInventory};
+        auto hero = Hero{
+            name, maxHealth, xp, maxHealth, level, xpToLevelUp, STARTING_ATTRIBUTE_POINTS, STARTING_SPECIALTY_POINTS, startingRaces[selection], Controller::Player, defaultAttributes, defaultSpecialties, {}, {}, basicInventory};
         Abilities::learnAbility(hero, race.abilityId);
         return hero;
     }
@@ -130,7 +137,7 @@ namespace CharacterCreator
             if (
                 attributes.strength >= reqs.strength &&
                 attributes.dexterity >= reqs.dexterity &&
-                attributes.vitality >= reqs.vitality &&
+                attributes.constitution >= reqs.constitution &&
                 attributes.intelligence >= reqs.intelligence)
             {
                 filtered.push_back(itemId);

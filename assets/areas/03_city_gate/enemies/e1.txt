@@ -1,1 +1,1 @@
-Salomon|100|0|100|1|100|0|1|2|10|10|10|10|10;||Gloves;10;Head;9;Main Hand;0;Legs;8;Torso;7;|
+Salomon|100|0|100|1|100|0|0|1|2|10|10|10|10|1|0|0|0|0|0|0|0|0|10;||Gloves;10;Head;9;Main Hand;0;Legs;8;Torso;7;|

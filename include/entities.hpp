@@ -42,6 +42,14 @@ enum class ItemType
     Scroll
 };
 
+enum class PrimaryAttribute
+{
+    None,
+    Strength,
+    Dexterity,
+    Intelligence
+};
+
 enum class Controller
 {
     Player,
@@ -57,17 +65,29 @@ struct Attributes
 {
     uint32_t strength;
     uint32_t dexterity;
-    uint32_t vitality;
+    uint32_t constitution;
     uint32_t intelligence;
+};
+
+struct Specialties
+{
+    uint32_t oneHanded;
+    uint32_t twoHanded;
+    uint32_t ranged;
+    uint32_t dualWielding;
+
+    uint32_t terramancy;
+    uint32_t necromancy;
+    uint32_t hydromancy;
+    uint32_t pyromancy;
+    uint32_t mysticism;
 };
 
 struct RaceDetail
 {
-    Race id;
     std::string name;
     std::string description;
     std::string modifierDescription;
-    Attributes attributes;
     uint32_t abilityId;
 };
 
@@ -76,6 +96,7 @@ struct Item
     std::string name;
     std::string description;
     ItemType type;
+    PrimaryAttribute primaryAttribute;
 
     Attributes requirements;
     uint32_t damage;
@@ -100,12 +121,15 @@ struct Hero
     uint32_t maxHealth;
     uint32_t level;
     uint32_t xpToLevelUp;
-    uint32_t unspentPoints;
+
+    uint32_t unspentAttributePoints;
+    uint32_t unspentSpecialtyPoints;
 
     Race race;
     Controller controller;
 
     Attributes attributes;
+    Specialties specialties;
     std::vector<uint32_t> abilities;
     std::vector<uint32_t> statusEffects;
     Inventory inventory;
@@ -124,34 +148,93 @@ GLOBAL LISTS
 *************************************************************************************************/
 
 const std::unordered_map<Race, RaceDetail> g_AllRaces{
-    {Race::Human, {Race::Human, "Human", "The most common among the races.", "(+1 to all attributes)", {11, 11, 11, 11}, 0}},
-
-    {Race::Repsoris, {Race::Repsoris, "Repsoris", "Identified by their reptilian features and hatred of cold.", "(+1 Strength, +1 Vitality)", {11, 10, 11, 10}, 10}},
-
-    {Race::Ursobac, {Race::Ursobac, "Ursobac", "Their large intimidating physique makes them valuable protectors.", "(+2 Strength)", {12, 10, 10, 10}, 11}},
-
-    {Race::Rodanto, {Race::Rodanto, "Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", "(+2 Dexterity)", {10, 12, 10, 10}, 12}},
-
-    {Race::Felidae, {Race::Felidae, "Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "(+1 Dexterity, +1 Vitality)", {10, 11, 11, 10}, 13}},
-
-    {Race::Strigifor, {Race::Strigifor, "Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "(+2 Intelligence)", {10, 10, 10, 12}, 14}},
-
-    {Race::Vulpotis, {Race::Vulpotis, "Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "(+1 Dexterity, +1 Intelligence)", {10, 11, 10, 11}, 15}},
+    {Race::Human, {"Human", "The most common among the races.", "(+1 to all attributes)", 0}},
+    {Race::Repsoris, {"Repsoris", "Identified by their reptilian features and hatred of cold.", "(+1 Strength, +1 Vitality)", 10}},
+    {Race::Ursobac, {"Ursobac", "Their large intimidating physique makes them valuable protectors.", "(+2 Strength)", 11}},
+    {Race::Rodanto, {"Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", "(+2 Dexterity)", 12}},
+    {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "(+1 Dexterity, +1 Vitality)", 13}},
+    {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "(+2 Intelligence)", 14}},
+    {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "(+1 Dexterity, +1 Intelligence)", 15}},
 };
 
 const std::vector<Item> g_AllItems{
-    {"Dagger", "Knife you stole from your mom's kitchen", ItemType::Dual_Wielding, {0, 0, 0, 0}, 10, 0},
-    {"Short sword", "Simple short sword that anyone can use", ItemType::Melee_OneHanded, {0, 0, 0, 0}, 20, 0},
-    {"Short bow", "Basic wooden bow", ItemType::Ranged_TwoHanded, {0, 0, 0, 0}, 20, 0},
-    {"Wand", "A simple tree branch", ItemType::Ranged_OneHanded, {0, 0, 0, 0}, 20, 0},
-    {"Long sword", "A long and heavy two-handed sword", ItemType::Melee_TwoHanded, {5, 0, 0, 0}, 30, 0},
-    {"Long bow", "Long bow", ItemType::Ranged_TwoHanded, {0, 5, 0, 0}, 30, 0},
-    {"Quarterstaff", "A solid broomstick", ItemType::Melee_TwoHanded, {0, 0, 0, 5}, 30, 0},
-
-    {"Worn clothes", "Basic clothing", ItemType::Armor_Torso, {}, 0, 2},
-    {"Worn boots", "Basic boots", ItemType::Armor_Legs, {}, 0, 2},
-    {"Worn hood", "Simple hood", ItemType::Armor_Head, {}, 0, 2},
-    {"Worn gloves", "Worn gloves", ItemType::Armor_Gloves, {}, 0, 2},
+    {"Dagger",
+     "Knife you stole from your mom's kitchen",
+     ItemType::Dual_Wielding,
+     PrimaryAttribute::Dexterity,
+     {0, 0, 0, 0},
+     10,
+     0},
+    {"Short sword",
+     "Simple short sword that anyone can use",
+     ItemType::Melee_OneHanded,
+     PrimaryAttribute::Strength,
+     {0, 0, 0, 0},
+     20,
+     0},
+    {"Short bow",
+     "Basic wooden bow",
+     ItemType::Ranged_TwoHanded,
+     PrimaryAttribute::Dexterity,
+     {0, 0, 0, 0},
+     20,
+     0},
+    {"Wand",
+     "A simple tree branch",
+     ItemType::Ranged_OneHanded,
+     PrimaryAttribute::Intelligence,
+     {0, 0, 0, 0},
+     20,
+     0},
+    {"Long sword",
+     "A long and heavy two-handed sword",
+     ItemType::Melee_TwoHanded,
+     PrimaryAttribute::Strength,
+     {5, 0, 0, 0},
+     30,
+     0},
+    {"Long bow",
+     "A very strong bow",
+     ItemType::Ranged_TwoHanded,
+     PrimaryAttribute::Dexterity,
+     {0, 5, 0, 0},
+     30,
+     0},
+    {"Quarterstaff",
+     "A simple broomstick",
+     ItemType::Melee_TwoHanded,
+     PrimaryAttribute::Dexterity,
+     {0, 0, 0, 5},
+     30,
+     0},
+    {"Worn clothes",
+     "Basic clothing",
+     ItemType::Armor_Torso,
+     PrimaryAttribute::None,
+     {},
+     0,
+     2},
+    {"Worn boots",
+     "Basic boots",
+     ItemType::Armor_Legs,
+     PrimaryAttribute::None,
+     {},
+     0,
+     2},
+    {"Worn hood",
+     "Simple hood",
+     ItemType::Armor_Head,
+     PrimaryAttribute::None,
+     {},
+     0,
+     2},
+    {"Worn gloves",
+     "Worn gloves",
+     ItemType::Armor_Gloves,
+     PrimaryAttribute::None,
+     {},
+     0,
+     2},
 };
 
 #endif
