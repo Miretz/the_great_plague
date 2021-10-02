@@ -9,9 +9,8 @@
 #include <iomanip>
 #include <sstream>
 
-#include <conio.h>
-
 #if defined _WIN32
+#include <conio.h>
 #include <windows.h>
 #endif
 
@@ -350,6 +349,24 @@ namespace Utils
         std::cout << '\n';
     }
 
+    uint32_t getInput()
+    {
+        uint32_t result = 0;
+#if defined _WIN32
+        result = getch();
+#else
+        system("/bin/stty raw");
+        result = getchar();
+        if (result == '\033')
+        {
+            getchar(); // get rid of ]
+            result = getchar();
+        }
+        system("/bin/stty cooked");
+#endif
+        return result;
+    }
+
     uint32_t slider(std::function<void()> redrawFunction, const uint32_t min, const uint32_t max)
     {
         uint32_t result = min;
@@ -375,7 +392,7 @@ namespace Utils
             std::cout << ss.str();
 
             fflush(stdin);
-            switch ((c = getch()))
+            switch ((c = getInput()))
             {
             case KEY_LEFT:
                 result--;
@@ -447,7 +464,7 @@ namespace Utils
             std::cout << ss.str();
 
             fflush(stdin);
-            switch ((c = getch()))
+            switch ((c = getInput()))
             {
             case KEY_UP:
                 if (selected == 0)
@@ -543,7 +560,7 @@ namespace Utils
             std::cout << ss.str();
 
             fflush(stdin);
-            switch ((c = getch()))
+            switch ((c = getInput()))
             {
             case KEY_UP:
                 if (row == 0)
@@ -627,7 +644,7 @@ namespace Utils
         bool result = false;
         uint32_t c = 0;
         fflush(stdin);
-        switch ((c = getch()))
+        switch ((c = getchar()))
         {
         case 89: // y
             result = true;
@@ -653,7 +670,7 @@ namespace Utils
         std::cout << COLOR_GREY << "Press [Enter] to continue..." << COLOR_END << "\n\n";
 
         fflush(stdin);
-        getch();
+        getInput();
         fflush(stdin);
     }
 
@@ -702,9 +719,6 @@ namespace Utils
         std::cout << ss.str();
     }
 
-    // NOTE: Windows only fix for screen flicker,
-    // TODO: fix on Unix!
-
     uint32_t getCursorPosition()
     {
 #if defined _WIN32
@@ -713,11 +727,13 @@ namespace Utils
         GetConsoleScreenBufferInfo(hOut, &csbiInfo);
         return csbiInfo.dwCursorPosition.Y;
 #else
+        std::cout << "\r";
         std::cout << "\033[s";
+        return 0;
 #endif
     }
 
-    void setCursorPosition(const uint32_t x, const uint32_t y)
+    void setCursorPosition([[maybe_unused]] const uint32_t x, [[maybe_unused]] const uint32_t y)
     {
 #if defined _WIN32
         static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);

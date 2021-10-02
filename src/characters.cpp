@@ -42,7 +42,7 @@ namespace Characters
                 {"Intelligence", "Intelligence reflects the character's knowledge and wisdom.\n  Grants additional damage with magic weapons and skills.", prevAtt.intelligence},
             };
 
-            auto prompt = [availablePoints, hero]()
+            auto prompt = [hero]()
             {
                 Utils::printHeroHeader(hero.name, hero.level);
                 Utils::printBorderedText("Assign points to attributes");
@@ -104,7 +104,7 @@ namespace Characters
                 {"Mysticism", "Grants destructive mystical powers.", previous.mysticism},
             };
 
-            auto prompt = [availablePoints, hero]()
+            auto prompt = [hero]()
             {
                 Utils::printHeroHeader(hero.name, hero.level);
                 Utils::printBorderedText("Assign points to specialities");

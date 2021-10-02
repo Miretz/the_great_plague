@@ -18,12 +18,21 @@ namespace Utils
     const std::string COLOR_RED = "\33[1;31m";
     const std::string COLOR_END = "\033[0m";
 
+#if defined _WIN32
     const uint32_t KEY_UP = 72;
     const uint32_t KEY_DOWN = 80;
     const uint32_t KEY_LEFT = 75;
     const uint32_t KEY_RIGHT = 77;
     const uint32_t KEY_ENTER = 13;
     const uint32_t KEY_ENTER_LF = 10;
+#else
+    const char KEY_UP = 'A';
+    const char KEY_DOWN = 'B';
+    const char KEY_LEFT = 'D';
+    const char KEY_RIGHT = 'C';
+    const char KEY_ENTER = '\r';
+    const char KEY_ENTER_LF = '\n';
+#endif
 
     const std::string addPlus(uint32_t value);
 
@@ -88,6 +97,8 @@ namespace Utils
     uint32_t getCursorPosition();
 
     void setCursorPosition(const uint32_t x, const uint32_t y);
+
+    uint32_t getInput();
 
 }
 

@@ -16,8 +16,10 @@ namespace CombatSystem
     Combat prepare(std::vector<Hero> heroes, std::vector<Hero> enemies)
     {
         // shuffle heroes and enemies
-        std::random_shuffle(heroes.begin(), heroes.end());
-        std::random_shuffle(enemies.begin(), enemies.end());
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(heroes.begin(), heroes.end(), g);
+        std::shuffle(enemies.begin(), enemies.end(), g);
 
         std::vector<Hero> turnQueue;
 
