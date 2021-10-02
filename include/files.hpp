@@ -11,6 +11,9 @@ namespace Files
 {
     const std::string SAVE_FILE = "save.txt";
 
+    const std::string delimiter = "|";
+    const std::string valueDelimitter = ";";
+
     const std::string serializeHero(const Hero &hero);
 
     Hero deserializeHero(std::string serialized);

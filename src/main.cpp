@@ -23,7 +23,7 @@ int main(void)
                 auto heroes = CharacterCreator::createHeroes();
                 if (Utils::askConfirmation("Begin journey?"))
                 {
-                    GameState gs{0, heroes, 1};
+                    GameState gs{0, heroes, {}};
                     Files::saveGame(gs);
                     Areas::navigateToArea(gs.areaId, gs);
                 }

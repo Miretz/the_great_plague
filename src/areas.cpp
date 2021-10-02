@@ -68,17 +68,11 @@ namespace Areas
 
     void t01_shore_DanseaConversation(GameState &gameState)
     {
-        if (gameState.danseaLocation != 1)
+        const auto propertyDanseaLocation = "danseaLocation";
+        if (gameState.stateInfo[propertyDanseaLocation] == 1 || gameState.stateInfo[propertyDanseaLocation] == 2)
         {
+            // she is with me or in the city
             return;
-        }
-
-        for (auto h : gameState.heroes)
-        {
-            if (h.name == "Dansea")
-            {
-                return;
-            }
         }
 
         Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
@@ -113,7 +107,7 @@ namespace Areas
             {
                 Utils::clearScreen();
                 Utils::createConversationPrompt(dansea.name, "I am going there myself. Maybe we can catch up later. (Dansea leaves the area)", danseaPicture)();
-                gameState.danseaLocation = 2;
+                gameState.stateInfo[propertyDanseaLocation] = 2;
                 Utils::newLine();
                 Utils::pressEnterToContinue();
             }
@@ -127,7 +121,7 @@ namespace Areas
                 if (joinQuestion == 0)
                 {
                     gameState.heroes.push_back(dansea);
-                    gameState.danseaLocation = 0;
+                    gameState.stateInfo[propertyDanseaLocation] = 1;
                     Utils::clearScreen();
                     Utils::printBorderedText("Dansea has joined your party.");
                     Utils::printHero(dansea);
@@ -138,7 +132,7 @@ namespace Areas
                 {
                     Utils::clearScreen();
                     Utils::createConversationPrompt(dansea.name, "Ok, I will head out to the city. (Dansea leaves the area)", danseaPicture)();
-                    gameState.danseaLocation = 2;
+                    gameState.stateInfo[propertyDanseaLocation] = 2;
                     Utils::newLine();
                     Utils::pressEnterToContinue();
                 }
@@ -150,7 +144,7 @@ namespace Areas
             {
                 Utils::clearScreen();
                 Utils::createConversationPrompt(dansea.name, "I am heading out to the nearest city. Maybe you can find me there. (Dansea leaves the area)", danseaPicture)();
-                gameState.danseaLocation = 2;
+                gameState.stateInfo[propertyDanseaLocation] = 2;
                 Utils::newLine();
                 Utils::pressEnterToContinue();
             }
@@ -164,7 +158,7 @@ namespace Areas
                 if (joinQuestion2 == 0)
                 {
                     gameState.heroes.push_back(dansea);
-                    gameState.danseaLocation = 0;
+                    gameState.stateInfo[propertyDanseaLocation] = 1;
                     Utils::clearScreen();
                     Utils::printBorderedText("Dansea has joined your party.");
                     Utils::printHero(dansea);
@@ -175,7 +169,7 @@ namespace Areas
                 {
                     Utils::clearScreen();
                     Utils::createConversationPrompt(dansea.name, "In that case I'll see you around. (Dansea leaves the area)", danseaPicture)();
-                    gameState.danseaLocation = 2;
+                    gameState.stateInfo[propertyDanseaLocation] = 2;
                     Utils::newLine();
                     Utils::pressEnterToContinue();
                 }
@@ -185,11 +179,26 @@ namespace Areas
         Files::saveGame(gameState);
     }
 
-    void t03_gateCombat(GameState &game)
+    void t03_gateCombat(GameState &gameState)
     {
+        const auto property = "gateCombatWon";
+        if (gameState.stateInfo[property] == 1)
+        {
+            return;
+        }
+
         auto e1 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e1.txt");
         auto e2 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e2.txt");
-        CombatSystem::startCombat(game.heroes, {e1, e2});
+        auto won = CombatSystem::startCombat(gameState.heroes, {e1, e2});
+        if (won)
+        {
+            gameState.stateInfo[property] = 1;
+        }
+        else
+        {
+            gameState.stateInfo[property] = 0;
+        }
+        Files::saveGame(gameState);
     }
 
 }

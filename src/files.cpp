@@ -12,8 +12,6 @@ namespace Files
     {
         std::ostringstream ss;
 
-        std::string delimiter = "|";
-
         ss << hero.name << delimiter;
 
         ss << hero.health << delimiter;
@@ -44,19 +42,19 @@ namespace Files
 
         for (auto a : hero.abilities)
         {
-            ss << a << ";";
+            ss << a << valueDelimitter;
         }
         ss << delimiter;
 
         for (auto b : hero.inventory.backpack)
         {
-            ss << b << ";";
+            ss << b << valueDelimitter;
         }
         ss << delimiter;
 
         for (auto a : hero.inventory.equipped)
         {
-            ss << a.first << ";" << a.second << ";";
+            ss << a.first << valueDelimitter << a.second << valueDelimitter;
         }
         ss << delimiter;
 
@@ -65,8 +63,6 @@ namespace Files
 
     Hero deserializeHero(std::string serialized)
     {
-        std::string delimiter = "|";
-
         Hero hero;
 
         hero.name = serialized.substr(0, serialized.find(delimiter));
@@ -154,35 +150,35 @@ namespace Files
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         size_t pos = 0;
-        while ((pos = abilitiesStr.find(";")) != std::string::npos)
+        while ((pos = abilitiesStr.find(valueDelimitter)) != std::string::npos)
         {
             auto token = abilitiesStr.substr(0, pos);
             if (token == "")
                 break;
             hero.abilities.push_back(static_cast<uint32_t>(std::stoul(token)));
-            abilitiesStr.erase(0, pos + delimiter.length());
+            abilitiesStr.erase(0, pos + valueDelimitter.length());
         }
 
         pos = 0;
-        while ((pos = backpackStr.find(";")) != std::string::npos)
+        while ((pos = backpackStr.find(valueDelimitter)) != std::string::npos)
         {
             auto token = backpackStr.substr(0, pos);
             if (token == "")
                 break;
             hero.inventory.backpack.push_back(static_cast<uint32_t>(std::stoul(token)));
-            backpackStr.erase(0, pos + delimiter.length());
+            backpackStr.erase(0, pos + valueDelimitter.length());
         }
 
         pos = 0;
-        while ((pos = equippedStr.find(";")) != std::string::npos)
+        while ((pos = equippedStr.find(valueDelimitter)) != std::string::npos)
         {
             auto key = equippedStr.substr(0, pos);
             if (key == "")
                 break;
-            equippedStr.erase(0, pos + delimiter.length());
-            pos = equippedStr.find(";");
+            equippedStr.erase(0, pos + valueDelimitter.length());
+            pos = equippedStr.find(valueDelimitter);
             auto valueStr = equippedStr.substr(0, pos);
-            equippedStr.erase(0, pos + delimiter.length());
+            equippedStr.erase(0, pos + valueDelimitter.length());
             if (valueStr == "")
                 break;
             auto value = static_cast<uint32_t>(std::stoul(valueStr));
@@ -199,7 +195,11 @@ namespace Files
         if (saveFile.is_open())
         {
             saveFile << gameState.areaId << "\n";
-            saveFile << gameState.danseaLocation << "\n";
+            for (auto a : gameState.stateInfo)
+            {
+                saveFile << a.first << valueDelimitter << a.second << valueDelimitter;
+            }
+            saveFile << "\n";
             for (auto h : gameState.heroes)
             {
                 saveFile << serializeHero(h) << "\n";
@@ -218,11 +218,29 @@ namespace Files
         {
             std::string line;
 
+            // get the location
             getline(saveFile, line);
             gs.areaId = static_cast<uint32_t>(std::stoul(line));
             getline(saveFile, line);
-            gs.danseaLocation = static_cast<uint32_t>(std::stoul(line));
 
+            // extract state info to map
+            uint32_t pos = 0;
+            while ((pos = line.find(valueDelimitter)) != std::string::npos)
+            {
+                auto key = line.substr(0, pos);
+                if (key == "")
+                    break;
+                line.erase(0, pos + 1);
+                pos = line.find(valueDelimitter);
+                auto valueStr = line.substr(0, pos);
+                line.erase(0, pos + 1);
+                if (valueStr == "")
+                    break;
+                auto value = static_cast<uint32_t>(std::stoul(valueStr));
+                gs.stateInfo[key] = value;
+            }
+
+            // extract heroes
             while (getline(saveFile, line))
             {
                 gs.heroes.push_back(deserializeHero(line));

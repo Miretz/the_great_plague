@@ -76,7 +76,7 @@ namespace CombatSystem
             combat.turnQueue.end());
     }
 
-    void startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies)
+    bool startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies)
     {
         auto combat = prepare(heroes, enemies);
 
@@ -123,15 +123,33 @@ namespace CombatSystem
             }
         }
 
+        // print survivors
+        Utils::clearScreen();
+        Utils::printBorderedText("Combat Over - Turn: " + std::to_string(combat.turn));
+        Utils::printSpacedText("Survivors:");
+        for (auto h : combat.turnQueue)
+        {
+            if (h.health > 0)
+            {
+                Utils::printCombatHeroHeader(h);
+            }
+        }
+        Utils::printSpacedText("Result:");
+
+        // end combat
         if (!isAnyEnemyAlive(combat))
         {
             Utils::printBorderedText(Utils::COLOR_GREEN + "VICTORY!" + Utils::COLOR_END);
+            Utils::newLine();
             Utils::pressEnterToContinue();
+            return true;
         }
         else
         {
             Utils::printBorderedText(Utils::COLOR_RED + "DEFEAT!" + Utils::COLOR_END);
+            Utils::newLine();
             Utils::pressEnterToContinue();
+            return false;
         }
     }
 
@@ -215,6 +233,7 @@ namespace CombatSystem
         if (target.health == 0)
         {
             Utils::printBorderedText(target.name + " has died.");
+            Utils::newLine();
         }
 
         Utils::pressEnterToContinue();

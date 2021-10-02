@@ -138,7 +138,7 @@ struct GameState
     uint32_t areaId;
     std::vector<Hero> heroes;
 
-    uint32_t danseaLocation;
+    std::unordered_map<std::string, uint32_t> stateInfo;
 };
 
 /************************************************************************************************
