@@ -75,11 +75,11 @@ struct Specialties
     uint32_t ranged;
     uint32_t dualWielding;
 
+    uint32_t mysticism;
     uint32_t terramancy;
-    uint32_t necromancy;
     uint32_t hydromancy;
     uint32_t pyromancy;
-    uint32_t mysticism;
+    uint32_t aeromancy;
 };
 
 struct RaceDetail

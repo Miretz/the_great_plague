@@ -97,11 +97,12 @@ namespace Characters
                 {"Two-handed", "Grants new abilities for two-handed weapons such as longswords and quarterstaffs.", previous.twoHanded},
                 {"Ranged", "Grants new abilities for ranged weapons such as bows and crossbows.", previous.ranged},
                 {"Dual wielding", "Reduces the penalty of the weapon wielded in off-hand by 5%.", previous.dualWielding},
-                {"Terramancy", "Grants nature-based magic abilities such as poison and overgrowth.", previous.terramancy},
-                {"Necromancy", "Grants dark magic abilities with souls and demons.", previous.necromancy},
-                {"Hydromancy", "Grants water-based magic such as healing or rain.", previous.hydromancy},
-                {"Pyromancy", "Grants fire-based magic such as fireball and burning aura.", previous.pyromancy},
-                {"Mysticism", "Grants destructive mystical powers.", previous.mysticism},
+                
+                {"Mysticism",  "Grants abilities that manipulate life force.", previous.mysticism},
+                {"Terramancy", "Grants abilities that use the power of nature.", previous.terramancy},
+                {"Hydromancy", "Grants abilities that use the power of water and ice.", previous.hydromancy},
+                {"Pyromancy",  "Grants abilities that use the power of fire.", previous.pyromancy},
+                {"Aeromancy",  "Grants abilities that use the power of air and electricity.", previous.aeromancy},
             };
 
             auto prompt = [hero]()

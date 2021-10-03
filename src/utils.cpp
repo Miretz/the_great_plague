@@ -56,11 +56,12 @@ namespace Utils
         printSpecialty("Two-handed", specialties.twoHanded);
         printSpecialty("Ranged", specialties.ranged);
         printSpecialty("Dual wielding", specialties.dualWielding);
+
+        printSpecialty("Mysticism", specialties.mysticism);
         printSpecialty("Terramancy", specialties.terramancy);
-        printSpecialty("Necromancy", specialties.necromancy);
         printSpecialty("Hydromancy", specialties.hydromancy);
         printSpecialty("Pyromancy", specialties.pyromancy);
-        printSpecialty("Mysticism", specialties.mysticism);
+        printSpecialty("Aeromancy", specialties.aeromancy);
     }
 
     void printSpecialtiesAdjustment(const Specialties &base, const Specialties &adjustment)
@@ -77,11 +78,12 @@ namespace Utils
         printAdjustment("Two-handed", base.twoHanded, adjustment.twoHanded);
         printAdjustment("Ranged", base.ranged, adjustment.ranged);
         printAdjustment("Dual wielding", base.dualWielding, adjustment.dualWielding);
+
+        printAdjustment("Mysticism", base.mysticism, adjustment.mysticism);
         printAdjustment("Terramancy", base.terramancy, adjustment.terramancy);
-        printAdjustment("Necromancy", base.necromancy, adjustment.necromancy);
         printAdjustment("Hydromancy", base.hydromancy, adjustment.hydromancy);
         printAdjustment("Pyromancy", base.pyromancy, adjustment.pyromancy);
-        printAdjustment("Mysticism", base.mysticism, adjustment.mysticism);
+        printAdjustment("Aeromancy", base.aeromancy, adjustment.aeromancy);
     }
 
     void printHeroAbilities(const std::vector<uint32_t> &abilities)

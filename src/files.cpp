@@ -34,11 +34,12 @@ namespace Files
         ss << hero.specialties.twoHanded << delimiter;
         ss << hero.specialties.ranged << delimiter;
         ss << hero.specialties.dualWielding << delimiter;
+
+        ss << hero.specialties.mysticism << delimiter;
         ss << hero.specialties.terramancy << delimiter;
-        ss << hero.specialties.necromancy << delimiter;
         ss << hero.specialties.hydromancy << delimiter;
         ss << hero.specialties.pyromancy << delimiter;
-        ss << hero.specialties.mysticism << delimiter;
+        ss << hero.specialties.aeromancy << delimiter;
 
         for (auto a : hero.abilities)
         {
@@ -123,10 +124,10 @@ namespace Files
         hero.specialties.dualWielding = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
-        hero.specialties.terramancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        hero.specialties.mysticism = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
-        hero.specialties.necromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        hero.specialties.terramancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         hero.specialties.hydromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
@@ -135,7 +136,7 @@ namespace Files
         hero.specialties.pyromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
-        hero.specialties.mysticism = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
+        hero.specialties.aeromancy = static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         // Abilities & Inventory
