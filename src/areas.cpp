@@ -192,9 +192,26 @@ namespace Areas
         Utils::newLine();
         Utils::pressEnterToContinue();
 
-        auto e1 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e1.txt");
-        auto e2 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e2.txt");
-        auto won = CombatSystem::startCombat(gameState.heroes, {e1, e2});
+        // generate enemies based on party size
+        auto enemyTemplate = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e1.txt");
+        auto partySize = gameState.heroes.size();
+
+        // possible names
+        std::vector<std::string> names{"Maurice", "Salomon", "Frederic", "Noel", "Derek", "Daniel", "Calum", "Franz"};
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(names.begin(), names.end(), g);
+
+        // fill the enemies vector
+        std::vector<Hero> enemies;
+        for (uint32_t i = 0; i < partySize + 2; i++)
+        {
+            auto h = enemyTemplate;
+            h.name = names[i];
+            enemies.push_back(h);
+        }
+
+        auto won = CombatSystem::startCombat(gameState.heroes, enemies);
         if (won)
         {
             gameState.stateInfo[property] = 1;
