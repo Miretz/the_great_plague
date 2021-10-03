@@ -187,6 +187,11 @@ namespace Areas
             return;
         }
 
+        Utils::clearScreen();
+        std::cout << Files::loadFile("assets/areas/03_city_gate/combat_intro.txt");
+        Utils::newLine();
+        Utils::pressEnterToContinue();
+
         auto e1 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e1.txt");
         auto e2 = Files::loadHeroFromConfig("assets/areas/03_city_gate/enemies/e2.txt");
         auto won = CombatSystem::startCombat(gameState.heroes, {e1, e2});

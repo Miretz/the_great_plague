@@ -644,7 +644,7 @@ namespace Utils
         bool result = false;
         uint32_t c = 0;
         fflush(stdin);
-        switch ((c = getchar()))
+        switch ((c = getInput()))
         {
         case 89: // y
             result = true;
@@ -670,7 +670,14 @@ namespace Utils
         std::cout << COLOR_GREY << "Press [Enter] to continue..." << COLOR_END << "\n\n";
 
         fflush(stdin);
-        getInput();
+        while (true)
+        {
+            auto c = getInput();
+            if (c == KEY_ENTER || c == KEY_ENTER_LF)
+            {
+                break;
+            }
+        }
         fflush(stdin);
     }
 

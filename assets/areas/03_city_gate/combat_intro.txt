@@ -1,0 +1,10 @@
++--------------------------------------------------------------------------------------------------------------------------------+
+Bandit Attack
++--------------------------------------------------------------------------------------------------------------------------------+
+As you get close to the city gate, you suddenly have a strong feeling that somebody is watching you. You look around, trying to
+calm your nerves. There are some faint whispers coming from the nearby bushes. As you try to focus your ears on the voices, they
+are suddenly replaced by loud screaming and a gang of bandits runs out of the bushes, heading straight towards you. These are not 
+amateurs, and it looks like they have been stalking the city entrace for quite some time.
+
+You prepare yourself for a tough fight...
++--------------------------------------------------------------------------------------------------------------------------------+
