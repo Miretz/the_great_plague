@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <optional>
+#include <unordered_map>
 
 struct Hero;
 struct Combat;

@@ -48,8 +48,7 @@ namespace CombatSystem
                    h.controller == Controller::AI_Friendly;
         };
 
-        const auto q = combat.turnQueue;
-        return std::find_if(q.begin(), q.end(), isFriendly) != q.end();
+        return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isFriendly) != combat.turnQueue.end();
     }
 
     bool isAnyEnemyAlive(Combat &combat)
@@ -60,13 +59,12 @@ namespace CombatSystem
             return h.controller == Controller::AI_Enemy;
         };
 
-        const auto q = combat.turnQueue;
-        return std::find_if(q.begin(), q.end(), isEnemy) != q.end();
+        return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isEnemy) != combat.turnQueue.end();
     }
 
     bool isInvisible(Hero &hero)
     {
-        for (auto se : hero.statusEffects)
+        for (const auto &se : hero.statusEffects)
         {
             if (se.type == StatusEffectType::Invisibility)
             {
@@ -84,7 +82,7 @@ namespace CombatSystem
             return h.health <= 0;
         };
 
-        for (auto h : combat.turnQueue)
+        for (const auto &h : combat.turnQueue)
         {
             if (isDead(h))
             {
@@ -149,11 +147,11 @@ namespace CombatSystem
         Utils::clearScreen();
         Utils::printBorderedText("Combat Over - Turn: " + std::to_string(combat.turn));
         Utils::printSpacedText("Survivors:");
-        for (auto h : combat.turnQueue)
+        for (const auto &h : combat.turnQueue)
         {
             Utils::printCombatHeroHeader(h);
         }
-        for (auto h : combat.dead)
+        for (const auto &h : combat.dead)
         {
             Utils::printBorderedText(h.name + " has died.");
         }
@@ -236,9 +234,9 @@ namespace CombatSystem
         auto oldTargetHP = target.health;
 
         // check for evading or magic shield
-        for (auto se : target.statusEffects)
+        for (const auto &se : target.statusEffects)
         {
-            if (se.type == StatusEffectType::Protection || se.type == StatusEffectType::Protection)
+            if (se.type == StatusEffectType::Protection)
             {
                 if (Dice::rollDice(Dice::D20) < se.specialValue)
                 {
@@ -456,10 +454,10 @@ namespace CombatSystem
         };
 
         std::vector<std::string> actions;
-        for (auto abilityId : hero.abilities)
+        for (const auto &abilityId : hero.abilities)
         {
-            auto sa = Abilities::getAbility(abilityId).value();
-            actions.push_back("Use " + sa.name);
+            const auto name = Abilities::getAbility(abilityId).value().name;
+            actions.push_back("Use " + name);
         }
         actions.push_back("Basic Attack");
         actions.push_back("Skip Turn");
@@ -494,7 +492,7 @@ namespace CombatSystem
             std::vector<std::string> targets;
             for (auto t : targetable)
             {
-                auto h = combat.turnQueue[t];
+                const auto &h = combat.turnQueue[t];
                 const auto color = h.controller == Controller::AI_Enemy ? Utils::COLOR_RED : Utils::COLOR_GREEN;
                 targets.push_back("Target " + color + h.name + Utils::COLOR_END + " (Level: " + std::to_string(h.level) +
                                   " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
@@ -527,7 +525,7 @@ namespace CombatSystem
         for (auto &h : combat.turnQueue)
         {
             std::vector<StatusEffect> newEffects;
-            for (auto se : h.statusEffects)
+            for (const auto &se : h.statusEffects)
             {
                 if (se.turnsLeft > 0)
                 {

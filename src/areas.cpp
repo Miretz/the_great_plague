@@ -14,7 +14,7 @@ namespace Areas
 {
     void navigateToArea(uint32_t areaId, GameState &game)
     {
-        auto area = allAreas[areaId];
+        const auto &area = allAreas[areaId];
 
         // change game state
         game.areaId = areaId;

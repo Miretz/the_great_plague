@@ -370,7 +370,7 @@ namespace Utils
     {
         uint32_t result = 0;
 #if defined _WIN32
-        result = getch();
+        result = _getch();
 #else
         system("/bin/stty raw");
         result = getchar();

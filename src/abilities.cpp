@@ -47,10 +47,11 @@ namespace Abilities
                 auto se = g_StatusEffects.at(ability.mapping);
 
                 // prevent applying twice
-                for (auto seApplied : target.statusEffects)
+                for (auto &seApplied : target.statusEffects)
                 {
                     if (se.name == seApplied.name)
                     {
+                        seApplied.turnsLeft = se.turnsLeft;
                         return;
                     }
                 }
