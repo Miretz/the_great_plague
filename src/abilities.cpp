@@ -75,7 +75,7 @@ namespace Abilities
         // check if there already is a doggo
         for (auto h : combat.turnQueue)
         {
-            if (h.name == doggo.name)
+            if (h.uniqueId == doggo.uniqueId)
             {
                 return;
             }
@@ -86,7 +86,7 @@ namespace Abilities
         for (auto h : combat.turnQueue)
         {
             newQueue.push_back(h);
-            if (h.name == caster.name)
+            if (h.uniqueId == caster.uniqueId)
             {
                 newQueue.push_back(doggo);
             }

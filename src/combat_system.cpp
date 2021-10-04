@@ -181,7 +181,7 @@ namespace CombatSystem
         Utils::printCombatHeroHeader(target);
         Utils::printSpacedText(hero.name + " used " + Utils::COLOR_YELLOW + description + Utils::COLOR_END + " on " + target.name + ".");
 
-        if (oldHeroHP < hero.health && hero.name != target.name)
+        if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
         {
             Utils::printSpacedText("Restored health of " + hero.name + ": " + std::to_string(hero.health - oldHeroHP));
         }

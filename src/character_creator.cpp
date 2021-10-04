@@ -106,8 +106,10 @@ namespace CharacterCreator
         uint32_t level = 1;
         uint32_t xpToLevelUp = 100;
 
+        std::string uniqueId = "PLR_" + name;
+
         auto hero = Hero{
-            name, maxHealth, xp, maxHealth, level, xpToLevelUp, STARTING_ATTRIBUTE_POINTS, STARTING_SPECIALTY_POINTS, startingRaces[selection], Controller::Player, defaultAttributes, defaultSpecialties, {}, {}, basicInventory};
+            uniqueId, name, maxHealth, xp, maxHealth, level, xpToLevelUp, STARTING_ATTRIBUTE_POINTS, STARTING_SPECIALTY_POINTS, startingRaces[selection], Controller::Player, defaultAttributes, defaultSpecialties, {}, {}, basicInventory};
         Abilities::learnAbility(hero, race.abilityId);
         return hero;
     }

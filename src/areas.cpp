@@ -208,6 +208,7 @@ namespace Areas
         {
             auto h = enemyTemplate;
             h.name = names[i];
+            h.uniqueId = h.uniqueId + names[i] + std::to_string(i);
             enemies.push_back(h);
         }
 

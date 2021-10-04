@@ -12,6 +12,7 @@ namespace Files
     {
         std::ostringstream ss;
 
+        ss << hero.uniqueId << delimiter;
         ss << hero.name << delimiter;
 
         ss << hero.health << delimiter;
@@ -65,6 +66,9 @@ namespace Files
     Hero deserializeHero(std::string serialized)
     {
         Hero hero;
+
+        hero.uniqueId = serialized.substr(0, serialized.find(delimiter));
+        serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         hero.name = serialized.substr(0, serialized.find(delimiter));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());

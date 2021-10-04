@@ -112,6 +112,7 @@ struct Hero;
 
 struct Hero
 {
+    std::string uniqueId;
     std::string name;
 
     uint32_t health;
