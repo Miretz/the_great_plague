@@ -204,7 +204,7 @@ namespace Areas
 
         // fill the enemies vector
         std::vector<Hero> enemies;
-        for (uint32_t i = 0; i < partySize + 2; i++)
+        for (uint32_t i = 0; i < partySize * 2; i++)
         {
             auto h = enemyTemplate;
             h.name = names[i];

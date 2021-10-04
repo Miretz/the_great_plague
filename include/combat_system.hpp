@@ -7,16 +7,10 @@
 #include <queue>
 
 struct Hero;
+struct Combat;
 
 namespace CombatSystem
 {
-    struct Combat
-    {
-        uint32_t turn;
-        uint32_t currentHero;
-        std::vector<Hero> turnQueue;
-    };
-
     Combat prepare(std::vector<Hero> heroes, std::vector<Hero> enemies);
 
     bool isAnyFriendlyAlive(Combat &combat);
@@ -31,9 +25,11 @@ namespace CombatSystem
 
     void basicAttack(Hero &hero, Hero &target);
 
-    void abilityAttack(Hero &hero, Hero &target, const uint32_t abilityId);
+    void abilityAttack(Hero &hero, Hero &target, const uint32_t abilityId, Combat &combat);
 
-    std::vector<uint32_t> getTargetableHeroes(Combat &combat);
+    void printDamageNumbers(uint32_t oldHeroHP, uint32_t oldTargetHP, const Hero &hero, const Hero &target, const std::string &description);
+
+    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, uint32_t abilityId);
 
     void executeHeroAITurn(Combat &combat);
 

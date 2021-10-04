@@ -19,6 +19,7 @@ enum class Race
     Felidae,
     Strigifor,
     Vulpotis,
+    Canis,
 };
 
 enum class ItemType
@@ -141,6 +142,14 @@ struct GameState
     std::unordered_map<std::string, uint32_t> stateInfo;
 };
 
+struct Combat
+{
+    uint32_t turn;
+    uint32_t currentHero;
+    std::vector<Hero> turnQueue;
+    std::vector<Hero> dead;
+};
+
 /************************************************************************************************
 GLOBAL LISTS
 *************************************************************************************************/
@@ -153,6 +162,7 @@ const std::unordered_map<Race, RaceDetail> g_AllRaces{
     {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", 13}},
     {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", 14}},
     {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", 15}},
+    {Race::Canis, {"Canis", "A domesticated descendant of the grey wolf.", 12}},
 };
 
 const std::vector<Item> g_AllItems{

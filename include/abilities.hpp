@@ -7,43 +7,70 @@
 #include <functional>
 
 struct Hero;
+struct Combat;
 
 namespace Abilities
 {
-    void a_FirstAid(Hero &caster, Hero &target);
-    void a_Maul(Hero &caster, Hero &target);
-    void a_LifeDrain(Hero &caster, Hero &target);
+    enum class AbilityType
+    {
+        Damage,     // Maul, Precision shot, Life Drain, Pounce
+        Healing,    // First Aid,
+        Summoning,  // Summon Familiar, Man's best friend, Raise corpse
+        Buff,       // Evasion, Magic Shield, Camouflage
+        Debuff,     // Blinding, Poison Vines
+        AreaDamage, // Hailstrike, Storm
+        AreaHeal,   // Mass Heal
+        AreaBuff,   // Encourage
+        AreaDebuff  // Curse,
+    };
+
+    enum class Target
+    {
+        Self,
+        Friendly,
+        Enemy
+    };
 
     struct Ability
     {
         std::string name;
         std::string description;
-        std::function<void(Hero &, Hero &)> action;
-    };
-
-    const std::vector<Ability> allAbilities{
-        {"None", "None", nullptr},
-        {"First Aid", "Heal yourself or a friendly unit (revives fallen allies).", a_FirstAid},
-        {"Evasion", "Lower the chances of getting hit by 90%.", nullptr},
-        {"Knockdown", "Knocks down an enemy causing them to lose turn.", nullptr},
-        {"Life Drain", "Drain the health of the enemy restoring your health in the process.", a_LifeDrain},
-        {"Magic Shield", "Grants additional armor to character.", nullptr},
-        {"Summon Familiar", "Summons a creature from a different dimension to aid you in battle.", nullptr},
-        {"Raise Corpse", "Turns a nearby corpse into a zombie.", nullptr},
-        {"Camouflage", "Target is invisble. Can't be attacked by enemies.", nullptr},
-        {"Energy Blast", "Shoot a projectile of magical energy.", nullptr},
-
-        // Race specific
-        {"Poisonous Touch", "Scratch your opponent with your poisonous claws.", a_Maul},
-        {"Maul", "Hit the opponent twice with a strong attack.", a_Maul},
-        {"Vicious Bite", "Bite your enemy and heal yourself in the process.", a_LifeDrain},
-        {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", a_Maul},
-        {"Gust", "Command the wind to strike to enemy with a powerful blast.", a_Maul},
-        {"Pounce", "Sudden attack that knocks down the enemy.", a_Maul},
-        {"Mans best friend", "Summon a dog companion to aid you in battle.", nullptr},
+        std::function<void(Hero &, Hero &, Combat &)> action;
+        AbilityType type;
+        Target target;
     };
 
     void learnAbility(Hero &hero, uint32_t abilityId);
+
+    void a_FirstAid(Hero &caster, Hero &target, Combat &combat);
+    void a_Maul(Hero &caster, Hero &target, Combat &combat);
+    void a_LifeDrain(Hero &caster, Hero &target, Combat &combat);
+    void a_SummonDog(Hero &caster, Hero &target, Combat &combat);
+
+    const std::vector<Ability> allAbilities{
+        {"None", "None", nullptr, AbilityType::Damage, Target::Self},
+
+        // Starter abilities
+        {"First Aid", "Heal yourself or a friendly companion.", a_FirstAid, AbilityType::Healing, Target::Friendly},
+        {"Evasion", "Lower the chances of getting hit by 90%.", nullptr, AbilityType::Buff, Target::Friendly},
+        {"Knockdown", "Knocks down an enemy causing them to lose turn.", nullptr, AbilityType::Debuff, Target::Enemy},
+        {"Life Drain", "Drain the health of the enemy restoring your health in the process.", a_LifeDrain, AbilityType::Damage, Target::Enemy},
+        {"Magic Shield", "Grants additional armor to character.", nullptr, AbilityType::Buff, Target::Friendly},
+        {"Summon Familiar", "Summons a creature from a different dimension to aid you in battle.", a_SummonDog, AbilityType::Summoning, Target::Self},
+        {"Raise Corpse", "Turns a nearby corpse into a zombie.", nullptr, AbilityType::Summoning, Target::Enemy},
+        {"Camouflage", "Target is invisble. Can't be attacked by enemies.", nullptr, AbilityType::Buff, Target::Self},
+        {"Energy Blast", "Shoot a projectile of magical energy.", nullptr, AbilityType::Damage, Target::Enemy},
+
+        // Race specific
+        {"Poisonous Touch", "Scratch your opponent with your poisonous claws.", a_Maul, AbilityType::Damage, Target::Enemy},
+        {"Maul", "Hit the opponent twice with a strong attack.", a_Maul, AbilityType::Damage, Target::Enemy},
+        {"Vicious Bite", "Bite your enemy and heal yourself in the process.", a_LifeDrain, AbilityType::Damage, Target::Enemy},
+        {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", a_Maul, AbilityType::Damage, Target::Enemy},
+        {"Gust", "Command the wind to strike to enemy with a powerful blast.", a_Maul, AbilityType::Damage, Target::Enemy},
+        {"Pounce", "Sudden attack that knocks down the enemy.", a_Maul, AbilityType::Damage, Target::Enemy},
+        {"Man's best friend", "Summon a dog companion to aid you in battle.", a_SummonDog, AbilityType::Summoning, Target::Self},
+    };
+
 }
 
 #endif

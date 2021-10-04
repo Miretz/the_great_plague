@@ -4,6 +4,7 @@
 #include "utils.hpp"
 #include "characters.hpp"
 #include "inventory_manager.hpp"
+#include "files.hpp"
 
 namespace Abilities
 {
@@ -16,18 +17,18 @@ namespace Abilities
         }
     }
 
-    void a_Maul(Hero &caster, Hero &target)
+    void a_Maul(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         auto damage = 5 + caster.level * 10;
         Characters::takeDamage(target, damage);
     }
 
-    void a_FirstAid(Hero &caster, Hero &target)
+    void a_FirstAid(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         if (target.controller == Controller::Player || target.controller == Controller::AI_Friendly)
         {
             // level * 5
-            uint32_t newHealth = target.health + caster.level * 5;
+            uint32_t newHealth = 20 + target.health + caster.level * 5;
             if (newHealth >= target.maxHealth)
             {
                 target.health = target.maxHealth;
@@ -39,7 +40,7 @@ namespace Abilities
         }
     }
 
-    void a_LifeDrain(Hero &caster, Hero &target)
+    void a_LifeDrain(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         // take level*5 from enemy health
         uint32_t healthStolen = 10 + caster.level * 5;
@@ -65,6 +66,24 @@ namespace Abilities
         {
             caster.health = newHealth;
         }
+    }
+
+    void a_SummonDog(Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
+    {
+        auto doggo = Files::loadHeroFromConfig("assets/characters/dog/dog.txt");
+
+        // insert behind caster
+        std::vector<Hero> newQueue;
+        for (auto h : combat.turnQueue)
+        {
+            newQueue.push_back(h);
+            if (h.name == caster.name)
+            {
+                newQueue.push_back(doggo);
+            }
+        }
+
+        combat.turnQueue = newQueue;
     }
 
 }
