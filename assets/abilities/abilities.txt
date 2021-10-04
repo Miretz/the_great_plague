@@ -1,5 +1,5 @@
 race_human;         Man's best friend;  Summon a dog companion to aid you in battle.;                           f_SummonDog;    Summoning;      Self;
-race_repsoris;      Poisonous Touch;    Scratch your opponent with your poisonous claws.;                       f_Maul;         Damage;         Enemy;
+race_repsoris;      Poisonous Touch;    Scratch your opponent with your poisonous claws.;                       s_Poison;       StatusEffect;   Enemy;
 race_ursobac;       Maul;               Hit the opponent twice with a strong attack.;                           f_Maul;         Damage;         Enemy;
 race_rodanto;       Vicious Bite;       Bite your enemy and heal yourself in the process.;                      f_LifeDrain;    Damage;         Enemy;
 race_felidae;       Precision Strike;   Precise attack with a high chance of a Critical Hit.;                   f_Maul;         Damage;         Enemy;

@@ -64,6 +64,19 @@ namespace CombatSystem
         return std::find_if(q.begin(), q.end(), isEnemy) != q.end();
     }
 
+    bool isInvisible(Hero &hero)
+    {
+        for (auto se : hero.statusEffects)
+        {
+            if (se.type == StatusEffectType::Invisibility)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     void cleanTurnQueue(Combat &combat)
     {
         auto isDead = [](Hero h)
@@ -122,6 +135,7 @@ namespace CombatSystem
 
             // delete dead people
             cleanTurnQueue(combat);
+            clearStatusEffects(combat);
 
             // if all heros had their turn
             if (combat.currentHero >= combat.turnQueue.size())
@@ -132,6 +146,7 @@ namespace CombatSystem
         }
 
         cleanTurnQueue(combat);
+        clearAllStatusEffects(combat);
 
         // print survivors
         Utils::clearScreen();
@@ -223,6 +238,19 @@ namespace CombatSystem
         auto oldHeroHP = hero.health;
         auto oldTargetHP = target.health;
 
+        // check for evading or magic shield
+        for (auto se : target.statusEffects)
+        {
+            if (se.type == StatusEffectType::Protection || se.type == StatusEffectType::Protection)
+            {
+                if (Dice::rollDice(Dice::D20) < se.specialValue)
+                {
+                    printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, "Protected by " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                    return;
+                }
+            }
+        }
+
         Characters::takeDamage(target, damageValue);
 
         auto description = critical ? "Critical Hit" : "Basic Attack";
@@ -255,6 +283,12 @@ namespace CombatSystem
                 {
                     continue;
                 }
+
+                if (isInvisible(combat.turnQueue[i]))
+                {
+                    continue;
+                }
+
                 targetable.push_back(i);
             }
         }
@@ -283,6 +317,12 @@ namespace CombatSystem
                         {
                             continue;
                         }
+
+                        if (isInvisible(combat.turnQueue[i]))
+                        {
+                            continue;
+                        }
+
                         targetable.push_back(i);
                     }
                 }
@@ -346,6 +386,54 @@ namespace CombatSystem
 
         auto &hero = combat.turnQueue[combat.currentHero];
 
+        // check status effects
+        for (auto &se : hero.statusEffects)
+        {
+            se.turnsLeft -= 1;
+
+            if (se.type == StatusEffectType::SkipTurn)
+            {
+                Utils::clearScreen();
+                Utils::printCombatHeroHeader(hero);
+                Utils::printSpacedText("Turn skipped because of " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+
+                combat.currentHero += 1;
+                return;
+            }
+            else if (se.type == StatusEffectType::Damage)
+            {
+                Characters::takeDamage(hero, se.specialValue);
+
+                Utils::clearScreen();
+                Utils::printCombatHeroHeader(hero);
+                Utils::printSpacedText("Recieved " + std::to_string(se.specialValue) +
+                                       " damage from " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+
+                // check for death
+                if (hero.health == 0)
+                {
+                    combat.currentHero += 1;
+                    return;
+                }
+            }
+            else if (se.type == StatusEffectType::Heal)
+            {
+                Characters::heal(hero, se.specialValue);
+
+                Utils::clearScreen();
+                Utils::printCombatHeroHeader(hero);
+                Utils::printSpacedText("Recieved " + std::to_string(se.specialValue) +
+                                       " health from " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+            }
+        }
+
+        // check if AI turn
         if (hero.controller == Controller::AI_Enemy)
         {
             executeHeroAITurn(combat);
@@ -400,7 +488,8 @@ namespace CombatSystem
             {
                 auto h = combat.turnQueue[t];
                 const auto color = h.controller == Controller::AI_Enemy ? Utils::COLOR_RED : Utils::COLOR_GREEN;
-                targets.push_back("Target " + color + h.name + Utils::COLOR_END + " (Level: " + std::to_string(h.level) + " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
+                targets.push_back("Target " + color + h.name + Utils::COLOR_END + " (Level: " + std::to_string(h.level) +
+                                  " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
             }
 
             // selected target
@@ -423,6 +512,30 @@ namespace CombatSystem
         }
 
         combat.currentHero += 1;
+    }
+
+    void clearStatusEffects(Combat &combat)
+    {
+        for (auto &h : combat.turnQueue)
+        {
+            std::vector<StatusEffect> newEffects;
+            for (auto se : h.statusEffects)
+            {
+                if (se.turnsLeft > 0)
+                {
+                    newEffects.push_back(se);
+                }
+            }
+            h.statusEffects = newEffects;
+        }
+    }
+
+    void clearAllStatusEffects(Combat &combat)
+    {
+        for (auto &h : combat.turnQueue)
+        {
+            h.statusEffects = {};
+        }
     }
 
 }

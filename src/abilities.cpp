@@ -44,7 +44,18 @@ namespace Abilities
 
             if (ability.type == AbilityType::StatusEffect)
             {
-                // TODO: apply status effect from mapping
+                auto se = g_StatusEffects.at(ability.mapping);
+
+                // prevent applying twice
+                for (auto seApplied : target.statusEffects)
+                {
+                    if (se.name == seApplied.name)
+                    {
+                        return;
+                    }
+                }
+
+                target.statusEffects.push_back(se);
             }
             else
             {

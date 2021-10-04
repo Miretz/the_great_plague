@@ -25,6 +25,8 @@ namespace Characters
     bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes);
 
     void takeDamage(Hero &hero, const uint32_t amount);
+
+    void heal(Hero &hero, const uint32_t amount);
 }
 
 #endif

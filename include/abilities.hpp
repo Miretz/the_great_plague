@@ -33,7 +33,6 @@ namespace Abilities
         {"f_LifeDrain", f_LifeDrain},
         {"f_SummonDog", f_SummonDog},
     };
-
 }
 
 #endif

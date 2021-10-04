@@ -73,6 +73,15 @@ enum class Target
     Enemy
 };
 
+enum class StatusEffectType
+{
+    SkipTurn,   // Knockdown
+    Damage,     // Poision, Burning, ...
+    Heal,       // Restoration
+    Protection, // Magic Armor
+    Invisibility,
+};
+
 /************************************************************************************************
 CLASSES
 *************************************************************************************************/
@@ -124,7 +133,13 @@ struct Inventory
     std::unordered_map<std::string, uint32_t> equipped;
 };
 
-struct Hero;
+struct StatusEffect
+{
+    StatusEffectType type;
+    std::string name;
+    uint32_t turnsLeft;
+    uint32_t specialValue;
+};
 
 struct Hero
 {
@@ -147,8 +162,10 @@ struct Hero
     Attributes attributes;
     Specialties specialties;
     std::vector<std::string> abilities;
-    std::vector<std::string> statusEffects;
     Inventory inventory;
+
+    // not serialized
+    std::vector<StatusEffect> statusEffects;
 };
 
 struct GameState
@@ -190,6 +207,14 @@ const std::unordered_map<Race, RaceDetail> g_AllRaces{
     {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "race_strigifor"}},
     {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "race_vulpotis"}},
     {Race::Canis, {"Canis", "A domesticated descendant of the grey wolf.", ""}},
+};
+
+const std::unordered_map<std::string, StatusEffect> g_StatusEffects{
+    {"s_Knockdown", {StatusEffectType::SkipTurn, "Knocked Down", 1, 0}},
+    {"s_Poison", {StatusEffectType::Damage, "Poisoned", 2, 10}},
+    {"s_Evasion", {StatusEffectType::Protection, "Evading", 3, 15}},
+    {"s_Camouflage", {StatusEffectType::Invisibility, "Invisible", 3, 10}},
+    {"s_MagicShield", {StatusEffectType::Protection, "M.Shield", 1, 5}},
 };
 
 const std::vector<Item> g_AllItems{

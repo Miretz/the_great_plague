@@ -97,12 +97,12 @@ namespace Characters
                 {"Two-handed", "Grants new abilities for two-handed weapons such as longswords and quarterstaffs.", previous.twoHanded},
                 {"Ranged", "Grants new abilities for ranged weapons such as bows and crossbows.", previous.ranged},
                 {"Dual wielding", "Reduces the penalty of the weapon wielded in off-hand by 5%.", previous.dualWielding},
-                
-                {"Mysticism",  "Grants abilities that manipulate life force.", previous.mysticism},
+
+                {"Mysticism", "Grants abilities that manipulate life force.", previous.mysticism},
                 {"Terramancy", "Grants abilities that use the power of nature.", previous.terramancy},
                 {"Hydromancy", "Grants abilities that use the power of water and ice.", previous.hydromancy},
-                {"Pyromancy",  "Grants abilities that use the power of fire.", previous.pyromancy},
-                {"Aeromancy",  "Grants abilities that use the power of air and electricity.", previous.aeromancy},
+                {"Pyromancy", "Grants abilities that use the power of fire.", previous.pyromancy},
+                {"Aeromancy", "Grants abilities that use the power of air and electricity.", previous.aeromancy},
             };
 
             auto prompt = [hero]()
@@ -155,6 +155,19 @@ namespace Characters
         else
         {
             hero.health -= amount;
+        }
+    }
+
+    void heal(Hero &hero, const uint32_t amount)
+    {
+        const auto newHealth = hero.health + amount;
+        if (newHealth >= hero.maxHealth)
+        {
+            hero.health = hero.maxHealth;
+        }
+        else
+        {
+            hero.health = newHealth;
         }
     }
 

@@ -17,6 +17,8 @@ namespace CombatSystem
 
     bool isAnyEnemyAlive(Combat &combat);
 
+    bool isInvisible(Hero &hero);
+
     void cleanTurnQueue(Combat &combat);
 
     bool startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies);
@@ -35,6 +37,9 @@ namespace CombatSystem
 
     void executeHeroTurn(Combat &combat);
 
+    void clearStatusEffects(Combat &combat);
+
+    void clearAllStatusEffects(Combat &combat);
 }
 
 #endif

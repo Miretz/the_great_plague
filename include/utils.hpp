@@ -55,6 +55,8 @@ namespace Utils
     void printHeroInventory(const Inventory &inventory);
 
     void printHeroHeader(const std::string &name, const uint32_t level);
+    
+    const std::string getStatusEffects(const Hero &hero);
 
     void printCombatHeroHeader(const Hero &hero);
 

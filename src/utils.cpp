@@ -244,7 +244,7 @@ namespace Utils
 
         // hero name
         ss << color;
-        ss << std::left << std::setw(20);
+        ss << std::left << std::setw(10);
         ss << hero.name;
         ss << COLOR_END;
         ss << " (Level " << hero.level << ") ";
@@ -282,6 +282,26 @@ namespace Utils
         std::cout << ss.str();
 
         printBorder(130);
+
+        // print status effects
+        if (hero.statusEffects.size() > 0)
+        {
+            std::ostringstream ssfx;
+
+            ssfx << "|Status Effects: ";
+            ssfx << "~ ";
+
+            for (auto se : hero.statusEffects)
+            {
+                ssfx << se.name << " (Ends in " << se.turnsLeft << " turns) ~ ";
+            }
+
+            ssfx << "\n";
+
+            std::cout << ssfx.str();
+
+            printBorder(130);
+        }
     }
 
     void printBorderedText(const std::string &text)
