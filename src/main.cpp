@@ -3,11 +3,11 @@
 #include "areas.hpp"
 #include "files.hpp"
 #include "character_creator.hpp"
-
-#include <iostream>
+#include "abilities.hpp"
 
 int main(void)
 {
+    Abilities::init();
 
     bool running = true;
     while (running)
@@ -35,7 +35,7 @@ int main(void)
             auto heroes = saveGame.heroes;
             if (heroes.size() == 0)
             {
-                std::cout << "Save file not found!\n\n";
+                Utils::printSpacedText("Save file not found!");
                 Utils::pressEnterToContinue();
                 continue;
             }

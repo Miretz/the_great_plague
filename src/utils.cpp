@@ -86,11 +86,11 @@ namespace Utils
         printAdjustment("Aeromancy", base.aeromancy, adjustment.aeromancy);
     }
 
-    void printHeroAbilities(const std::vector<uint32_t> &abilities)
+    void printHeroAbilities(const std::vector<std::string> &abilities)
     {
         for (auto id : abilities)
         {
-            auto a = Abilities::allAbilities[id];
+            auto a = Abilities::getAbility(id).value();
             std::cout << "|"
                       << "Ability: " << a.name << " - " << a.description << '\n';
         }

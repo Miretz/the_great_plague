@@ -25,11 +25,11 @@ namespace CombatSystem
 
     void basicAttack(Hero &hero, Hero &target);
 
-    void abilityAttack(Hero &hero, Hero &target, const uint32_t abilityId, Combat &combat);
+    void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat);
 
     void printDamageNumbers(uint32_t oldHeroHP, uint32_t oldTargetHP, const Hero &hero, const Hero &target, const std::string &description);
 
-    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, uint32_t abilityId);
+    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId);
 
     void executeHeroAITurn(Combat &combat);
 

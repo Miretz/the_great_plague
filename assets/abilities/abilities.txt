@@ -1,0 +1,14 @@
+race_human;         Man's best friend;  Summon a dog companion to aid you in battle.;                           f_SummonDog;    Summoning;      Self;
+race_repsoris;      Poisonous Touch;    Scratch your opponent with your poisonous claws.;                       f_Maul;         Damage;         Enemy;
+race_ursobac;       Maul;               Hit the opponent twice with a strong attack.;                           f_Maul;         Damage;         Enemy;
+race_rodanto;       Vicious Bite;       Bite your enemy and heal yourself in the process.;                      f_LifeDrain;    Damage;         Enemy;
+race_felidae;       Precision Strike;   Precise attack with a high chance of a Critical Hit.;                   f_Maul;         Damage;         Enemy;
+race_strigifor;     Gust;               Command the wind to strike to enemy with a powerful blast.;             f_Maul;         Damage;         Enemy;
+race_vulpotis;      Pounce;             Sudden attack that knocks down the enemy.;                              f_Maul;         Damage;         Enemy;
+first_aid;          First Aid;          Heal yourself or a friendly companion.;                                 f_FirstAid;     Healing;        Friendly;
+evasion;            Evasion;            Lower the chances of getting hit by 90%.;                               s_Evasion;      StatusEffect;   Friendly;
+knockdown;          Knockdown;          Knocks down an enemy causing them to lose turn.;                        s_Knockdown;    StatusEffect;   Enemy;
+life_drain;         Life Drain;         Drain the health of the enemy restoring your health in the process.;    f_LifeDrain;    Damage;         Enemy;
+magic_shield;       Magic Shield;       Grants additional armor to character.;                                  s_MagicShield;  StatusEffect;   Friendly;
+camouflage;         Camouflage;         Target is invisble and can't be attacked by enemies.;                   s_Camouflage;   StatusEffect;   Self;
+energy_blast;       Energy Blast;       Shoot a projectile of magical energy.;                                  f_Maul;         Damage;         Enemy;

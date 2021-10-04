@@ -1,1 +1,1 @@
-CHR_Dansea|Dansea|110|0|110|1|100|0|0|4|0|10|11|11|10|0|0|1|0|0|0|0|0|0|13;8;||Legs;8;Offhand;5;Torso;7;Main Hand;5;Head;9;Gloves;10;|
+CHR_Dansea|Dansea|110|0|110|1|100|0|0|4|0|10|11|11|10|0|0|1|0|0|0|0|0|0|race_felidae;camouflage;||Legs;8;Offhand;5;Torso;7;Main Hand;5;Head;9;Gloves;10;|

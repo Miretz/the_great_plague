@@ -230,22 +230,19 @@ namespace CombatSystem
         printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, description);
     }
 
-    void abilityAttack(Hero &hero, Hero &target, const uint32_t abilityId, Combat &combat)
+    void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat)
     {
-        const auto ability = Abilities::allAbilities[abilityId];
+        const auto oldHeroHP = hero.health;
+        const auto oldTargetHP = target.health;
 
-        auto oldHeroHP = hero.health;
-        auto oldTargetHP = target.health;
+        Abilities::executeAbility(abilityId, hero, target, combat);
 
-        if (ability.action != nullptr)
-        {
-            ability.action(hero, target, combat);
-        }
+        const auto abilityName = Abilities::getAbility(abilityId).value().name;
 
-        printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, ability.name);
+        printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, abilityName);
     }
 
-    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, uint32_t abilityId)
+    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId)
     {
         std::vector<uint32_t> targetable;
 
@@ -263,11 +260,8 @@ namespace CombatSystem
         }
         else
         {
-            auto ability = Abilities::allAbilities[abilityId];
-
-            const auto target = ability.target;
-
-            if (target == Abilities::Target::Self)
+            const auto target = Abilities::getAbility(abilityId).value().target;
+            if (target == Target::Self)
             {
                 targetable.push_back(combat.currentHero);
             }
@@ -277,12 +271,12 @@ namespace CombatSystem
 
                 for (uint32_t i = 0; i < combat.turnQueue.size(); ++i)
                 {
-                    if (target == Abilities::Target::Friendly &&
+                    if (target == Target::Friendly &&
                         combat.turnQueue[i].controller == myController)
                     {
                         targetable.push_back(i);
                     }
-                    if (target == Abilities::Target::Enemy &&
+                    if (target == Target::Enemy &&
                         combat.turnQueue[i].controller != myController)
                     {
                         if (i == combat.currentHero) // skip current hero
@@ -311,7 +305,7 @@ namespace CombatSystem
             auto isBasicAttack = selection == hero.abilities.size();
 
             // get ability id
-            uint32_t abilityId = 0;
+            std::string abilityId = "";
             if (!isBasicAttack)
             {
                 abilityId = hero.abilities[selection];
@@ -368,7 +362,7 @@ namespace CombatSystem
         std::vector<std::string> actions;
         for (auto abilityId : hero.abilities)
         {
-            auto sa = Abilities::allAbilities[abilityId];
+            auto sa = Abilities::getAbility(abilityId).value();
             actions.push_back("Use " + sa.name);
         }
         actions.push_back("Basic Attack");
@@ -384,7 +378,7 @@ namespace CombatSystem
         if (!isSkipTurn)
         {
             // get ability id
-            uint32_t abilityId = 0;
+            std::string abilityId = "";
             if (!isBasicAttack)
             {
                 abilityId = hero.abilities[selection];

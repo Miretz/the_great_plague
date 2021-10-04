@@ -44,7 +44,7 @@ namespace Utils
 
     void printSpecialtiesAdjustment(const Specialties &base, const Specialties &adjustment);
 
-    void printHeroAbilities(const std::vector<uint32_t> &abilities);
+    void printHeroAbilities(const std::vector<std::string> &abilities);
 
     const std::string getItemString(const uint32_t a, bool describe);
 

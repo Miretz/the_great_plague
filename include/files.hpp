@@ -3,8 +3,10 @@
 #define files_hpp
 
 #include <string>
+#include <vector>
 
 struct Hero;
+struct Ability;
 struct GameState;
 
 namespace Files
@@ -29,6 +31,8 @@ namespace Files
     Hero loadHeroFromConfig(const std::string &filePath);
 
     void saveHeroToFile(const Hero &hero, const std::string &filePath);
+
+    std::vector<Ability> loadAbilities(const std::string &filePath);
 }
 
 #endif

@@ -8,67 +8,30 @@
 
 struct Hero;
 struct Combat;
+struct Ability;
 
 namespace Abilities
 {
-    enum class AbilityType
-    {
-        Damage,     // Maul, Precision shot, Life Drain, Pounce
-        Healing,    // First Aid,
-        Summoning,  // Summon Familiar, Man's best friend, Raise corpse
-        Buff,       // Evasion, Magic Shield, Camouflage
-        Debuff,     // Blinding, Poison Vines
-        AreaDamage, // Hailstrike, Storm
-        AreaHeal,   // Mass Heal
-        AreaBuff,   // Encourage
-        AreaDebuff  // Curse,
-    };
 
-    enum class Target
-    {
-        Self,
-        Friendly,
-        Enemy
-    };
+    std::optional<Ability> getAbility(const std::string &id);
 
-    struct Ability
-    {
-        std::string name;
-        std::string description;
-        std::function<void(Hero &, Hero &, Combat &)> action;
-        AbilityType type;
-        Target target;
-    };
+    void init();
 
-    void learnAbility(Hero &hero, uint32_t abilityId);
+    void learnAbility(Hero &hero, const std::string &id);
 
-    void a_FirstAid(Hero &caster, Hero &target, Combat &combat);
-    void a_Maul(Hero &caster, Hero &target, Combat &combat);
-    void a_LifeDrain(Hero &caster, Hero &target, Combat &combat);
-    void a_SummonDog(Hero &caster, Hero &target, Combat &combat);
+    void executeAbility(const std::string &id, Hero &caster, Hero &target, Combat &combat);
 
-    const std::vector<Ability> allAbilities{
-        {"None", "None", nullptr, AbilityType::Damage, Target::Self},
+    // ability scripts
+    void f_FirstAid(Hero &caster, Hero &target, Combat &combat);
+    void f_Maul(Hero &caster, Hero &target, Combat &combat);
+    void f_LifeDrain(Hero &caster, Hero &target, Combat &combat);
+    void f_SummonDog(Hero &caster, Hero &target, Combat &combat);
 
-        // Starter abilities
-        {"First Aid", "Heal yourself or a friendly companion.", a_FirstAid, AbilityType::Healing, Target::Friendly},
-        {"Evasion", "Lower the chances of getting hit by 90%.", nullptr, AbilityType::Buff, Target::Friendly},
-        {"Knockdown", "Knocks down an enemy causing them to lose turn.", nullptr, AbilityType::Debuff, Target::Enemy},
-        {"Life Drain", "Drain the health of the enemy restoring your health in the process.", a_LifeDrain, AbilityType::Damage, Target::Enemy},
-        {"Magic Shield", "Grants additional armor to character.", nullptr, AbilityType::Buff, Target::Friendly},
-        {"Summon Familiar", "Summons a creature from a different dimension to aid you in battle.", a_SummonDog, AbilityType::Summoning, Target::Self},
-        {"Raise Corpse", "Turns a nearby corpse into a zombie.", nullptr, AbilityType::Summoning, Target::Enemy},
-        {"Camouflage", "Target is invisble. Can't be attacked by enemies.", nullptr, AbilityType::Buff, Target::Self},
-        {"Energy Blast", "Shoot a projectile of magical energy.", nullptr, AbilityType::Damage, Target::Enemy},
-
-        // Race specific
-        {"Poisonous Touch", "Scratch your opponent with your poisonous claws.", a_Maul, AbilityType::Damage, Target::Enemy},
-        {"Maul", "Hit the opponent twice with a strong attack.", a_Maul, AbilityType::Damage, Target::Enemy},
-        {"Vicious Bite", "Bite your enemy and heal yourself in the process.", a_LifeDrain, AbilityType::Damage, Target::Enemy},
-        {"Precision Strike", "Precise attack with a high chance of a Critical Hit.", a_Maul, AbilityType::Damage, Target::Enemy},
-        {"Gust", "Command the wind to strike to enemy with a powerful blast.", a_Maul, AbilityType::Damage, Target::Enemy},
-        {"Pounce", "Sudden attack that knocks down the enemy.", a_Maul, AbilityType::Damage, Target::Enemy},
-        {"Man's best friend", "Summon a dog companion to aid you in battle.", a_SummonDog, AbilityType::Summoning, Target::Self},
+    const std::unordered_map<std::string, std::function<void(Hero &, Hero &, Combat &)>> mappedFunctions{
+        {"f_FirstAid", f_FirstAid},
+        {"f_Maul", f_Maul},
+        {"f_LifeDrain", f_LifeDrain},
+        {"f_SummonDog", f_SummonDog},
     };
 
 }

@@ -57,6 +57,22 @@ enum class Controller
     AI_Enemy,
 };
 
+enum class AbilityType
+{
+    Damage,       // Maul, Precision shot, Life Drain, Pounce
+    Healing,      // First Aid,
+    Summoning,    // Summon Familiar, Man's best friend, Raise corpse
+    StatusEffect, // Knockdown, Evasion, Magic Shield, Poison
+    AreaOfEffect  // Hailstorm, Ring of fire, etc.
+};
+
+enum class Target
+{
+    Self,
+    Friendly,
+    Enemy
+};
+
 /************************************************************************************************
 CLASSES
 *************************************************************************************************/
@@ -87,7 +103,7 @@ struct RaceDetail
 {
     std::string name;
     std::string description;
-    uint32_t abilityId;
+    std::string abilityId;
 };
 
 struct Item
@@ -130,8 +146,8 @@ struct Hero
 
     Attributes attributes;
     Specialties specialties;
-    std::vector<uint32_t> abilities;
-    std::vector<uint32_t> statusEffects;
+    std::vector<std::string> abilities;
+    std::vector<std::string> statusEffects;
     Inventory inventory;
 };
 
@@ -151,19 +167,29 @@ struct Combat
     std::vector<Hero> dead;
 };
 
+struct Ability
+{
+    std::string id;
+    std::string name;
+    std::string description;
+    std::string mapping;
+    AbilityType type;
+    Target target;
+};
+
 /************************************************************************************************
 GLOBAL LISTS
 *************************************************************************************************/
 
 const std::unordered_map<Race, RaceDetail> g_AllRaces{
-    {Race::Human, {"Human", "The most common among the races.", 16}},
-    {Race::Repsoris, {"Repsoris", "Identified by their reptilian features and hatred of cold.", 10}},
-    {Race::Ursobac, {"Ursobac", "Their large intimidating physique makes them valuable protectors.", 11}},
-    {Race::Rodanto, {"Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", 12}},
-    {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", 13}},
-    {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", 14}},
-    {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", 15}},
-    {Race::Canis, {"Canis", "A domesticated descendant of the grey wolf.", 12}},
+    {Race::Human, {"Human", "The most common among the races.", "race_human"}},
+    {Race::Repsoris, {"Repsoris", "Identified by their reptilian features and hatred of cold.", "race_repsoris"}},
+    {Race::Ursobac, {"Ursobac", "Their large intimidating physique makes them valuable protectors.", "race_ursobac"}},
+    {Race::Rodanto, {"Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", "race_rodanto"}},
+    {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "race_felidae"}},
+    {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "race_strigifor"}},
+    {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "race_vulpotis"}},
+    {Race::Canis, {"Canis", "A domesticated descendant of the grey wolf.", ""}},
 };
 
 const std::vector<Item> g_AllItems{

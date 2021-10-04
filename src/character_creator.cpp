@@ -86,11 +86,13 @@ namespace CharacterCreator
         {
             auto r = g_AllRaces.at(rId);
 
+            auto ability = Abilities::getAbility(r.abilityId).value();
+
             std::string menuOption = r.name;
             menuOption += Utils::COLOR_END;
             menuOption += Utils::COLOR_GREY;
             menuOption += "\n  " + r.description;
-            menuOption += "\n  Grants ability: " + Abilities::allAbilities[r.abilityId].name + " - " + Abilities::allAbilities[r.abilityId].description;
+            menuOption += "\n  Grants ability: " + ability.name + " - " + ability.description;
             menuOption += Utils::COLOR_END;
 
             menu.push_back(menuOption);
@@ -114,7 +116,7 @@ namespace CharacterCreator
         return hero;
     }
 
-    uint32_t pickStartingAbility()
+    const std::string pickStartingAbility()
     {
         Utils::clearScreen();
 
@@ -126,7 +128,7 @@ namespace CharacterCreator
         std::vector<std::string> menu;
         for (auto abilityId : startingAbilities)
         {
-            auto sa = Abilities::allAbilities[abilityId];
+            auto sa = Abilities::getAbility(abilityId).value();
             menu.push_back(sa.name + " - " + sa.description);
         }
 

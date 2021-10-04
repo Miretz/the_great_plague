@@ -8,22 +8,59 @@
 
 namespace Abilities
 {
+    std::unordered_map<std::string, Ability> loadedAbilities;
 
-    void learnAbility(Hero &hero, uint32_t abilityId)
+    std::optional<Ability> getAbility(const std::string &id)
     {
-        if (abilityId != 0)
+        if (id.empty())
         {
-            hero.abilities.push_back(abilityId);
+            return {};
+        }
+        return loadedAbilities.at(id);
+    }
+
+    void init()
+    {
+        const auto abilitiesFromFile = Files::loadAbilities("assets/abilities/abilities.txt");
+        for (auto ab : abilitiesFromFile)
+        {
+            loadedAbilities[ab.id] = ab;
         }
     }
 
-    void a_Maul(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    void learnAbility(Hero &hero, const std::string &id)
+    {
+        if (getAbility(id).has_value())
+        {
+            hero.abilities.push_back(id);
+        }
+    }
+
+    void executeAbility(const std::string &id, Hero &caster, Hero &target, Combat &combat)
+    {
+        if (getAbility(id).has_value())
+        {
+            const auto ability = getAbility(id).value();
+
+            if (ability.type == AbilityType::StatusEffect)
+            {
+                // TODO: apply status effect from mapping
+            }
+            else
+            {
+                auto f = mappedFunctions.at(ability.mapping);
+                f(caster, target, combat);
+            }
+        }
+    }
+
+    void f_Maul(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         auto damage = 5 + caster.level * 10;
         Characters::takeDamage(target, damage);
     }
 
-    void a_FirstAid(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    void f_FirstAid(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         if (target.controller == Controller::Player || target.controller == Controller::AI_Friendly)
         {
@@ -40,7 +77,7 @@ namespace Abilities
         }
     }
 
-    void a_LifeDrain(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    void f_LifeDrain(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         // take level*5 from enemy health
         uint32_t healthStolen = 10 + caster.level * 5;
@@ -68,7 +105,7 @@ namespace Abilities
         }
     }
 
-    void a_SummonDog(Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
+    void f_SummonDog(Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
     {
         auto doggo = Files::loadHeroFromConfig("assets/characters/dog/dog.txt");
 

@@ -23,13 +23,13 @@ namespace CharacterCreator
         Race::Vulpotis,
     };
 
-    const std::vector<uint32_t> startingAbilities{
-        1, // First Aid
-        2, // Evasion
-        3, // Knockdown
-        4, // Life Drain
-        5, // Magic Shield
-        8, // Camouflage
+    const std::vector<std::string> startingAbilities{
+        "first_aid",
+        "evasion",
+        "knockdown",
+        "life_drain",
+        "magic_shield",
+        "camouflage",
     };
 
     const std::vector<uint32_t> startingItems{0, 1, 2, 3, 4, 5, 6};
@@ -38,7 +38,7 @@ namespace CharacterCreator
 
     Hero pickHeroRace(const std::string &name);
 
-    uint32_t pickStartingAbility();
+    const std::string pickStartingAbility();
 
     uint32_t pickStartingItem(Attributes &attributes);
 }

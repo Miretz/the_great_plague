@@ -1,10 +1,12 @@
 #include "files.hpp"
 
 #include "entities.hpp"
+#include "utils.hpp"
 
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 
 namespace Files
 {
@@ -160,7 +162,7 @@ namespace Files
             auto token = abilitiesStr.substr(0, pos);
             if (token == "")
                 break;
-            hero.abilities.push_back(static_cast<uint32_t>(std::stoul(token)));
+            hero.abilities.push_back(Utils::trim(token));
             abilitiesStr.erase(0, pos + valueDelimitter.length());
         }
 
@@ -296,5 +298,85 @@ namespace Files
     void saveHeroToFile(const Hero &hero, const std::string &filePath)
     {
         saveFile(serializeHero(hero), filePath);
+    }
+
+    std::vector<Ability> loadAbilities(const std::string &filePath)
+    {
+        std::vector<Ability> abilities;
+
+        std::fstream file;
+        file.open(filePath, std::ios::in);
+        if (file.is_open())
+        {
+            std::string line;
+            while (getline(file, line))
+            {
+                Ability ability;
+                ability.id = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                ability.name = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                ability.description = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                ability.mapping = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                auto typeStr = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                if (typeStr == "Damage")
+                {
+                    ability.type = AbilityType::Damage;
+                }
+                else if (typeStr == "Healing")
+                {
+                    ability.type = AbilityType::Healing;
+                }
+                else if (typeStr == "Summoning")
+                {
+                    ability.type = AbilityType::Summoning;
+                }
+                else if (typeStr == "StatusEffect")
+                {
+                    ability.type = AbilityType::StatusEffect;
+                }
+                else if (typeStr == "AreaOfEffect")
+                {
+                    ability.type = AbilityType::AreaOfEffect;
+                }
+                else
+                {
+                    throw std::invalid_argument("Invalid ability type for " + ability.id + ": " + typeStr);
+                }
+
+                auto targetStr = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                if (targetStr == "Self")
+                {
+                    ability.target = Target::Self;
+                }
+                else if (targetStr == "Friendly")
+                {
+                    ability.target = Target::Friendly;
+                }
+                else if (targetStr == "Enemy")
+                {
+                    ability.target = Target::Enemy;
+                }
+                else
+                {
+                    throw std::invalid_argument("Invalid ability target for " + ability.id + ": " + typeStr);
+                }
+
+                abilities.push_back(ability);
+            }
+            file.close();
+        }
+
+        return abilities;
     }
 }
