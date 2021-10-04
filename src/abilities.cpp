@@ -72,6 +72,15 @@ namespace Abilities
     {
         auto doggo = Files::loadHeroFromConfig("assets/characters/dog/dog.txt");
 
+        // check if there already is a doggo
+        for (auto h : combat.turnQueue)
+        {
+            if (h.name == doggo.name)
+            {
+                return;
+            }
+        }
+
         // insert behind caster
         std::vector<Hero> newQueue;
         for (auto h : combat.turnQueue)
