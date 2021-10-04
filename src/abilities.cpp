@@ -141,6 +141,7 @@ namespace Abilities
         }
 
         combat.turnQueue = newQueue;
+        combat.currentHero -= 1;
     }
 
 }

@@ -113,22 +113,19 @@ namespace CombatSystem
             Utils::newLine();
             if (combat.currentHero != combat.turnQueue.size() - 1)
             {
-                Utils::printSpacedText("Waiting for turn:");
                 for (uint32_t i = combat.currentHero + 1; i < combat.turnQueue.size(); ++i)
                 {
                     Utils::printCombatHeroHeader(combat.turnQueue[i]);
                 }
-                Utils::newLine();
             }
             if (combat.currentHero != 0)
             {
-                Utils::printSpacedText("Waiting for next turn:");
                 for (uint32_t i = 0; i < combat.currentHero; ++i)
                 {
                     Utils::printCombatHeroHeader(combat.turnQueue[i]);
                 }
-                Utils::newLine();
             }
+            Utils::newLine();
             Utils::pressEnterToContinue();
 
             executeHeroTurn(combat);
@@ -353,6 +350,17 @@ namespace CombatSystem
 
             // pick enemy
             auto targetable = getTargetableHeroes(combat, isBasicAttack, abilityId);
+            if (targetable.empty())
+            {
+                Utils::clearScreen();
+                Utils::printCombatHeroHeader(hero);
+                Utils::printSpacedText("Skipped their turn.");
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+                combat.currentHero += 1;
+                return;
+            }
+
             auto &target = combat.turnQueue[targetable[Dice::randomSelection(0, targetable.size() - 1)]];
 
             if (Dice::rollDice(Dice::D20) == 1) // Miss

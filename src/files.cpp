@@ -192,6 +192,8 @@ namespace Files
             hero.inventory.equipped[key] = value;
         }
 
+        hero.statusEffects = {};
+
         return hero;
     }
 
