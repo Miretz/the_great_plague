@@ -122,17 +122,20 @@ namespace Abilities
         auto doggo = Files::loadHeroFromConfig("assets/characters/dog/dog.txt");
 
         // check if there already is a doggo
-        for (auto h : combat.turnQueue)
+        // if yes, then heal it and remove status effects
+        for (auto &h : combat.turnQueue)
         {
             if (h.uniqueId == doggo.uniqueId)
             {
+                h.health = doggo.maxHealth;
+                h.statusEffects = {};
                 return;
             }
         }
 
         // insert behind caster
         std::vector<Hero> newQueue;
-        for (auto h : combat.turnQueue)
+        for (const auto &h : combat.turnQueue)
         {
             newQueue.push_back(h);
             if (h.uniqueId == caster.uniqueId)

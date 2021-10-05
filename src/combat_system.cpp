@@ -471,6 +471,15 @@ namespace CombatSystem
         // check if skipping turn
         if (!isSkipTurn)
         {
+            // remove invisibility if the hero didn't skip turn
+            for (auto &se : hero.statusEffects)
+            {
+                if (se.type == StatusEffectType::Invisibility)
+                {
+                    se.turnsLeft = 0;
+                }
+            }
+
             // get ability id
             std::string abilityId = "";
             if (!isBasicAttack)
