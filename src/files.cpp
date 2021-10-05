@@ -193,6 +193,7 @@ namespace Files
         }
 
         hero.statusEffects = {};
+        hero.actionPoints = 0;
 
         return hero;
     }

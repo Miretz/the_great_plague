@@ -138,17 +138,19 @@ namespace Abilities
 
         // insert behind caster
         std::vector<Hero> newQueue;
+        uint32_t newHeroPos = 0;
         for (const auto &h : combat.turnQueue)
         {
             newQueue.push_back(h);
             if (h.uniqueId == caster.uniqueId)
             {
+                newHeroPos = newQueue.size() - 1;
                 newQueue.push_back(doggo);
             }
         }
 
         combat.turnQueue = newQueue;
-        combat.currentHero -= 1;
+        combat.currentHero = newHeroPos;
     }
 
 }

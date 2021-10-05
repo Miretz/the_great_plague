@@ -25,7 +25,7 @@ namespace CombatSystem
 
     bool startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies);
 
-    void miss(const Hero &hero, const Hero &target);
+    void miss(Hero &hero, const Hero &target);
 
     void basicAttack(Hero &hero, Hero &target);
 
@@ -42,6 +42,8 @@ namespace CombatSystem
     void clearStatusEffects(Combat &combat);
 
     void clearAllStatusEffects(Combat &combat);
+
+    void decreaseAP(Hero& hero, uint32_t amount);
 }
 
 #endif

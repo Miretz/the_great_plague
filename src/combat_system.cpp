@@ -190,12 +190,14 @@ namespace CombatSystem
         }
     }
 
-    void miss(const Hero &hero, const Hero &target)
+    void miss(Hero &hero, const Hero &target)
     {
+        decreaseAP(hero, 1);
+
         Utils::clearScreen();
         Utils::printCombatHeroHeader(hero);
-        Utils::printSpacedText("Miss!");
         Utils::printCombatHeroHeader(target);
+        Utils::printSpacedText("Miss!");
         Utils::newLine();
         Utils::pressEnterToContinue();
     }
@@ -249,7 +251,7 @@ namespace CombatSystem
         auto oldHeroHP = hero.health;
         auto oldTargetHP = target.health;
 
-        hero.actionPoints -= 1;
+        decreaseAP(hero, 1);
 
         // check for evading or magic shield
         for (const auto &se : target.statusEffects)
@@ -280,9 +282,21 @@ namespace CombatSystem
 
         const auto ability = Abilities::getAbility(abilityId).value();
 
-        hero.actionPoints -= ability.actionPoints;
+        decreaseAP(hero, ability.actionPoints);
 
         printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, ability.name);
+    }
+
+    void decreaseAP(Hero &hero, uint32_t amount)
+    {
+        if (hero.actionPoints <= amount)
+        {
+            hero.actionPoints = 0;
+        }
+        else
+        {
+            hero.actionPoints -= amount;
+        }
     }
 
     std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId)
@@ -548,6 +562,16 @@ namespace CombatSystem
 
             // get targetable heroes
             auto targetable = getTargetableHeroes(combat, isBasicAttack, abilityId);
+
+            // no targets
+            if (targetable.empty())
+            {
+                Utils::printBorderedText("No targets in combat area.");
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+                isSkipTurn = true;
+                continue;
+            }
 
             // pick target prompt
             auto pickTargetPrompt = [hero]()
