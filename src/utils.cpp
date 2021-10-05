@@ -250,10 +250,8 @@ namespace Utils
         ss << " (Level " << hero.level << ") ";
 
         ss << " | AP: " << COLOR_YELLOW << std::to_string(hero.actionPoints) << COLOR_END;
-
-        ss << std::left << std::setw(10);
         ss << " | HP: ";
-        ss << std::left << std::setw(10);
+        ss << std::left << std::setw(8);
         ss << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
         ss << '|';
 
@@ -273,11 +271,7 @@ namespace Utils
         ss << COLOR_END;
 
         // armor
-        ss << std::left << std::setw(20);
         ss << " | Armor: ";
-        ss << std::left << std::setw(10);
-
-        // race
         ss << InventoryManager::getEquippedArmorValue(hero);
         ss << " | Race: " << g_AllRaces.at(hero.race).name << '\n';
 
