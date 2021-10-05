@@ -32,8 +32,7 @@ int main(void)
         else if (selection == 1) // Continue
         {
             auto saveGame = Files::loadGame();
-            auto heroes = saveGame.heroes;
-            if (heroes.size() == 0)
+            if (saveGame.heroes.size() == 0)
             {
                 Utils::printSpacedText("Save file not found!");
                 Utils::pressEnterToContinue();
@@ -43,7 +42,7 @@ int main(void)
             if (Utils::askConfirmation("Continue the journey?"))
             {
                 Utils::clearScreen();
-                Utils::printListOfHeroes(heroes);
+                Utils::printListOfHeroes(saveGame.heroes);
                 Utils::pressEnterToContinue();
                 Areas::navigateToArea(saveGame.areaId, saveGame);
             }

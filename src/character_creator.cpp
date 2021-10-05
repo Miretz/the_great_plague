@@ -140,7 +140,7 @@ namespace CharacterCreator
         };
 
         std::vector<std::string> menu;
-        for (auto abilityId : startingAbilities)
+        for (const auto &abilityId : startingAbilities)
         {
             auto sa = Abilities::getAbility(abilityId).value();
             menu.push_back(sa.name + " - " + sa.description);
@@ -155,8 +155,7 @@ namespace CharacterCreator
         std::vector<uint32_t> filtered;
         for (auto itemId : startingItems)
         {
-            auto it = g_AllItems[itemId];
-            auto reqs = it.requirements;
+            const auto &reqs = g_AllItems[itemId].requirements;
             if (
                 attributes.strength >= reqs.strength &&
                 attributes.dexterity >= reqs.dexterity &&

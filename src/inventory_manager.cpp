@@ -229,7 +229,7 @@ namespace InventoryManager
     void selectPartyEquipment(std::vector<Hero> &heroes)
     {
         std::vector<std::string> names;
-        for (auto h : heroes)
+        for (const auto &h : heroes)
         {
             names.push_back(h.name);
         }

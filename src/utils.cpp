@@ -88,7 +88,7 @@ namespace Utils
 
     void printHeroAbilities(const std::vector<std::string> &abilities)
     {
-        for (auto id : abilities)
+        for (const auto &id : abilities)
         {
             auto a = Abilities::getAbility(id).value();
             std::cout << "|"
@@ -188,7 +188,7 @@ namespace Utils
     const std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped)
     {
         std::stringstream ss;
-        for (auto s : InventoryManager::equipmentSlotNames)
+        for (const auto &s : InventoryManager::equipmentSlotNames)
         {
             if (equipped.find(s) != equipped.end())
             {
@@ -287,7 +287,7 @@ namespace Utils
             std::ostringstream ssfx;
 
             ssfx << "|Effects: ~ ";
-            for (auto se : hero.statusEffects)
+            for (const auto &se : hero.statusEffects)
             {
                 ssfx << COLOR_YELLOW << se.name << COLOR_END << " (" << se.turnsLeft << " turns) ~ ";
             }
@@ -358,7 +358,7 @@ namespace Utils
     void printListOfHeroes(const std::vector<Hero> &heroes)
     {
         std::cout << "\nList of Heroes:\n";
-        for (auto h : heroes)
+        for (const auto &h : heroes)
         {
             std::cout << '\n';
             printHero(h);
@@ -522,7 +522,7 @@ namespace Utils
 
         // put the base values into the list
         std::vector<uint32_t> values;
-        for (auto e : elements)
+        for (const auto &e : elements)
         {
             values.push_back(std::get<2>(e));
         }

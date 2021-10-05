@@ -44,19 +44,19 @@ namespace Files
         ss << hero.specialties.pyromancy << delimiter;
         ss << hero.specialties.aeromancy << delimiter;
 
-        for (auto a : hero.abilities)
+        for (const auto &a : hero.abilities)
         {
             ss << a << valueDelimitter;
         }
         ss << delimiter;
 
-        for (auto b : hero.inventory.backpack)
+        for (const auto &a : hero.inventory.backpack)
         {
-            ss << b << valueDelimitter;
+            ss << a << valueDelimitter;
         }
         ss << delimiter;
 
-        for (auto a : hero.inventory.equipped)
+        for (const auto &a : hero.inventory.equipped)
         {
             ss << a.first << valueDelimitter << a.second << valueDelimitter;
         }
@@ -203,15 +203,15 @@ namespace Files
         saveFile.open(SAVE_FILE, std::ios::out);
         if (saveFile.is_open())
         {
-            saveFile << gameState.areaId << "\n";
-            for (auto a : gameState.stateInfo)
+            saveFile << gameState.areaId << '\n';
+            for (const auto &a : gameState.stateInfo)
             {
                 saveFile << a.first << valueDelimitter << a.second << valueDelimitter;
             }
-            saveFile << "\n";
-            for (auto h : gameState.heroes)
+            saveFile << '\n';
+            for (const auto &a : gameState.heroes)
             {
-                saveFile << serializeHero(h) << "\n";
+                saveFile << serializeHero(a) << '\n';
             }
             saveFile.close();
         }
@@ -272,7 +272,7 @@ namespace Files
             std::string line;
             while (getline(file, line))
             {
-                ss << line << "\n";
+                ss << line << '\n';
             }
 
             file.close();
@@ -287,7 +287,7 @@ namespace Files
         saveFile.open(filePath, std::ios::out);
         if (saveFile.is_open())
         {
-            saveFile << data << "\n";
+            saveFile << data << '\n';
             saveFile.close();
         }
     }

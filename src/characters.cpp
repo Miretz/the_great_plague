@@ -174,7 +174,7 @@ namespace Characters
     bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes)
     {
         bool sameName = false;
-        for (auto h : heroes)
+        for (const auto &h : heroes)
         {
             if (h.name == name)
             {
