@@ -249,6 +249,8 @@ namespace Utils
         ss << COLOR_END;
         ss << " (Level " << hero.level << ") ";
 
+        ss << " | AP: " << COLOR_YELLOW << std::to_string(hero.actionPoints) << COLOR_END;
+
         ss << std::left << std::setw(10);
         ss << " | HP: ";
         ss << std::left << std::setw(10);

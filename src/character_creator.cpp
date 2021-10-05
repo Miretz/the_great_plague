@@ -126,7 +126,8 @@ namespace CharacterCreator
             defaultSpecialties,
             {race.abilityId},
             basicInventory,
-            {}};
+            {},
+            0};
         return hero;
     }
 

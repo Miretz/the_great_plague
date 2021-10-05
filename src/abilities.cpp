@@ -121,6 +121,8 @@ namespace Abilities
     {
         auto doggo = Files::loadHeroFromConfig("assets/characters/dog/dog.txt");
 
+        doggo.actionPoints = 2;
+
         // check if there already is a doggo
         // if yes, then heal it and remove status effects
         for (auto &h : combat.turnQueue)
@@ -129,6 +131,7 @@ namespace Abilities
             {
                 h.health = doggo.maxHealth;
                 h.statusEffects = {};
+                h.actionPoints = doggo.actionPoints;
                 return;
             }
         }

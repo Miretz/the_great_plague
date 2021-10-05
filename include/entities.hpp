@@ -166,6 +166,7 @@ struct Hero
 
     // not serialized
     std::vector<StatusEffect> statusEffects;
+    uint32_t actionPoints;
 };
 
 struct GameState
@@ -192,6 +193,7 @@ struct Ability
     std::string mapping;
     AbilityType type;
     Target target;
+    uint32_t actionPoints;
 };
 
 /************************************************************************************************
@@ -263,7 +265,7 @@ const std::vector<Item> g_AllItems{
     {"Quarterstaff",
      "A simple broomstick",
      ItemType::Melee_TwoHanded,
-     PrimaryAttribute::Dexterity,
+     PrimaryAttribute::Intelligence,
      {0, 0, 0, 5},
      20,
      0},

@@ -374,6 +374,11 @@ namespace Files
                     throw std::invalid_argument("Invalid ability target for " + ability.id + ": " + typeStr);
                 }
 
+                auto actionPointsStr = Utils::trim(line.substr(0, line.find(valueDelimitter)));
+                line.erase(0, line.find(valueDelimitter) + valueDelimitter.length());
+
+                ability.actionPoints = static_cast<uint32_t>(std::stoul(actionPointsStr));
+
                 abilities.push_back(ability);
             }
             file.close();

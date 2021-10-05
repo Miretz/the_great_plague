@@ -13,6 +13,8 @@ namespace CombatSystem
 {
     Combat prepare(std::vector<Hero> heroes, std::vector<Hero> enemies);
 
+    void resetActionPoints(Combat &combat);
+
     bool isAnyFriendlyAlive(Combat &combat);
 
     bool isAnyEnemyAlive(Combat &combat);

@@ -40,6 +40,18 @@ namespace CombatSystem
         return {1, 0, turnQueue, {}};
     }
 
+    void resetActionPoints(Combat &combat)
+    {
+        for (auto &h : combat.turnQueue)
+        {
+            h.actionPoints += 3;
+            if (h.actionPoints > 6)
+            {
+                h.actionPoints = 6;
+            }
+        }
+    }
+
     bool isAnyFriendlyAlive(Combat &combat)
     {
         auto isFriendly = [](Hero h)
@@ -99,6 +111,8 @@ namespace CombatSystem
     {
         auto combat = prepare(heroes, enemies);
 
+        resetActionPoints(combat);
+
         while (isAnyEnemyAlive(combat) && isAnyFriendlyAlive(combat))
         {
             Utils::clearScreen();
@@ -116,6 +130,7 @@ namespace CombatSystem
                     Utils::printCombatHeroHeader(combat.turnQueue[i]);
                 }
             }
+            Utils::printBorder(130);
             if (combat.currentHero != 0)
             {
                 for (uint32_t i = 0; i < combat.currentHero; ++i)
@@ -137,6 +152,7 @@ namespace CombatSystem
             {
                 combat.currentHero = 0;
                 combat.turn += 1;
+                resetActionPoints(combat);
             }
         }
 
@@ -233,6 +249,8 @@ namespace CombatSystem
         auto oldHeroHP = hero.health;
         auto oldTargetHP = target.health;
 
+        hero.actionPoints -= 1;
+
         // check for evading or magic shield
         for (const auto &se : target.statusEffects)
         {
@@ -260,9 +278,11 @@ namespace CombatSystem
 
         Abilities::executeAbility(abilityId, hero, target, combat);
 
-        const auto abilityName = Abilities::getAbility(abilityId).value().name;
+        const auto ability = Abilities::getAbility(abilityId).value();
 
-        printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, abilityName);
+        hero.actionPoints -= ability.actionPoints;
+
+        printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, ability.name);
     }
 
     std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId)
@@ -284,6 +304,11 @@ namespace CombatSystem
                     continue;
                 }
 
+                if (combat.turnQueue[i].health == 0)
+                {
+                    continue;
+                }
+
                 targetable.push_back(i);
             }
         }
@@ -300,6 +325,11 @@ namespace CombatSystem
 
                 for (uint32_t i = 0; i < combat.turnQueue.size(); ++i)
                 {
+                    if (combat.turnQueue[i].health == 0)
+                    {
+                        continue;
+                    }
+
                     if (target == Target::Friendly &&
                         combat.turnQueue[i].controller == myController)
                     {
@@ -333,34 +363,48 @@ namespace CombatSystem
         auto &hero = combat.turnQueue[combat.currentHero];
 
         auto d20Result = Dice::rollDice(Dice::D20);
-        const auto isSkipTurn = d20Result == 1;
-        if (!isSkipTurn)
+        auto isSkipTurn = d20Result == 1;
+        while (!isSkipTurn && hero.actionPoints > 0)
         {
-            auto selection = Dice::randomSelection(0, hero.abilities.size());
-            auto isBasicAttack = selection == hero.abilities.size();
+            // filter based on action points
+            std::vector<std::string> validAbilityIds;
+            for (const auto &abilityId : hero.abilities)
+            {
+                if (Abilities::getAbility(abilityId).value().actionPoints <= hero.actionPoints)
+                {
+                    validAbilityIds.push_back(abilityId);
+                }
+            }
+
+            // roll for ability selection, basic attack or skip
+            auto selection = Dice::randomSelection(0, validAbilityIds.size());
+            auto isBasicAttack = selection == validAbilityIds.size();
+
+            // skip chance
+            if (1 == Dice::rollDice(Dice::D20))
+            {
+                isSkipTurn = true;
+                continue;
+            }
 
             // get ability id
             std::string abilityId = "";
             if (!isBasicAttack)
             {
-                abilityId = hero.abilities[selection];
+                abilityId = validAbilityIds[selection];
             }
 
             // pick enemy
             auto targetable = getTargetableHeroes(combat, isBasicAttack, abilityId);
             if (targetable.empty())
             {
-                Utils::clearScreen();
-                Utils::printCombatHeroHeader(hero);
-                Utils::printSpacedText("Skipped their turn.");
-                Utils::newLine();
-                Utils::pressEnterToContinue();
-                combat.currentHero += 1;
-                return;
+                isSkipTurn = true;
+                continue;
             }
 
             auto &target = combat.turnQueue[targetable[Dice::randomSelection(0, targetable.size() - 1)]];
 
+            // roll for miss chance
             if (Dice::rollDice(Dice::D20) == 1) // Miss
             {
                 miss(hero, target);
@@ -374,7 +418,8 @@ namespace CombatSystem
                 abilityAttack(hero, target, abilityId, combat);
             }
         }
-        else
+
+        if (isSkipTurn)
         {
             Utils::clearScreen();
             Utils::printCombatHeroHeader(hero);
@@ -446,31 +491,45 @@ namespace CombatSystem
             return;
         }
 
-        //pick action
-        auto pickActionPrompt = [hero]()
-        {
-            Utils::printCombatHeroHeader(hero);
-            Utils::printBorderedText("Pick action:");
-        };
-
-        std::vector<std::string> actions;
-        for (const auto &abilityId : hero.abilities)
-        {
-            const auto name = Abilities::getAbility(abilityId).value().name;
-            actions.push_back("Use " + name);
-        }
-        actions.push_back("Basic Attack");
-        actions.push_back("Skip Turn");
-
-        const auto selection = Utils::pickOptionFromList(pickActionPrompt, actions);
-        const auto isSkipTurn = selection == actions.size() - 1;
-        const auto isBasicAttack = selection == actions.size() - 2;
-
-        Utils::clearScreen();
-
         // check if skipping turn
-        if (!isSkipTurn)
+        auto isSkipTurn = false;
+        while (!isSkipTurn && hero.actionPoints > 0)
         {
+            Utils::clearScreen();
+
+            //pick action
+            auto pickActionPrompt = [hero]()
+            {
+                Utils::printCombatHeroHeader(hero);
+                Utils::printBorderedText("Pick action:");
+            };
+
+            // filter for valid abilities
+            std::vector<std::string> actions;
+            std::vector<std::string> validAbilityIds;
+            for (const auto &abilityId : hero.abilities)
+            {
+                const auto ability = Abilities::getAbility(abilityId).value();
+                if (ability.actionPoints <= hero.actionPoints)
+                {
+                    actions.push_back("Use " + ability.name + " (AP: " + std::to_string(ability.actionPoints) + ")");
+                    validAbilityIds.push_back(abilityId);
+                }
+            }
+            actions.push_back("Basic Attack (AP: 1)");
+            actions.push_back("Skip Turn");
+
+            const auto selection = Utils::pickOptionFromList(pickActionPrompt, actions);
+            isSkipTurn = selection == actions.size() - 1;
+            const auto isBasicAttack = selection == actions.size() - 2;
+
+            Utils::clearScreen();
+
+            if (isSkipTurn)
+            {
+                continue;
+            }
+
             // remove invisibility if the hero didn't skip turn
             for (auto &se : hero.statusEffects)
             {
@@ -484,7 +543,7 @@ namespace CombatSystem
             std::string abilityId = "";
             if (!isBasicAttack)
             {
-                abilityId = hero.abilities[selection];
+                abilityId = validAbilityIds[selection];
             }
 
             // get targetable heroes
@@ -511,8 +570,7 @@ namespace CombatSystem
             auto &target = combat.turnQueue[targetable[Utils::pickOptionFromList(pickTargetPrompt, targets)]];
 
             // roll for Miss chance (5%)
-            auto d20Result = Dice::rollDice(Dice::D20);
-            if (d20Result == 1)
+            if (1 == Dice::rollDice(Dice::D20))
             {
                 miss(hero, target);
             }
