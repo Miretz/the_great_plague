@@ -63,7 +63,9 @@ enum class AbilityType
     Healing,      // First Aid,
     Summoning,    // Summon Familiar, Man's best friend, Raise corpse
     StatusEffect, // Knockdown, Evasion, Magic Shield, Poison
-    AreaOfEffect  // Hailstorm, Ring of fire, etc.
+    AoE_Status,
+    AoE_Damage,
+    AoE_Healing,
 };
 
 enum class Target

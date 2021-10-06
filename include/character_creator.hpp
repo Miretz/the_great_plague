@@ -30,6 +30,9 @@ namespace CharacterCreator
         "life_drain",
         "magic_shield",
         "camouflage",
+        "noxious_cloud",
+        "earthquake",
+        "hailstorm",
     };
 
     const std::vector<uint32_t> startingItems{0, 1, 2, 3, 4, 5, 6};

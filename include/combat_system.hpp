@@ -33,6 +33,8 @@ namespace CombatSystem
 
     void printDamageNumbers(uint32_t oldHeroHP, uint32_t oldTargetHP, const Hero &hero, const Hero &target, const std::string &description);
 
+    void printDamageNumbersMultiple(uint32_t oldHeroHP, std::vector<uint32_t> oldHps, const Hero &hero, const std::vector<Hero> &targets, const std::string &description);
+
     std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId);
 
     void executeHeroAITurn(Combat &combat);

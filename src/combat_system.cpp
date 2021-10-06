@@ -232,6 +232,49 @@ namespace CombatSystem
         Utils::pressEnterToContinue();
     }
 
+    void printDamageNumbersMultiple(uint32_t oldHeroHP, std::vector<uint32_t> oldHps, const Hero &hero, const std::vector<Hero> &targets, const std::string &description)
+    {
+        Utils::clearScreen();
+        Utils::printCombatHeroHeader(hero);
+
+        for (const auto &target : targets)
+        {
+            Utils::printCombatHeroHeader(target);
+        }
+
+        for (uint32_t i = 0; i < oldHps.size(); ++i)
+        {
+            const auto &target = targets[i];
+            const auto oldHp = oldHps[i];
+
+            std::string text = hero.name + " used " + Utils::COLOR_YELLOW + description + Utils::COLOR_END + " on " + target.name + ".";
+
+            if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
+            {
+                text += " (Restored health of " + hero.name + ": " + std::to_string(hero.health - oldHeroHP) + ") ";
+            }
+
+            if (oldHp < target.health)
+            {
+                text += " (Restored health of " + target.name + ": " + std::to_string(target.health - oldHp) + ") ";
+            }
+            else if (oldHp != target.health)
+            {
+                text += " (Damage to " + target.name + ": " + std::to_string(oldHp - target.health) + ") ";
+            }
+
+            Utils::printSpacedText(text);
+
+            if (target.health == 0)
+            {
+                Utils::printBorderedText(target.name + " has died.");
+            }
+        }
+
+        Utils::newLine();
+        Utils::pressEnterToContinue();
+    }
+
     void basicAttack(Hero &hero, Hero &target)
     {
         auto d20Result = Dice::rollDice(Dice::D20);
@@ -275,16 +318,33 @@ namespace CombatSystem
 
     void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat)
     {
-        const auto oldHeroHP = hero.health;
-        const auto oldTargetHP = target.health;
-
-        Abilities::executeAbility(abilityId, hero, target, combat);
-
         const auto ability = Abilities::getAbility(abilityId).value();
 
-        decreaseAP(hero, ability.actionPoints);
+        const auto oldHeroHP = hero.health;
 
-        printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, ability.name);
+        if (ability.type == AbilityType::AoE_Damage || ability.type == AbilityType::AoE_Healing || ability.type == AbilityType::AoE_Status)
+        {
+            std::vector<uint32_t> oldHps;
+            std::vector<Hero> targets;
+
+            auto targetable = getTargetableHeroes(combat, false, abilityId);
+            for (const auto tgId : targetable)
+            {
+                oldHps.push_back(combat.turnQueue[tgId].health);
+                Abilities::executeAbility(abilityId, hero, combat.turnQueue[tgId], combat);
+                targets.push_back(combat.turnQueue[tgId]);
+            }
+
+            printDamageNumbersMultiple(oldHeroHP, oldHps, hero, targets, ability.name);
+        }
+        else
+        {
+            const auto oldTargetHP = target.health;
+            Abilities::executeAbility(abilityId, hero, target, combat);
+            printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, ability.name);
+        }
+
+        decreaseAP(hero, ability.actionPoints);
     }
 
     void decreaseAP(Hero &hero, uint32_t amount)
@@ -308,17 +368,10 @@ namespace CombatSystem
 
             for (uint32_t i = 0; i < combat.turnQueue.size(); ++i)
             {
-                if (i == combat.currentHero || combat.turnQueue[i].controller == combat.turnQueue[combat.currentHero].controller)
-                {
-                    continue;
-                }
-
-                if (isInvisible(combat.turnQueue[i]))
-                {
-                    continue;
-                }
-
-                if (combat.turnQueue[i].health == 0)
+                if (i == combat.currentHero ||
+                    combat.turnQueue[i].controller == combat.turnQueue[combat.currentHero].controller ||
+                    isInvisible(combat.turnQueue[i]) ||
+                    combat.turnQueue[i].health == 0)
                 {
                     continue;
                 }
@@ -352,12 +405,7 @@ namespace CombatSystem
                     if (target == Target::Enemy &&
                         combat.turnQueue[i].controller != myController)
                     {
-                        if (i == combat.currentHero) // skip current hero
-                        {
-                            continue;
-                        }
-
-                        if (isInvisible(combat.turnQueue[i]))
+                        if (i == combat.currentHero || isInvisible(combat.turnQueue[i]))
                         {
                             continue;
                         }
@@ -451,23 +499,14 @@ namespace CombatSystem
 
         auto &hero = combat.turnQueue[combat.currentHero];
 
+        auto isSkipTurn = false;
+
         // check status effects
         for (auto &se : hero.statusEffects)
         {
             se.turnsLeft -= 1;
 
-            if (se.type == StatusEffectType::SkipTurn)
-            {
-                Utils::clearScreen();
-                Utils::printCombatHeroHeader(hero);
-                Utils::printSpacedText("Turn skipped because of " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
-                Utils::newLine();
-                Utils::pressEnterToContinue();
-
-                combat.currentHero += 1;
-                return;
-            }
-            else if (se.type == StatusEffectType::Damage)
+            if (se.type == StatusEffectType::Damage)
             {
                 Characters::takeDamage(hero, se.specialValue);
 
@@ -476,14 +515,25 @@ namespace CombatSystem
                 Utils::printSpacedText("Recieved " + std::to_string(se.specialValue) +
                                        " damage from " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
                 Utils::newLine();
-                Utils::pressEnterToContinue();
-
-                // check for death
                 if (hero.health == 0)
                 {
+                    Utils::printBorderedText(hero.name + " has died.");
+                    Utils::newLine();
+                    Utils::pressEnterToContinue();
                     combat.currentHero += 1;
                     return;
                 }
+                Utils::pressEnterToContinue();
+            }
+            else if (se.type == StatusEffectType::SkipTurn)
+            {
+                Utils::clearScreen();
+                Utils::printCombatHeroHeader(hero);
+                Utils::printSpacedText("Turn skipped because of " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+
+                isSkipTurn = true;
             }
             else if (se.type == StatusEffectType::Heal)
             {
@@ -499,14 +549,13 @@ namespace CombatSystem
         }
 
         // check if AI turn
-        if (hero.controller == Controller::AI_Enemy)
+        if (!isSkipTurn && hero.controller == Controller::AI_Enemy)
         {
             executeHeroAITurn(combat);
             return;
         }
 
         // check if skipping turn
-        auto isSkipTurn = false;
         while (!isSkipTurn && hero.actionPoints > 0)
         {
             Utils::clearScreen();

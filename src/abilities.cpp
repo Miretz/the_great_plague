@@ -5,6 +5,7 @@
 #include "characters.hpp"
 #include "inventory_manager.hpp"
 #include "files.hpp"
+#include "dice.hpp"
 
 namespace Abilities
 {
@@ -42,7 +43,7 @@ namespace Abilities
         {
             const auto ability = getAbility(id).value();
 
-            if (ability.type == AbilityType::StatusEffect)
+            if (ability.type == AbilityType::StatusEffect || ability.type == AbilityType::AoE_Status)
             {
                 auto se = g_StatusEffects.at(ability.mapping);
 
@@ -151,6 +152,12 @@ namespace Abilities
 
         combat.turnQueue = newQueue;
         combat.currentHero = newHeroPos;
+    }
+
+    void f_HailStorm(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    {
+        auto damage = 5 + caster.level * 10 + Dice::randomSelection(0, 10);
+        Characters::takeDamage(target, damage);
     }
 
 }

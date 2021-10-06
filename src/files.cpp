@@ -347,9 +347,17 @@ namespace Files
                 {
                     ability.type = AbilityType::StatusEffect;
                 }
-                else if (typeStr == "AreaOfEffect")
+                else if (typeStr == "AoE_Status")
                 {
-                    ability.type = AbilityType::AreaOfEffect;
+                    ability.type = AbilityType::AoE_Status;
+                }
+                else if (typeStr == "AoE_Damage")
+                {
+                    ability.type = AbilityType::AoE_Damage;
+                }
+                else if (typeStr == "AoE_Healing")
+                {
+                    ability.type = AbilityType::AoE_Healing;
                 }
                 else
                 {
