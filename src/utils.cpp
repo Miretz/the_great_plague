@@ -383,8 +383,6 @@ namespace Utils
     uint32_t slider(std::function<void()> redrawFunction, const uint32_t min, const uint32_t max)
     {
         uint32_t result = min;
-        uint32_t c = 0;
-        bool finished = false;
 
         clearScreen();
         redrawFunction();
@@ -394,6 +392,7 @@ namespace Utils
 
         uint32_t y = getCursorPosition();
 
+        bool finished = false;
         while (!finished)
         {
             setCursorPosition(0, y);
@@ -405,6 +404,7 @@ namespace Utils
             std::cout << ss.str();
 
             fflush(stdin);
+            uint32_t c;
             switch ((c = getInput()))
             {
             case KEY_LEFT:
@@ -441,19 +441,16 @@ namespace Utils
     {
         uint32_t selected = 0;
 
-        uint32_t c = 0;
-        bool finished = false;
-
         clearScreen();
         redrawFunction();
         newLine();
 
         uint32_t y = getCursorPosition();
 
+        bool finished = false;
+
         while (!finished)
         {
-            c = 0;
-
             std::ostringstream ss;
             for (size_t i = 0; i < list.size(); i++)
             {
@@ -477,6 +474,7 @@ namespace Utils
             std::cout << ss.str();
 
             fflush(stdin);
+            uint32_t c;
             switch ((c = getInput()))
             {
             case KEY_UP:
@@ -523,9 +521,6 @@ namespace Utils
             values.push_back(std::get<2>(e));
         }
 
-        uint32_t c = 0;
-        bool finished = false;
-
         clearScreen();
         redrawFunction();
 
@@ -533,6 +528,7 @@ namespace Utils
 
         uint32_t y = getCursorPosition();
 
+        bool finished = false;
         while (!finished)
         {
             std::ostringstream ss;
@@ -542,8 +538,6 @@ namespace Utils
             ss << "      ";
             ss << COLOR_END;
             ss << "\n\n";
-
-            c = 0;
 
             for (size_t i = 0; i < elements.size(); i++)
             {
@@ -573,6 +567,7 @@ namespace Utils
             std::cout << ss.str();
 
             fflush(stdin);
+            uint32_t c;
             switch ((c = getInput()))
             {
             case KEY_UP:

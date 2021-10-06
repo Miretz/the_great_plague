@@ -593,14 +593,17 @@ namespace CombatSystem
             // selected target
             auto &target = combat.turnQueue[targetable[Utils::pickOptionFromList(pickTargetPrompt, targets)]];
 
-            // roll for Miss chance (5%)
-            if (1 == Dice::rollDice(Dice::D20))
+            if (isBasicAttack)
             {
-                miss(hero, target);
-            }
-            else if (isBasicAttack)
-            {
-                basicAttack(hero, target);
+                // roll for Miss chance (5%)
+                if (1 == Dice::rollDice(Dice::D20))
+                {
+                    miss(hero, target);
+                }
+                else
+                {
+                    basicAttack(hero, target);
+                }
             }
             else
             {

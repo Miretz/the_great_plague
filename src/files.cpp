@@ -221,6 +221,7 @@ namespace Files
     GameState loadGame()
     {
         GameState gs;
+        gs.areaId = 0;
 
         std::fstream saveFile;
         saveFile.open(SAVE_FILE, std::ios::in);
