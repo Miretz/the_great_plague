@@ -143,6 +143,15 @@ namespace CombatSystem
 
             executeHeroTurn(combat);
 
+            // handle flee
+            if (combat.turnQueue.size() == 0)
+            {
+                Utils::printBorderedText(Utils::COLOR_RED + "You have fled from the fight!" + Utils::COLOR_END);
+                Utils::newLine();
+                Utils::pressEnterToContinue();
+                return false;
+            }
+
             // delete dead people
             cleanTurnQueue(combat);
             clearStatusEffects(combat);
@@ -493,6 +502,12 @@ namespace CombatSystem
         combat.currentHero += 1;
     }
 
+    void fleeCombat(Combat &combat)
+    {
+        combat.currentHero = 0;
+        combat.turnQueue = {};
+    }
+
     void executeHeroTurn(Combat &combat)
     {
         Utils::clearScreen();
@@ -581,10 +596,24 @@ namespace CombatSystem
             }
             actions.push_back("Basic Attack (AP: 1)");
             actions.push_back("Skip Turn");
+            actions.push_back("[Party] Flee from the fight");
 
             const auto selection = Utils::pickOptionFromList(pickActionPrompt, actions);
-            isSkipTurn = selection == actions.size() - 1;
-            const auto isBasicAttack = selection == actions.size() - 2;
+
+            // handle fleeing from the fight
+            if (selection == actions.size() - 1)
+            {
+                if (Utils::askConfirmation("Are you sure?"))
+                {
+                    Utils::newLine();
+                    Utils::newLine();
+                    fleeCombat(combat);
+                }
+                return;
+            }
+
+            isSkipTurn = selection == actions.size() - 2;
+            const auto isBasicAttack = selection == actions.size() - 3;
 
             Utils::clearScreen();
 

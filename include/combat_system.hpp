@@ -46,6 +46,8 @@ namespace CombatSystem
     void clearAllStatusEffects(Combat &combat);
 
     void decreaseAP(Hero &hero, uint32_t amount);
+
+    void fleeCombat(Combat &combat);
 }
 
 #endif
