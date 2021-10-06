@@ -200,21 +200,21 @@ namespace Files
 
     void saveGame(const GameState &gameState)
     {
-        std::fstream saveFile;
-        saveFile.open(SAVE_FILE, std::ios::out);
-        if (saveFile.is_open())
+        std::fstream file;
+        file.open(SAVE_FILE, std::ios::out);
+        if (file.is_open())
         {
-            saveFile << gameState.areaId << '\n';
+            file << gameState.areaId << '\n';
             for (const auto &a : gameState.stateInfo)
             {
-                saveFile << a.first << valueDelimitter << a.second << valueDelimitter;
+                file << a.first << valueDelimitter << a.second << valueDelimitter;
             }
-            saveFile << '\n';
+            file << '\n';
             for (const auto &a : gameState.heroes)
             {
-                saveFile << serializeHero(a) << '\n';
+                file << serializeHero(a) << '\n';
             }
-            saveFile.close();
+            file.close();
         }
     }
 
@@ -284,12 +284,12 @@ namespace Files
 
     void saveFile(const std::string &data, const std::string &filePath)
     {
-        std::fstream saveFile;
-        saveFile.open(filePath, std::ios::out);
-        if (saveFile.is_open())
+        std::fstream file;
+        file.open(filePath, std::ios::out);
+        if (file.is_open())
         {
-            saveFile << data << '\n';
-            saveFile.close();
+            file << data << '\n';
+            file.close();
         }
     }
 

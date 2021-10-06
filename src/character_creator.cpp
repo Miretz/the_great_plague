@@ -150,7 +150,7 @@ namespace CharacterCreator
         return startingAbilities[Utils::pickOptionFromList(prompt, menu)];
     }
 
-    uint32_t pickStartingItem(Attributes &attributes)
+    uint32_t pickStartingItem(const Attributes &attributes)
     {
 
         std::vector<uint32_t> filtered;

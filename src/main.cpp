@@ -9,8 +9,7 @@ int main(void)
 {
     Abilities::init();
 
-    bool running = true;
-    while (running)
+    while (true)
     {
         Utils::clearScreen();
 

@@ -40,7 +40,7 @@ namespace CharacterCreator
 
     const std::string pickStartingAbility();
 
-    uint32_t pickStartingItem(Attributes &attributes);
+    uint32_t pickStartingItem(const Attributes &attributes);
 }
 
 #endif

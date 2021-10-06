@@ -44,7 +44,7 @@ namespace Utils
 
     void printSpecialties(const Specialties &specialties)
     {
-        auto printSpecialty = [](std::string name, uint32_t value)
+        auto printSpecialty = [](const std::string &name, uint32_t value)
         {
             if (value > 0)
             {
@@ -66,7 +66,7 @@ namespace Utils
 
     void printSpecialtiesAdjustment(const Specialties &base, const Specialties &adjustment)
     {
-        auto printAdjustment = [](std::string name, uint32_t v1, uint32_t v2)
+        auto printAdjustment = [](const std::string &name, uint32_t v1, uint32_t v2)
         {
             if (v2 > v1)
             {

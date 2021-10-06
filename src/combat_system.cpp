@@ -74,7 +74,7 @@ namespace CombatSystem
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isEnemy) != combat.turnQueue.end();
     }
 
-    bool isInvisible(Hero &hero)
+    bool isInvisible(const Hero &hero)
     {
         for (const auto &se : hero.statusEffects)
         {
@@ -91,7 +91,7 @@ namespace CombatSystem
     {
         auto isDead = [](Hero h)
         {
-            return h.health <= 0;
+            return h.health == 0;
         };
 
         for (const auto &h : combat.turnQueue)

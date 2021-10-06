@@ -20,7 +20,7 @@ namespace Characters
     void assignAttributePoints(Hero &hero)
     {
         auto availablePoints = hero.unspentAttributePoints;
-        if (availablePoints <= 0)
+        if (availablePoints == 0)
         {
             return;
         }
@@ -79,7 +79,7 @@ namespace Characters
     void assignSpecialtyPoints(Hero &hero)
     {
         auto availablePoints = hero.unspentSpecialtyPoints;
-        if (availablePoints <= 0)
+        if (availablePoints == 0)
         {
             return;
         }

@@ -19,7 +19,7 @@ namespace CombatSystem
 
     bool isAnyEnemyAlive(Combat &combat);
 
-    bool isInvisible(Hero &hero);
+    bool isInvisible(const Hero &hero);
 
     void cleanTurnQueue(Combat &combat);
 
@@ -43,7 +43,7 @@ namespace CombatSystem
 
     void clearAllStatusEffects(Combat &combat);
 
-    void decreaseAP(Hero& hero, uint32_t amount);
+    void decreaseAP(Hero &hero, uint32_t amount);
 }
 
 #endif
