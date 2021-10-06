@@ -37,7 +37,7 @@ namespace CombatSystem
             }
         }
 
-        return {1, 0, turnQueue, {}};
+        return {1, 0, turnQueue, {}, {}};
     }
 
     void resetActionPoints(Combat &combat)
@@ -101,6 +101,13 @@ namespace CombatSystem
                 combat.dead.push_back(h);
             }
         }
+
+        // move creatures to spawn to the turnQueue creatures
+        for (auto &&s : combat.spawnQueue)
+        {
+            combat.turnQueue.push_back(std::move(s));
+        }
+        combat.spawnQueue.clear();
 
         combat.turnQueue.erase(
             std::remove_if(combat.turnQueue.begin(), combat.turnQueue.end(), isDead),

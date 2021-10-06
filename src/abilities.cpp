@@ -118,7 +118,7 @@ namespace Abilities
         }
     }
 
-    void f_SummonDog(Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
+    void f_SummonDog([[maybe_unused]] Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
     {
         auto doggo = Files::loadHeroFromConfig("assets/characters/dog/dog.txt");
 
@@ -137,21 +137,16 @@ namespace Abilities
             }
         }
 
-        // insert behind caster
-        std::vector<Hero> newQueue;
-        uint32_t newHeroPos = 0;
-        for (const auto &h : combat.turnQueue)
+        // check if doggo in spawn queue
+        for (const auto &s : combat.spawnQueue)
         {
-            newQueue.push_back(h);
-            if (h.uniqueId == caster.uniqueId)
+            if (s.uniqueId == doggo.uniqueId)
             {
-                newHeroPos = newQueue.size() - 1;
-                newQueue.push_back(doggo);
+                return;
             }
         }
 
-        combat.turnQueue = newQueue;
-        combat.currentHero = newHeroPos;
+        combat.spawnQueue.push_back(doggo);
     }
 
     void f_HailStorm(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)

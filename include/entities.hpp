@@ -185,6 +185,7 @@ struct Combat
     uint32_t currentHero;
     std::vector<Hero> turnQueue;
     std::vector<Hero> dead;
+    std::vector<Hero> spawnQueue;
 };
 
 struct Ability
