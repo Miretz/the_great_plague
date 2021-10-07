@@ -141,7 +141,7 @@ namespace Characters
 
     void recalculateHeroHealth(Hero &hero)
     {
-        auto newValue = hero.attributes.constitution * HEALTH_PER_VITALITY_POINT * hero.level;
+        auto newValue = (hero.attributes.constitution * HEALTH_PER_VITALITY_POINT) + ((hero.level-1) * HEALTH_PER_LEVEL);
         hero.health = newValue;
         hero.maxHealth = newValue;
     }

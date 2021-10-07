@@ -216,6 +216,15 @@ namespace Areas
         auto won = CombatSystem::startCombat(gameState.heroes, enemies);
         if (won)
         {
+            Utils::clearScreen();
+            Utils::printBorderedText("You have leveled up!");
+            Utils::newLine();
+            Utils::pressEnterToContinue();
+            
+            for(auto &h : gameState.heroes)
+            {
+                Characters::levelUp(h);
+            }            
             gameState.stateInfo[property] = 1;
         }
         else
