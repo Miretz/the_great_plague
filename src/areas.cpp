@@ -33,9 +33,10 @@ namespace Areas
         std::vector<std::string> menu;
         for (uint32_t aId : area.connections)
         {
-            menu.push_back(allAreas[aId].name);
+            menu.push_back("Go to " + allAreas[aId].name);
         }
         menu.push_back("Open Inventory");
+        menu.push_back("Character Sheet");
         menu.push_back("Exit");
 
         // print the area text and navigation menu
@@ -44,7 +45,6 @@ namespace Areas
         {
             Utils::printBorderedText(area.name);
             std::cout << areaDescription;
-            std::cout << "Go to:\n";
         };
 
         auto selection = Utils::pickOptionFromList(prompt, menu);
@@ -55,8 +55,18 @@ namespace Areas
             return;
         }
 
-        // Inventory option
+        // print character sheet
         if (selection == menu.size() - 2)
+        {
+            Utils::clearScreen();
+            Utils::printListOfHeroes(game.heroes);
+            Utils::pressEnterToContinue();
+            navigateToArea(game.areaId, game);
+            return;
+        }
+
+        // Inventory option
+        if (selection == menu.size() - 3)
         {
             InventoryManager::selectPartyEquipment(game.heroes);
             navigateToArea(game.areaId, game);
@@ -220,11 +230,11 @@ namespace Areas
             Utils::printBorderedText("You have leveled up!");
             Utils::newLine();
             Utils::pressEnterToContinue();
-            
-            for(auto &h : gameState.heroes)
+
+            for (auto &h : gameState.heroes)
             {
                 Characters::levelUp(h);
-            }            
+            }
             gameState.stateInfo[property] = 1;
         }
         else
