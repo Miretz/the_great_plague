@@ -15,3 +15,4 @@ energy_blast;       Energy Blast;       Shoot a projectile of magical energy.;  
 noxious_cloud;      Noxious Cloud;      Envelop an area in a noxious cloud, causing all enemies to become poisoned.;s_Poison;       AoE_Status;     Enemy;      3;
 earthquake;         Earthquake;         Shake the ground under the enemies, knocking them all down.;                s_Knockdown;    AoE_Status;     Enemy;      3;
 hailstorm;          Hailstorm;          Create a hailstorm above the enemy heads, causing them random damage.;      f_HailStorm;    AoE_Damage;     Enemy;      3;
+reanimate;          Reanimate;          Revives a random fallen hero, who will then fight by your side.;            f_ReviveDead;   Summoning;      Self;       3; 

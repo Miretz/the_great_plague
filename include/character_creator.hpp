@@ -33,6 +33,7 @@ namespace CharacterCreator
         "noxious_cloud",
         "earthquake",
         "hailstorm",
+        "reanimate",
     };
 
     const std::vector<uint32_t> startingItems{0, 1, 2, 3, 4, 5, 6};

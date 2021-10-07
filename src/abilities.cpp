@@ -155,4 +155,21 @@ namespace Abilities
         Characters::takeDamage(target, damage);
     }
 
+    void f_ReviveDead(Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
+    {
+        if (combat.dead.size() == 0)
+        {
+            return;
+        }
+
+        const auto index = Dice::randomSelection(0, combat.dead.size() - 1);
+        auto revived = combat.dead[index];
+        revived.health = revived.maxHealth;
+        revived.controller = caster.controller;
+        revived.actionPoints = 3;
+        combat.spawnQueue.push_back(revived);
+
+        combat.dead.erase(combat.dead.begin() + index);
+    }
+
 }
