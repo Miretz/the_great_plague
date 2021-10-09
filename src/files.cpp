@@ -235,7 +235,7 @@ namespace Files
             getline(saveFile, line);
 
             // extract state info to map
-            uint32_t pos = 0;
+            size_t pos = 0;
             while ((pos = line.find(valueDelimitter)) != std::string::npos)
             {
                 auto key = line.substr(0, pos);
