@@ -516,10 +516,10 @@ namespace Utils
 
         // put the base values into the list
         std::vector<uint32_t> values;
-        for (const auto &e : elements)
-        {
-            values.push_back(std::get<2>(e));
-        }
+        std::transform(elements.begin(), elements.end(),
+                       std::back_inserter(values),
+                       [](const auto &e) -> uint32_t
+                       { return std::get<2>(e); });
 
         clearScreen();
         redrawFunction();

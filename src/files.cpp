@@ -223,16 +223,16 @@ namespace Files
         GameState gs;
         gs.areaId = 0;
 
-        std::fstream saveFile;
-        saveFile.open(SAVE_FILE, std::ios::in);
-        if (saveFile.is_open())
+        std::fstream file;
+        file.open(SAVE_FILE, std::ios::in);
+        if (file.is_open())
         {
             std::string line;
 
             // get the location
-            getline(saveFile, line);
+            getline(file, line);
             gs.areaId = static_cast<uint32_t>(std::stoul(line));
-            getline(saveFile, line);
+            getline(file, line);
 
             // extract state info to map
             size_t pos = 0;
@@ -252,11 +252,11 @@ namespace Files
             }
 
             // extract heroes
-            while (getline(saveFile, line))
+            while (getline(file, line))
             {
                 gs.heroes.push_back(deserializeHero(line));
             }
-            saveFile.close();
+            file.close();
         }
 
         return gs;

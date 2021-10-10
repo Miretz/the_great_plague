@@ -175,11 +175,10 @@ namespace CharacterCreator
         };
 
         std::vector<std::string> menu;
-
-        for (auto t : filtered)
-        {
-            menu.push_back(Utils::getItemString(t, true));
-        }
+        std::transform(filtered.begin(), filtered.end(),
+                       std::back_inserter(menu),
+                       [](uint32_t t) -> std::string
+                       { return Utils::getItemString(t, true); });
 
         return filtered[Utils::pickOptionFromList(prompt, menu)];
     }

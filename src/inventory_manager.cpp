@@ -229,10 +229,10 @@ namespace InventoryManager
     void selectPartyEquipment(std::vector<Hero> &heroes)
     {
         std::vector<std::string> names;
-        for (const auto &h : heroes)
-        {
-            names.push_back(h.name);
-        }
+        std::transform(heroes.begin(), heroes.end(),
+                       std::back_inserter(names),
+                       [](const auto &h) -> std::string
+                       { return h.name; });
         names.push_back("Exit");
 
         auto selection = Utils::pickOptionFromList([]()

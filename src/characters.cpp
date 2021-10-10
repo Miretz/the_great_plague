@@ -141,7 +141,7 @@ namespace Characters
 
     void recalculateHeroHealth(Hero &hero)
     {
-        auto newValue = (hero.attributes.constitution * HEALTH_PER_VITALITY_POINT) + ((hero.level-1) * HEALTH_PER_LEVEL);
+        auto newValue = (hero.attributes.constitution * HEALTH_PER_VITALITY_POINT) + ((hero.level - 1) * HEALTH_PER_LEVEL);
         hero.health = newValue;
         hero.maxHealth = newValue;
     }
@@ -173,15 +173,9 @@ namespace Characters
 
     bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes)
     {
-        bool sameName = false;
-        for (const auto &h : heroes)
-        {
-            if (h.name == name)
-            {
-                sameName = true;
-            }
-        }
-        return sameName;
+        return std::any_of(heroes.cbegin(), heroes.cend(),
+                           [name](const auto &hero)
+                           { return hero.name == name; });
     }
 
 }

@@ -76,15 +76,9 @@ namespace CombatSystem
 
     bool isInvisible(const Hero &hero)
     {
-        for (const auto &se : hero.statusEffects)
-        {
-            if (se.type == StatusEffectType::Invisibility)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return std::any_of(hero.statusEffects.cbegin(), hero.statusEffects.cend(),
+                           [](const auto &se)
+                           { return se.type == StatusEffectType::Invisibility; });
     }
 
     void cleanTurnQueue(Combat &combat)
@@ -704,13 +698,10 @@ namespace CombatSystem
         for (auto &h : combat.turnQueue)
         {
             std::vector<StatusEffect> newEffects;
-            for (const auto &se : h.statusEffects)
-            {
-                if (se.turnsLeft > 0)
-                {
-                    newEffects.push_back(se);
-                }
-            }
+            std::copy_if(h.statusEffects.begin(), h.statusEffects.end(),
+                         std::back_inserter(newEffects),
+                         [](const auto &se)
+                         { return se.turnsLeft > 0; });
             h.statusEffects = newEffects;
         }
     }

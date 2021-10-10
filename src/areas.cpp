@@ -31,10 +31,11 @@ namespace Areas
 
         // display navigation menu
         std::vector<std::string> menu;
-        for (uint32_t aId : area.connections)
-        {
-            menu.push_back("Go to " + allAreas[aId].name);
-        }
+        std::transform(area.connections.begin(), area.connections.end(),
+                       std::back_inserter(menu),
+                       [](uint32_t t) -> std::string
+                       { return "Go to " + allAreas[t].name; });
+
         menu.push_back("Open Inventory");
         menu.push_back("Character Sheet");
         menu.push_back("Exit");
