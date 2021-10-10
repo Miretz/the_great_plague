@@ -36,7 +36,9 @@ namespace Areas
         {"Introduction", "00_introduction", {1}, nullptr},
         {"Shore", "01_shore", {2}, t01_shore_DanseaConversation},
         {"Forest", "02_forest", {3}, nullptr},
-        {"City Gate", "03_city_gate", {}, t03_gateCombat}};
+        {"City Gate", "03_city_gate", {4, 5}, t03_gateCombat},
+        {"The Inn", "04_inn", {3, 5}, nullptr},
+        {"Town Square", "05_town_square", {3, 4}, nullptr}};
 }
 
 #endif

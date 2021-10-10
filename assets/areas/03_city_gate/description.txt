@@ -16,8 +16,6 @@ ZOgDQB#@@@@#y_'  !!^K}~*:!^!-`!v`                     :EdOPGaI3M$Iq8Q@@@@@@#@##y
 #@B0B#B#@@@#MVVu^^!<:^]]^r*,,_:=<_`                `  -88QQQQQQ#88q5$B#@@@@B8RZx'.!:`.yT:,:!xv'=*:|V:'aQkVR^oZ$PwMdBB$c_   ``-`' .
 @@#B8BB@@@@#$_->VTTv^`,r*Zv^~*:,,,'   rVv!|xyXGMKXkaEgRMqGaaddOddOZeOB#@@@@QZPmx'`','.`-",)````v"!=:=:r*-V8=_:_,``P|:QRQxv=VY}!v~*
 Md38QB###@@#c     _``'_-_#?^V*_`._.` `wcLxsV3dR3DD8Q$Qg(v**)xi}YYVzy8G###QQQqm3Y"`-"^)r=_"` ``-``-Tc~:-.`,V=   _: =ukv}TkE8PGwMPcm
-E0##QB#@@@@#Z(uurv;r~vB@#BDv~viyI33]` :vYeqRyKaKd9Q6E86!!~=<*(vx(}udO#BQ##Q$ycu!  .!^j3! ``!m:     }I-"_^*"-_-!^*)x|vxUzxuVo0x*r(=
-#D5d0B#@@@@QV.'-`````` ````xv-_rwV}*:-*xHhcUeGZI5OMOR05!=!!^|TuXUMMOI0QQ#@#BO8gU~-:r5Q#E,::"=!:,!:^QBMKurk*r<waOUx*:_vWZu^rw*EgB@#
 gV58####@@@Qd~:_,"*Lr\ivTywyux}lr^vzcu~}x)LTwuu)uujkmjd)iLauqO0gQQ#OM$QB#@@@$OOV~`:::igM_=_~.`````.;x:-'.:v:,::` ,.!r}=~uV_xc938QB
 ##g$#@@@@@@#$xVYVL}ujIkVuuPZUM3xyVMx.g':^*LccwwsIbZ0D60K}PZ3jMg##@@Os0BBB###Zgx_      `   '   -<`  =)   ;}V-`,~=!:``-` `!Zr^dT"?6B
 QMI5Q#@@@@@#g))xv***<!!^^^^~xMv,---``!]G8BQ###@@@@##@@#!aR3BM8#B###$s0BB##@#8R3*  `  ```  v,`_,^,:":=.~_rg*--:!*x).~,,`,!^|c^uv';v
@@ -27,11 +25,13 @@ QMI5Q#@@@@@#g))xv***<!!^^^^~xMv,---``!]G8BQ###@@@@##@@#!aR3BM8#B###$s0BB##@#8R3*
 @@@@@@@@@@@@@G-     `  )6vMxv!:rY}=                              !vuIdQBB#@@@##gM|r=x}wXucuLjMd$gB##BBQBBQBQ#B8QQ$8$Eg0dRRMyXek}yy
 @@@@@@@@@@@@@3wv}hokyV*xvLIYT5g$$z~                                  `'_=?\j5$$$6YzKIjE$8$#QQQ8BQDBQB8BBQQB$Gd0g6P0dIaER80gOPmhXKu
 @@QBB@#@#8$8BPyV)dOMqbT"==?P^ywdz\r`                                             ``_!)uK5ORdWMWMZMMO0ZEORRgO$BQOgMMW3T}yTco}yyheYy
-##QZ8gsxYsWMRymEMLxT}E$gdyo}*:=Vv<=_                                                      ',!=^*^ivVykx)>~!*Lllzq0QRgeZPMOg$#$Ok*~
-ybB6dbX3doUeT?)VMMPx^)i}x)v)r>__`                                                                   ``      _*?~'-:!v}yysWMPjHv*mv
-##@@@y!!,":"':_"___``__` -vwKe~   `                                                                               `x\!!*^*^^:!,^i3
 +--------------------------------------------------------------------------------------------------------------------------------+
-TODO City Gate description
+The city gate seems to be in a great state of disrepair. It's obvious that this city doesn't get too many visitors, and even those 
+who manage to get here are immediatelly attacked by bandits and robbed of their possessions. This city is most probably a safe 
+haven for various pirates and criminals searching for a place to hide from the constant pursuit by the forces of law. 
 
+As you venture through the gate, you see a few guardsmen posted here, but none of them greets you or tries to find out who you 
+are. Clearly they accept anyone to come into this city as long as they don't cause trouble. 
 
+Right past the gate there is a small inn. I hope that the barkeep is much more talkative than the guards...
 +--------------------------------------------------------------------------------------------------------------------------------+
