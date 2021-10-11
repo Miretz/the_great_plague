@@ -17,6 +17,8 @@ namespace Utils
     const std::string COLOR_GREY = "\033[2;37m";
     const std::string COLOR_RED = "\33[1;31m";
     const std::string COLOR_END = "\033[0m";
+    const std::string COLOR_CYAN = "\033[0;36m";
+    const std::string COLOR_CYAN_LIGHT = "\033[1;36m";
 
 #if defined _WIN32
     const uint32_t KEY_UP = 72;

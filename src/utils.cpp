@@ -696,9 +696,13 @@ namespace Utils
             printBorder(130);
             std::cout << "|" << COLOR_GREEN << who << COLOR_END << '\n';
             printBorder(130);
+            std::cout << Utils::COLOR_CYAN;
             std::cout << picture;
+            std::cout << Utils::COLOR_END;
             printBorder(130);
-            std::cout << "|" << what << '\n';
+            std::cout << "|\n";
+            std::cout << "| " << Utils::COLOR_GREY << who << ": " << Utils::COLOR_END << what << '\n';
+            std::cout << "|\n";
             printBorder(130);
         };
         return prompt;

@@ -42,10 +42,14 @@ namespace Areas
         menu.push_back("Exit");
 
         // print the area text and navigation menu
-        auto areaDescription = Files::loadFile(AREA_FOLDER + area.folder + DESC_FILE);
-        auto prompt = [area, areaDescription]()
+        const auto areaDescription = Files::loadFile(AREA_FOLDER + area.folder + DESC_FILE);
+        const auto areaImage = Files::loadFile(AREA_FOLDER + area.folder + IMAGE_FILE);
+        auto prompt = [&]()
         {
             Utils::printBorderedText(area.name);
+            std::cout << Utils::COLOR_CYAN;
+            std::cout << areaImage;
+            std::cout << Utils::COLOR_END;
             std::cout << areaDescription;
         };
 
@@ -90,7 +94,9 @@ namespace Areas
         Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
 
         auto danseaPicture = Files::loadFile(f_danseaPicture);
+        std::cout << Utils::COLOR_CYAN;
         std::cout << danseaPicture;
+        std::cout << Utils::COLOR_END;
         std::cout << Files::loadFile(f_danseaIntro);
         Utils::newLine();
 
@@ -191,17 +197,20 @@ namespace Areas
 
     void t04_inkeeperConversation(GameState &gameState)
     {
+        const auto areaImage = Files::loadFile(AREA_FOLDER + "04_inn/image.txt");
         auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
+        std::cout << Utils::COLOR_CYAN;
+        std::cout << areaImage;
+        std::cout << Utils::COLOR_END;
         std::cout << areaDescription;
         Utils::newLine();
-        
+
         if (Utils::askConfirmation("Do you want to talk with the Innkeeper?"))
         {
             const auto conversationFile = AREA_FOLDER + "04_inn/conversation.txt";
-            const auto innkeeperPicture = Files::loadFile(AREA_FOLDER + "04_inn/innkeeper.txt");
 
             Utils::clearScreen();
-            ConversationSystem::start(innkeeperPicture, conversationFile);
+            ConversationSystem::start(areaImage, conversationFile);
 
             Files::saveGame(gameState);
         }

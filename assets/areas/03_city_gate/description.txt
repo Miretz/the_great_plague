@@ -1,30 +1,3 @@
-bdi~?dQQQ8B##QB##B8Bg#Q@@QO6qg#$$BB@$HbO0QmKmdZTcxVkx}TxcVYV5Xvr!.   `                                                            
-ZZeTxdBB#@@##@@@#gEQ#BZ$###BQMdBQOQ8dzVxYZjxyPvkcTxTTu}(!vsyh*g$dewVKdwTyxrxsLwv-                                                 
-O6dcTK@@@@@@#####8QB#QkPP$g3$#QO0d6PY^;}yKUeLm}?vzPZsqyGVZB*TmOkTByMRsXMEd8yKdMxGa3jv^"^~,-_,                                     
-QR$IyGggB@@@#BEQ968@@@@8sPQMT3RMQH|auuv~)jviKzdZQ#@@@@@@@@@@@##XygD#6xhv]hOOaKY?xj0MOOMGdHPTi,``                                  
-08eczH8#@@@@#DQg###@#B###ZggxK$QXxxiwVv^?km38#@@@@@@@@@@@@@@@@@@@##dY}rvdRMsGHqIRdRcqdORyZ$bMDKyI~``                              
-BgqPZ$B#@@@@#BVsoR00ROEQQMLuvvy$8*=~LuxzQ##@@@@@@@@@@@@@@@@@@@@##@@@@QVe6QucIddM03u^!YzPVy3}kOmM3dMy)~v,<r*:L:v^                  
-gdsyZ$QB@@@@Bz.~~VVrrx]$Ey5OBgTVL<:=_!mB@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@RK*LuT~^KKmI3ouyjwkemK|i3dgdGI\TTyGr<cs}L^                
-ZdK6ROQ#@@@@Bx_-|O9RP\xv|yVzZbVrrr;>rQ@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@###@@#c!:__-~WPmMB6Pd}LugOU0zXkczxiy}6Dvci}uQ#x               
-gOPqG0#@@@@#0=-=<v}I^Y]xv^!~?\rr*rxT#@@@@@#########@@@@@@@@@@@@@@@@@@@#@@@@M."_,-!rrT##OyEgXmKeWvrZx*KV?<|EZx^dzL5V`              
-9ukMM##@@@@#8i_..` '-=!-`!<*^**)*^|MQ##@@@@@@@@@@@##@#@@###@@@@@@@@@@@@@@@@@$<-:_?i}xVd0yv(HyT)lBU}}\r~Ikczir^xYx.                
-8$yg$##@@@@BM"__:!!Y}~:!"!rrxr*>)x^      ``-,:==*r\xLucVzzUUUUUmP@@@@@@@@@@@@Q""=!rz6xljwL?XZLKzTZg0dIvmkmxvLTX*_                 
-RGzO$g#8B@@#^   .^vr)^:!=!vxv\v(~v:                              `q@@@@@@@@@@@y,-:!xgk;!wzTjbyK>:y$GYvxyrIZVTLr<-                 
-$MqkqQB#@@@#^,   .<`'``  '?L]*rr^~`                    <)kzwoGVzkwM##@@@@@@@@@#i^)\rv]<rsIwvvTO):L^!vx`MGk$O$$DdZx-`              
-ZOgDQB#@@@@#y_'  !!^K}~*:!^!-`!v`                     :EdOPGaI3M$Iq8Q@@@@@@#@##y*^vvc?=~~xr!`z-_QQK}yc~^B#EeEqq$8y^!              
-@6yhd#@@@@@@D)~-`.`,xr._:___`  ~>>'                   ,8OMqOdROPm9d$##@@@@@#QQd*```',smkv',x}v,~x!=],_,$Q0vL|MgdDVR#B$M!          
-#@B0B#B#@@@#MVVu^^!<:^]]^r*,,_:=<_`                `  -88QQQQQQ#88q5$B#@@@@B8RZx'.!:`.yT:,:!xv'=*:|V:'aQkVR^oZ$PwMdBB$c_   ``-`' .
-@@#B8BB@@@@#$_->VTTv^`,r*Zv^~*:,,,'   rVv!|xyXGMKXkaEgRMqGaaddOddOZeOB#@@@@QZPmx'`','.`-",)````v"!=:=:r*-V8=_:_,``P|:QRQxv=VY}!v~*
-Md38QB###@@#c     _``'_-_#?^V*_`._.` `wcLxsV3dR3DD8Q$Qg(v**)xi}YYVzy8G###QQQqm3Y"`-"^)r=_"` ``-``-Tc~:-.`,V=   _: =ukv}TkE8PGwMPcm
-gV58####@@@Qd~:_,"*Lr\ivTywyux}lr^vzcu~}x)LTwuu)uujkmjd)iLauqO0gQQ#OM$QB#@@@$OOV~`:::igM_=_~.`````.;x:-'.:v:,::` ,.!r}=~uV_xc938QB
-##g$#@@@@@@#$xVYVL}ujIkVuuPZUM3xyVMx.g':^*LccwwsIbZ0D60K}PZ3jMg##@@Os0BBB###Zgx_      `   '   -<`  =)   ;}V-`,~=!:``-` `!Zr^dT"?6B
-QMI5Q#@@@@@#g))xv***<!!^^^^~xMv,---``!]G8BQ###@@@@##@@#!aR3BM8#B###$s0BB##@#8R3*  `  ```  v,`_,^,:":=.~_rg*--:!*x).~,,`,!^|c^uv';v
-##$8@@@@@@@@@*````  ` '-,::!::!:~``  .xVVIVmPPMd9E8g8BQ$gzP8B#B####QdgB##@@#DEGT `'`         _k     ``$Bv_:_(_'.Y!' ._. ,,`=:*L)E.
-#gQB#@@@@@@@@Qx!:_-.-!=^*!*!=!-:^<-         ```` `'_:!^<xccyyIcyGPGXdQg$Q@@#B$ZPTY\r<>vxvx]vx}c}^*^cGc\^<3~````.-'_'.._|i"!!x\TYHD
-#B#@@@@@@@@@@s         :Y'*``_-_==.                      -_,:rxyb#Bg8###BB@#g3oV.-xv;;~**)ri}I*))xwOkj\xxcMP3B05EHMMM8BBQ8E$dUODZ$
-@@@@@@@@@@@@@G-     `  )6vMxv!:rY}=                              !vuIdQBB#@@@##gM|r=x}wXucuLjMd$gB##BBQBBQBQ#B8QQ$8$Eg0dRRMyXek}yy
-@@@@@@@@@@@@@3wv}hokyV*xvLIYT5g$$z~                                  `'_=?\j5$$$6YzKIjE$8$#QQQ8BQDBQB8BBQQB$Gd0g6P0dIaER80gOPmhXKu
-@@QBB@#@#8$8BPyV)dOMqbT"==?P^ywdz\r`                                             ``_!)uK5ORdWMWMZMMO0ZEORRgO$BQOgMMW3T}yTco}yyheYy
 +--------------------------------------------------------------------------------------------------------------------------------+
 The city gate seems to be in a great state of disrepair. It's obvious that this city doesn't get too many visitors, and even those 
 who manage to get here are immediatelly attacked by bandits and robbed of their possessions. This city is most probably a safe 

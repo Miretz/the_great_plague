@@ -1,4 +1,4 @@
-start|          Innkeeper|  Hi there! Welcome to the Silver Tower Inn. The best place for food, drink & lodging in the whole of Alaxis.                       |reply;
+start|          Innkeeper|  Hi there! Welcome to the Silver Tower Inn. The best place for food, drink and lodging in the whole of Alaxis.                     |reply;
 reply|          Player|     Hello! This place looks really good.                                                                                              |ask;
 ask|            Innkeeper|  Thank you, sir. What would you like?                                                                                              |info;drink;
 go_back|        Player|     Let me see what else you've got.                                                                                                  |top;

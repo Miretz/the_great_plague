@@ -13,6 +13,7 @@ namespace Areas
 
     const std::string AREA_FOLDER = "assets/areas/";
     const std::string DESC_FILE = "/description.txt";
+    const std::string IMAGE_FILE = "/image.txt";
 
     const std::string f_danseaConfig = "assets/characters/dansea/dansea.txt";
     const std::string f_danseaPicture = "assets/characters/dansea/dansea_image.txt";
