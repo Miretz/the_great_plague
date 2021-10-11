@@ -85,7 +85,7 @@ enum class StatusEffectType
 };
 
 /************************************************************************************************
-CLASSES
+OBJECTS
 *************************************************************************************************/
 
 struct Attributes
@@ -197,6 +197,14 @@ struct Ability
     AbilityType type;
     Target target;
     uint32_t actionPoints;
+};
+
+struct ConversationLine
+{
+    std::string label;
+    std::string who;
+    std::string text;
+    std::vector<std::string> jumps;
 };
 
 /************************************************************************************************

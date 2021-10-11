@@ -8,6 +8,7 @@
 struct Hero;
 struct Ability;
 struct GameState;
+struct ConversationLine;
 
 namespace Files
 {
@@ -33,6 +34,8 @@ namespace Files
     void saveHeroToFile(const Hero &hero, const std::string &filePath);
 
     std::vector<Ability> loadAbilities(const std::string &filePath);
+
+    std::vector<ConversationLine> loadConversationFile(const std::string &conversationFilePath);
 }
 
 #endif

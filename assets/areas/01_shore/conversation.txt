@@ -1,0 +1,13 @@
+start|              Dansea|          Wait for me!!!|                                                                 wait;
+wait|               Player|          (Wait for her to get close)|                                                    hey;
+hey|                Dansea|          Hey! I bet you're also glad to be out of that boat.|                            bow;
+bow|                Player|          Yeah. Where did you get that bow?|                                              father;
+father|             Dansea|          My father gave it to me so I kept it safe. It reminds me of him.|               weapon;
+weapon|             Player|          It's always good to keep a weapon on hand. You never know when you need it.|    plan_question;
+plan_question|      Dansea|          So what's your plan?|                                                           city_answer;dont_know_answer;                              
+city_answer|        Player|          I am going to the city.|                                                        city;
+dont_know_answer|   Player|          I don't know yet.|                                                              dont_know;
+city|               Dansea|          I was planning to go there. Maybe we can go together?|                          end_yes;end_no;
+end_yes|            Player|          Sounds good to me.|                                                         ;
+end_no|             Player|          No, thanks. I want to explore on my own.|                                   ;
+dont_know|          Dansea|          I am heading out to the nearest city. Do you want to join me?|                  end_yes;end_no;

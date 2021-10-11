@@ -396,4 +396,46 @@ namespace Files
 
         return abilities;
     }
+
+    std::vector<ConversationLine> loadConversationFile(const std::string &conversationFilePath)
+    {
+        std::vector<ConversationLine> lines;
+
+        std::fstream file;
+        file.open(conversationFilePath, std::ios::in);
+        if (file.is_open())
+        {
+            std::string line;
+            while (getline(file, line))
+            {
+                ConversationLine c;
+
+                c.label = Utils::trim(line.substr(0, line.find(delimiter)));
+                line.erase(0, line.find(delimiter) + delimiter.length());
+
+                c.who = Utils::trim(line.substr(0, line.find(delimiter)));
+                line.erase(0, line.find(delimiter) + delimiter.length());
+
+                c.text = Utils::trim(line.substr(0, line.find(delimiter)));
+                line.erase(0, line.find(delimiter) + delimiter.length());
+
+                auto jumpsStr = Utils::trim(line.substr(0, line.find(delimiter)));
+
+                c.jumps = {};
+                size_t pos = 0;
+                while ((pos = jumpsStr.find(valueDelimitter)) != std::string::npos)
+                {
+                    auto token = jumpsStr.substr(0, pos);
+                    if (token == "")
+                        break;
+                    c.jumps.push_back(Utils::trim(token));
+                    jumpsStr.erase(0, pos + valueDelimitter.length());
+                }
+
+                lines.push_back(c);
+            }
+            file.close();
+        }
+        return lines;
+    }
 }
