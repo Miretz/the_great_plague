@@ -12,6 +12,9 @@
 #if defined _WIN32
 #include <conio.h>
 #include <windows.h>
+#else
+#include <unistd.h>
+#include <termios.h>
 #endif
 
 namespace Utils
@@ -371,15 +374,38 @@ namespace Utils
 #if defined _WIN32
         result = _getch();
 #else
-        system("/bin/stty raw");
+        std::cout << "\n";
 
-        result = getchar();
-        if (result == '\033')
+        char buf = 0;
+        termios old;
+        if (tcgetattr(0, &old) < 0)
         {
-            getchar(); // get rid of ]
-            result = getchar();
+            std::cout << "Error: tcgetattr error\n";
+            exit(1);
         }
-        system("/bin/stty cooked");
+        old.c_lflag &= ~ICANON;
+        old.c_lflag &= ~ECHO;
+        old.c_cc[VMIN] = 1;
+        old.c_cc[VTIME] = 0;
+        if (tcsetattr(0, TCSANOW, &old) < 0)
+        {
+            std::cout << "Error: tcsetattr error\n";
+            exit(1);
+        }
+
+        if (read(0, &buf, 1) < 0)
+        {
+            std::cout << "Error: termios read()\n";
+            exit(1);
+        }
+        old.c_lflag |= ICANON;
+        old.c_lflag |= ECHO;
+        if (tcsetattr(0, TCSADRAIN, &old) < 0)
+        {
+            std::cout << "Error: tcsetattr ~ICANON\n";
+            exit(1);
+        }
+        result = buf;
 #endif
         return result;
     }
