@@ -189,4 +189,22 @@ namespace Areas
         Files::saveGame(gameState);
     }
 
+    void t04_inkeeperConversation(GameState &gameState)
+    {
+        auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
+        std::cout << areaDescription;
+        Utils::newLine();
+        
+        if (Utils::askConfirmation("Do you want to talk with the Innkeeper?"))
+        {
+            const auto conversationFile = AREA_FOLDER + "04_inn/conversation.txt";
+            const auto innkeeperPicture = Files::loadFile(AREA_FOLDER + "04_inn/innkeeper.txt");
+
+            Utils::clearScreen();
+            ConversationSystem::start(innkeeperPicture, conversationFile);
+
+            Files::saveGame(gameState);
+        }
+    }
+
 }

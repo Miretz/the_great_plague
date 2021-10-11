@@ -421,7 +421,6 @@ namespace Files
 
                 auto jumpsStr = Utils::trim(line.substr(0, line.find(delimiter)));
 
-                c.jumps = {};
                 size_t pos = 0;
                 while ((pos = jumpsStr.find(valueDelimitter)) != std::string::npos)
                 {

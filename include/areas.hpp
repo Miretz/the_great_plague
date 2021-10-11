@@ -26,18 +26,20 @@ namespace Areas
         std::function<void(GameState &)> auxFunction;
     };
 
-    void navigateToArea(uint32_t areaId, GameState &game);
+    void navigateToArea(uint32_t areaId, GameState &gameState);
 
-    void t01_shore_DanseaConversation(GameState &game);
+    void t01_shore_DanseaConversation(GameState &gameState);
 
-    void t03_gateCombat(GameState &game);
+    void t03_gateCombat(GameState &gameState);
+
+    void t04_inkeeperConversation(GameState &gameState);
 
     const std::vector<Area> allAreas{
         {"Introduction", "00_introduction", {1}, nullptr},
         {"Shore", "01_shore", {2}, t01_shore_DanseaConversation},
         {"Forest", "02_forest", {3}, nullptr},
         {"City Gate", "03_city_gate", {4, 5}, t03_gateCombat},
-        {"The Inn", "04_inn", {3, 5}, nullptr},
+        {"The Inn", "04_inn", {3, 5}, t04_inkeeperConversation},
         {"Town Square", "05_town_square", {3, 4}, nullptr}};
 }
 
