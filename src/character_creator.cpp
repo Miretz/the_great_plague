@@ -34,7 +34,7 @@ namespace CharacterCreator
 
             if (Characters::isNameAlreadyInUse(name, heroes))
             {
-                auto warning = "\nThe name " + name + " is already in use. Please choose a different name.";
+                const auto warning = "The name " + name + " is already in use. Please choose a different name.";
                 Utils::printBorderedText(warning);
                 continue;
             }

@@ -365,10 +365,18 @@ namespace Utils
     uint32_t getInput()
     {
         uint32_t result = 0;
+
+        std::cin.clear();
+
 #if defined _WIN32
         result = _getch();
 #else
         system("/bin/stty raw");
+
+        int ch = 0;
+        while ((ch = getchar()) != '\n' && ch != EOF)
+            ;
+
         result = getchar();
         if (result == '\033')
         {
@@ -403,7 +411,6 @@ namespace Utils
 
             std::cout << ss.str();
 
-            fflush(stdin);
             uint32_t c;
             switch ((c = getInput()))
             {
@@ -431,8 +438,6 @@ namespace Utils
                 break;
             }
         }
-
-        fflush(stdin);
 
         return result;
     }
@@ -473,7 +478,6 @@ namespace Utils
             setCursorPosition(0, y);
             std::cout << ss.str();
 
-            fflush(stdin);
             uint32_t c;
             switch ((c = getInput()))
             {
@@ -502,8 +506,6 @@ namespace Utils
                 break;
             }
         }
-
-        fflush(stdin);
 
         return selected;
     }
@@ -566,7 +568,6 @@ namespace Utils
             setCursorPosition(0, y);
             std::cout << ss.str();
 
-            fflush(stdin);
             uint32_t c;
             switch ((c = getInput()))
             {
@@ -616,8 +617,6 @@ namespace Utils
             }
         }
 
-        fflush(stdin);
-
         return {values, availablePoints};
     }
 
@@ -651,7 +650,7 @@ namespace Utils
 
         bool result = false;
         uint32_t c = 0;
-        fflush(stdin);
+
         switch ((c = getInput()))
         {
         case 89: // y
@@ -677,7 +676,6 @@ namespace Utils
     {
         std::cout << COLOR_GREY << "Press [Enter] to continue..." << COLOR_END << "\n\n";
 
-        fflush(stdin);
         while (true)
         {
             auto c = getInput();
@@ -686,7 +684,6 @@ namespace Utils
                 break;
             }
         }
-        fflush(stdin);
     }
 
     std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
@@ -712,6 +709,7 @@ namespace Utils
     {
         newLine();
         std::string name = "";
+
         std::cout << "Name: ";
         std::cin >> name;
 
@@ -722,6 +720,9 @@ namespace Utils
             std::cout << "Name: ";
             std::cin >> name;
         }
+
+        std::cin.clear();
+        std::cin.ignore(256, '\n');
 
         return trim(name);
     }
