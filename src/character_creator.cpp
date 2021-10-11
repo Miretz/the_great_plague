@@ -5,6 +5,8 @@
 #include "inventory_manager.hpp"
 #include "characters.hpp"
 
+#include <iterator>
+
 namespace CharacterCreator
 {
 

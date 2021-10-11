@@ -4,6 +4,8 @@
 #include "utils.hpp"
 #include "files.hpp"
 
+#include <iterator>
+
 namespace ConversationSystem
 {
     std::string start(const std::string &picture, const std::string &conversationFilePath)
