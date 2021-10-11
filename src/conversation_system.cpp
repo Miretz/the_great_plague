@@ -17,8 +17,6 @@ namespace ConversationSystem
 
         while (true)
         {
-            Utils::clearScreen();
-
             std::vector<std::string> options;
             std::transform(currentLine.jumps.begin(), currentLine.jumps.end(),
                            std::back_inserter(options),
