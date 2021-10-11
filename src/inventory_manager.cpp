@@ -228,20 +228,35 @@ namespace InventoryManager
 
     void selectPartyEquipment(std::vector<Hero> &heroes)
     {
-        std::vector<std::string> names;
-        std::transform(heroes.begin(), heroes.end(),
-                       std::back_inserter(names),
-                       [](const auto &h) -> std::string
-                       { return h.name; });
-        names.push_back("Exit");
-
-        auto selection = Utils::pickOptionFromList([]()
-                                                   { Utils::printBorderedText("Manage inventory of:"); },
-                                                   names);
-        if (selection < names.size() - 1)
+        while (true)
         {
-            auto &hero = heroes[selection];
-            selectEquipment(hero);
+            std::vector<std::string> menu;
+            std::transform(heroes.begin(), heroes.end(),
+                           std::back_inserter(menu),
+                           [](const auto &h) -> std::string
+                           { return h.name; });
+
+            menu.push_back("Print Character Sheet");
+            menu.push_back("Exit");
+
+            auto selection = Utils::pickOptionFromList([]()
+                                                       { Utils::printBorderedText("Manage inventory of:"); },
+                                                       menu);
+            if (selection < menu.size() - 2)
+            {
+                auto &hero = heroes[selection];
+                selectEquipment(hero);
+            }
+            else if (selection == menu.size() - 2)
+            {
+                Utils::clearScreen();
+                Utils::printListOfHeroes(heroes);
+                Utils::pressEnterToContinue();
+            }
+            else
+            {
+                break;
+            }
         }
     }
 

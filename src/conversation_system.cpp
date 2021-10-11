@@ -47,7 +47,7 @@ namespace ConversationSystem
 
         std::unordered_map<std::string, ConversationLine> conversation;
 
-        for (const auto line : lines)
+        for (const auto &line : lines)
         {
             conversation[line.label] = line;
         }

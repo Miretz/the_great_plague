@@ -38,7 +38,6 @@ namespace Areas
                        { return "Go to " + allAreas[t].name; });
 
         menu.push_back("Open Inventory");
-        menu.push_back("Character Sheet");
         menu.push_back("Exit");
 
         // print the area text and navigation menu
@@ -61,18 +60,8 @@ namespace Areas
             return;
         }
 
-        // print character sheet
-        if (selection == menu.size() - 2)
-        {
-            Utils::clearScreen();
-            Utils::printListOfHeroes(game.heroes);
-            Utils::pressEnterToContinue();
-            navigateToArea(game.areaId, game);
-            return;
-        }
-
         // Inventory option
-        if (selection == menu.size() - 3)
+        if (selection == menu.size() - 2)
         {
             InventoryManager::selectPartyEquipment(game.heroes);
             navigateToArea(game.areaId, game);
