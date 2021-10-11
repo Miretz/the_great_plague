@@ -373,10 +373,6 @@ namespace Utils
 #else
         system("/bin/stty raw");
 
-        int ch = 0;
-        while ((ch = getchar()) != '\n' && ch != EOF)
-            ;
-
         result = getchar();
         if (result == '\033')
         {
