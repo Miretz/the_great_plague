@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.10)
 project(the_great_plague)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -27,5 +27,5 @@ target_include_directories(rpg PUBLIC include)
 
 add_custom_command(TARGET rpg PRE_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/assets/ $<TARGET_FILE_DIR:rpg>)
+                       ${CMAKE_SOURCE_DIR}/assets/ $<TARGET_FILE_DIR:rpg>/assets/)
 
