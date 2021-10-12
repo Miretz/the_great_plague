@@ -36,5 +36,12 @@ bin
 .vscode
 .idea
 
+# cmake build
+build/
+bin/
+.cache/
+compile_commands.json
+
+
 # Game Data
 save.txt
