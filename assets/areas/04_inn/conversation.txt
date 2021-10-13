@@ -4,7 +4,11 @@ ask|            Innkeeper|  Thank you, sir. What would you like?                
 go_back|        Player|     Let me see what else you've got.                                                                                                  |top;
 top|            Innkeeper|  What else would you like?                                                                                                         |info;drink;end; 
 info|           Player|     I'm new to the city, and I'd like to know more about it.                                                                          |info_selected;
-info_selected|  Innkeeper|  I don't go out too much, but it's a nice city. The people are humble and friendly.                                                |go_back;
+info_selected|  Innkeeper|  I don't go out too much, but it's a nice city. The people are humble and friendly.                                                |attacked;
+attacked|       Player|     Oh, Really?! I was attacked right in front of the gate!                                                                           |deluded;
+deluded|        Innkeeper|  Such things don't happen in our fine city. You must have been mistaken.                                                           |counter;
+counter|        Player|     Oh, yeah! Surely those bruises all over my body appeared out of nowhere.                                                          |dont_leave;
+dont_leave|     Innkeeper|  Sir, I deeply apologize for questioning you. The customer is always right. ... Please don't leave.                                |go_back;
 drink|          Player|     I'm really thirsty. Can I get a drink please?                                                                                     |drink_selected;
 drink_selected| Innkeeper|  Sure. Here you go, sir.                                                                                                           |drink_more; go_back;
 drink_more|     Player|     One more, please.                                                                                                                 |drink_selected;

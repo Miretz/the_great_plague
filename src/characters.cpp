@@ -44,7 +44,7 @@ namespace Characters
                   prevAtt.dexterity },
                 { "Constitution",
                   "Constitution reflects the character's health, toughness, and resilience.\n  "
-                  "Grants additional health, armor and various resistances.\n"
+                  "Grants additional health, armor and various resistances.\n  "
                   "Also increases the proficiency with shields.",
                   prevAtt.constitution },
                 { "Intelligence",
