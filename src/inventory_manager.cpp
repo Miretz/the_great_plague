@@ -6,7 +6,6 @@
 #include "entities.hpp"
 #include "utils.hpp"
 
-
 namespace InventoryManager
 {
     void addToBackpack(Hero &hero, const uint32_t itemId)
@@ -176,8 +175,12 @@ namespace InventoryManager
     std::pair<bool, EquipmentSlot> selectSlot(const Hero &hero)
     {
         std::vector<EquipmentSlot> availableSlots{
-            EquipmentSlot::Head, EquipmentSlot::Torso,    EquipmentSlot::Gloves,
-            EquipmentSlot::Legs, EquipmentSlot::MainHand, EquipmentSlot::Offhand,
+            EquipmentSlot::Head,
+            EquipmentSlot::Torso,
+            EquipmentSlot::Gloves,
+            EquipmentSlot::Legs,
+            EquipmentSlot::MainHand,
+            EquipmentSlot::Offhand,
         };
 
         auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
@@ -227,12 +230,15 @@ namespace InventoryManager
         {
             std::vector<std::string> menu;
             std::transform(
-                heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h) -> std::string { return h.name; });
+                heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h) -> std::string
+                { return h.name; });
 
             menu.push_back("Print Character Sheet");
             menu.push_back("Exit");
 
-            auto selection = Utils::pickOptionFromList([]() { Utils::printBorderedText("Manage inventory of:"); }, menu);
+            auto selection = Utils::pickOptionFromList([]()
+                                                       { Utils::printBorderedText("Manage inventory of:"); },
+                                                       menu);
             if (selection < menu.size() - 2)
             {
                 auto &hero = heroes[selection];
@@ -320,7 +326,8 @@ namespace InventoryManager
                     chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j], true));
                 }
 
-                auto pickItemPrompt = []() { Utils::printBorderedText("Select equipment:"); };
+                auto pickItemPrompt = []()
+                { Utils::printBorderedText("Select equipment:"); };
                 auto itemSelection = Utils::pickOptionFromList(pickItemPrompt, chooseWeapon);
                 auto newItem = listOfEquipable[itemSelection];
 

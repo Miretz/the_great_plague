@@ -5,7 +5,6 @@
 #include "inventory_manager.hpp"
 #include "utils.hpp"
 
-
 namespace Characters
 {
     void levelUp(Hero &hero)
@@ -36,20 +35,21 @@ namespace Characters
 
             const PointsMenuInput menu{
                 { "Strength",
-                  "Strength reflects the raw physical power of a character.\n  Grants additional damage with melee weapons "
-                  "such as swords and maces.",
+                  "Strength reflects the raw physical power of a character.\n  "
+                  "Grants additional damage with melee weapons such as swords and maces.",
                   prevAtt.strength },
                 { "Dexterity",
-                  "Dexterity reflects the speed and agility of character's physical movement.\n  Grants bonus damage with "
-                  "weapons such as spears, bows and daggers.",
+                  "Dexterity reflects the speed and agility of character's physical movement.\n  "
+                  "Grants bonus damage with weapons such as spears, bows and daggers.",
                   prevAtt.dexterity },
                 { "Constitution",
-                  "Constitution reflects the character's health, toughness, and resilience.\n  Grants additional health, "
-                  "armor and various resistances.\n  Also increases the proficiency with shields.",
+                  "Constitution reflects the character's health, toughness, and resilience.\n  "
+                  "Grants additional health, armor and various resistances.\n"
+                  "Also increases the proficiency with shields.",
                   prevAtt.constitution },
                 { "Intelligence",
-                  "Intelligence reflects the character's knowledge and wisdom.\n  Grants additional damage with magic "
-                  "weapons and skills.",
+                  "Intelligence reflects the character's knowledge and wisdom.\n  "
+                  "Grants additional damage with magic weapons and skills.",
                   prevAtt.intelligence },
             };
 
@@ -109,8 +109,12 @@ namespace Characters
                 { "Two-handed",
                   "Grants new abilities for two-handed weapons such as longswords and quarterstaffs.",
                   previous.twoHanded },
-                { "Ranged", "Grants new abilities for ranged weapons such as bows and crossbows.", previous.ranged },
-                { "Dual wielding", "Reduces the penalty of the weapon wielded in off-hand by 5%.", previous.dualWielding },
+                { "Ranged",
+                  "Grants new abilities for ranged weapons such as bows and crossbows.",
+                  previous.ranged },
+                { "Dual wielding",
+                  "Reduces the penalty of the weapon wielded in off-hand by 5%.",
+                  previous.dualWielding },
 
                 { "Mysticism", "Grants abilities that manipulate life force.", previous.mysticism },
                 { "Terramancy", "Grants abilities that use the power of nature.", previous.terramancy },
@@ -129,8 +133,7 @@ namespace Characters
 
             auto results = distributedPoints.first;
 
-            Specialties specialties{ results[0], results[1], results[2], results[3], results[4],
-                                     results[5], results[6], results[7], results[8] };
+            Specialties specialties{ results[0], results[1], results[2], results[3], results[4], results[5], results[6], results[7], results[8] };
 
             availablePoints = distributedPoints.second;
 
@@ -185,7 +188,8 @@ namespace Characters
 
     bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes)
     {
-        return std::any_of(heroes.cbegin(), heroes.cend(), [name](const auto &hero) { return hero.name == name; });
+        return std::any_of(heroes.cbegin(), heroes.cend(), [name](const auto &hero)
+                           { return hero.name == name; });
     }
 
 }  // namespace Characters

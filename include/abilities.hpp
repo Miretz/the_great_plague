@@ -8,7 +8,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 struct Hero;
 struct Combat;
 struct Ability;
@@ -32,8 +31,12 @@ namespace Abilities
     void f_ReviveDead(Hero &caster, Hero &target, Combat &combat);
 
     const std::unordered_map<std::string, std::function<void(Hero &, Hero &, Combat &)>> mappedFunctions{
-        { "f_FirstAid", f_FirstAid },   { "f_Maul", f_Maul },           { "f_LifeDrain", f_LifeDrain },
-        { "f_SummonDog", f_SummonDog }, { "f_HailStorm", f_HailStorm }, { "f_ReviveDead", f_ReviveDead }
+        { "f_FirstAid", f_FirstAid },
+        { "f_Maul", f_Maul },
+        { "f_LifeDrain", f_LifeDrain },
+        { "f_SummonDog", f_SummonDog },
+        { "f_HailStorm", f_HailStorm },
+        { "f_ReviveDead", f_ReviveDead }
     };
 }  // namespace Abilities
 

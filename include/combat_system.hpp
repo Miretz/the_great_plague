@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-
 struct Hero;
 struct Combat;
 

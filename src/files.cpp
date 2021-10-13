@@ -8,7 +8,6 @@
 #include "entities.hpp"
 #include "utils.hpp"
 
-
 namespace Files
 {
     const std::string serializeHero(const Hero &hero)

@@ -12,12 +12,26 @@ namespace CharacterCreator
     const Inventory basicInventory{ {}, { { "Torso", 7 }, { "Legs", 8 } } };
 
     const std::vector<Race> startingRaces{
-        Race::Human, Race::Repsoris, Race::Ursobac, Race::Rodanto, Race::Felidae, Race::Strigifor, Race::Vulpotis,
+        Race::Human,
+        Race::Repsoris,
+        Race::Ursobac,
+        Race::Rodanto,
+        Race::Felidae,
+        Race::Strigifor,
+        Race::Vulpotis,
     };
 
     const std::vector<std::string> startingAbilities{
-        "first_aid",  "evasion",       "knockdown",  "life_drain", "magic_shield",
-        "camouflage", "noxious_cloud", "earthquake", "hailstorm",  "reanimate",
+        "first_aid",
+        "evasion",
+        "knockdown",
+        "life_drain",
+        "magic_shield",
+        "camouflage",
+        "noxious_cloud",
+        "earthquake",
+        "hailstorm",
+        "reanimate",
     };
 
     const std::vector<uint32_t> startingItems{ 0, 1, 2, 3, 4, 5, 6 };

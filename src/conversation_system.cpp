@@ -6,7 +6,6 @@
 #include "files.hpp"
 #include "utils.hpp"
 
-
 namespace ConversationSystem
 {
     std::string start(const std::string &picture, const std::string &conversationFilePath)
@@ -23,7 +22,8 @@ namespace ConversationSystem
                 currentLine.jumps.begin(),
                 currentLine.jumps.end(),
                 std::back_inserter(options),
-                [&](const std::string &jump) -> std::string { return conversation.at(jump).text; });
+                [&](const std::string &jump) -> std::string
+                { return conversation.at(jump).text; });
 
             auto selection = Utils::pickOptionFromList(
                 Utils::createConversationPrompt(currentLine.who, currentLine.text, picture), options);

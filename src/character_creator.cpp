@@ -7,7 +7,6 @@
 #include "inventory_manager.hpp"
 #include "utils.hpp"
 
-
 namespace CharacterCreator
 {
     std::vector<Hero> createHeroes()
@@ -17,7 +16,8 @@ namespace CharacterCreator
         Utils::clearScreen();
 
         // pick number of players
-        auto prompt = []() { Utils::printBorderedText("Please select the number of heroes"); };
+        auto prompt = []()
+        { Utils::printBorderedText("Please select the number of heroes"); };
         auto numHeroes = Utils::slider(prompt, 1, 4);
 
         Utils::clearScreen();
@@ -74,7 +74,8 @@ namespace CharacterCreator
 
     Hero pickHeroRace(const std::string &name)
     {
-        auto prompt = []() { Utils::printBorderedText("Please select your race:"); };
+        auto prompt = []()
+        { Utils::printBorderedText("Please select your race:"); };
 
         std::vector<std::string> menu;
 
@@ -106,23 +107,25 @@ namespace CharacterCreator
 
         std::string uniqueId = "PLR_" + name;
 
-        Hero hero{ uniqueId,
-                   name,
-                   maxHealth,
-                   xp,
-                   maxHealth,
-                   level,
-                   xpToLevelUp,
-                   STARTING_ATTRIBUTE_POINTS,
-                   STARTING_SPECIALTY_POINTS,
-                   startingRaces[selection],
-                   Controller::Player,
-                   defaultAttributes,
-                   defaultSpecialties,
-                   { race.abilityId },
-                   basicInventory,
-                   {},
-                   0 };
+        Hero hero{
+            uniqueId,
+            name,
+            maxHealth,
+            xp,
+            maxHealth,
+            level,
+            xpToLevelUp,
+            STARTING_ATTRIBUTE_POINTS,
+            STARTING_SPECIALTY_POINTS,
+            startingRaces[selection],
+            Controller::Player,
+            defaultAttributes,
+            defaultSpecialties,
+            { race.abilityId },
+            basicInventory,
+            {},
+            0
+        };
         return hero;
     }
 
@@ -130,7 +133,8 @@ namespace CharacterCreator
     {
         Utils::clearScreen();
 
-        auto prompt = []() { Utils::printBorderedText("Pick a starting ability:"); };
+        auto prompt = []()
+        { Utils::printBorderedText("Pick a starting ability:"); };
 
         std::vector<std::string> menu;
         for (const auto &abilityId : startingAbilities)
@@ -157,14 +161,16 @@ namespace CharacterCreator
 
         Utils::clearScreen();
 
-        auto prompt = []() { Utils::printBorderedText("Pick a starting item:"); };
+        auto prompt = []()
+        { Utils::printBorderedText("Pick a starting item:"); };
 
         std::vector<std::string> menu;
         std::transform(
             filtered.begin(),
             filtered.end(),
             std::back_inserter(menu),
-            [](uint32_t t) -> std::string { return Utils::getItemString(t, true); });
+            [](uint32_t t) -> std::string
+            { return Utils::getItemString(t, true); });
 
         return filtered[Utils::pickOptionFromList(prompt, menu)];
     }

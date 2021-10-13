@@ -7,7 +7,6 @@
 #include "inventory_manager.hpp"
 #include "utils.hpp"
 
-
 namespace Abilities
 {
     std::unordered_map<std::string, Ability> loadedAbilities;

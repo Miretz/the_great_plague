@@ -11,7 +11,6 @@
 #include "inventory_manager.hpp"
 #include "utils.hpp"
 
-
 namespace Areas
 {
     void navigateToArea(uint32_t areaId, GameState &game)
@@ -37,7 +36,8 @@ namespace Areas
             area.connections.begin(),
             area.connections.end(),
             std::back_inserter(menu),
-            [](uint32_t t) -> std::string { return "Go to " + allAreas[t].name; });
+            [](uint32_t t) -> std::string
+            { return "Go to " + allAreas[t].name; });
 
         menu.push_back("Open Inventory");
         menu.push_back("Exit");

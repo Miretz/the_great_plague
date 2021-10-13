@@ -6,7 +6,6 @@
 #include <functional>
 #include <random>
 
-
 namespace Dice
 {
     // used for weapon attacks, healing, spells, etc.

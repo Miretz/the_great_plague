@@ -9,7 +9,6 @@
 #include "files.hpp"
 #include "inventory_manager.hpp"
 
-
 #if defined _WIN32
 #include <conio.h>
 #include <windows.h>
@@ -281,7 +280,8 @@ namespace Utils
 
     void printSpacedText(const std::string &text)
     {
-        std::cout << "\n" << text << "\n\n";
+        std::cout << "\n"
+                  << text << "\n\n";
     }
 
     void newLine()
@@ -493,8 +493,7 @@ namespace Utils
         return selected;
     }
 
-    std::pair<std::vector<uint32_t>, uint32_t>
-    pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute)
+    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute)
     {
         uint32_t row = 0;
 
@@ -506,7 +505,8 @@ namespace Utils
             elements.begin(),
             elements.end(),
             std::back_inserter(values),
-            [](const auto &e) -> uint32_t { return std::get<2>(e); });
+            [](const auto &e) -> uint32_t
+            { return std::get<2>(e); });
 
         clearScreen();
         redrawFunction();
@@ -664,8 +664,7 @@ namespace Utils
         }
     }
 
-    std::function<void()>
-    createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
+    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
     {
         auto prompt = [who, what, picture]()
         {

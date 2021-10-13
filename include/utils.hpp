@@ -7,7 +7,6 @@
 
 #include "entities.hpp"
 
-
 using PointsMenuInput = std::vector<std::tuple<std::string, std::string, uint32_t>>;
 
 namespace Utils
@@ -78,8 +77,7 @@ namespace Utils
 
     uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
-    std::pair<std::vector<uint32_t>, uint32_t>
-    pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute);
+    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute);
 
     void clearScreen();
 
@@ -91,8 +89,7 @@ namespace Utils
 
     void pressEnterToContinue();
 
-    std::function<void()>
-    createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture);
+    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture);
 
     const std::string enterName();
 

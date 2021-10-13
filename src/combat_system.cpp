@@ -12,7 +12,6 @@
 #include "inventory_manager.hpp"
 #include "utils.hpp"
 
-
 namespace CombatSystem
 {
     Combat prepare(std::vector<Hero> heroes, std::vector<Hero> enemies)
@@ -64,7 +63,8 @@ namespace CombatSystem
 
     bool isAnyEnemyAlive(Combat &combat)
     {
-        auto isEnemy = [](Hero h) { return h.controller == Controller::AI_Enemy; };
+        auto isEnemy = [](Hero h)
+        { return h.controller == Controller::AI_Enemy; };
 
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isEnemy) != combat.turnQueue.end();
     }
@@ -74,12 +74,14 @@ namespace CombatSystem
         return std::any_of(
             hero.statusEffects.cbegin(),
             hero.statusEffects.cend(),
-            [](const auto &se) { return se.type == StatusEffectType::Invisibility; });
+            [](const auto &se)
+            { return se.type == StatusEffectType::Invisibility; });
     }
 
     void cleanTurnQueue(Combat &combat)
     {
-        auto isDead = [](Hero h) { return h.health == 0; };
+        auto isDead = [](Hero h)
+        { return h.health == 0; };
 
         for (const auto &h : combat.turnQueue)
         {
@@ -711,7 +713,8 @@ namespace CombatSystem
                 h.statusEffects.begin(),
                 h.statusEffects.end(),
                 std::back_inserter(newEffects),
-                [](const auto &se) { return se.turnsLeft > 0; });
+                [](const auto &se)
+                { return se.turnsLeft > 0; });
             h.statusEffects = newEffects;
         }
     }
