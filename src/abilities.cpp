@@ -1,11 +1,12 @@
 #include "abilities.hpp"
 
-#include "entities.hpp"
-#include "utils.hpp"
 #include "characters.hpp"
-#include "inventory_manager.hpp"
-#include "files.hpp"
 #include "dice.hpp"
+#include "entities.hpp"
+#include "files.hpp"
+#include "inventory_manager.hpp"
+#include "utils.hpp"
+
 
 namespace Abilities
 {
@@ -172,4 +173,4 @@ namespace Abilities
         combat.dead.erase(combat.dead.begin() + index);
     }
 
-}
+}  // namespace Abilities

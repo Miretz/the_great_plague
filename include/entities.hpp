@@ -3,8 +3,9 @@
 #define entities_hpp
 
 #include <string>
-#include <vector>
 #include <unordered_map>
+#include <vector>
+
 
 /************************************************************************************************
 ENUMS
@@ -24,13 +25,13 @@ enum class Race
 
 enum class ItemType
 {
-    Melee_OneHanded, // Sword, Hatched, Mace, Scimitar, Sabre, Katana
-    Melee_TwoHanded, // Hammer, Long Sword, Pike, Quarterstaff, Battle Axe
+    Melee_OneHanded,  // Sword, Hatched, Mace, Scimitar, Sabre, Katana
+    Melee_TwoHanded,  // Hammer, Long Sword, Pike, Quarterstaff, Battle Axe
 
-    Ranged_OneHanded, // Wand, Pistol, Hand crossbow
-    Ranged_TwoHanded, // Bow, Crossbow, Long Bow, Musket
+    Ranged_OneHanded,  // Wand, Pistol, Hand crossbow
+    Ranged_TwoHanded,  // Bow, Crossbow, Long Bow, Musket
 
-    Shield, // Round Shield, Buckler, Large Shield
+    Shield,  // Round Shield, Buckler, Large Shield
 
     Armor_Head,
     Armor_Torso,
@@ -38,7 +39,7 @@ enum class ItemType
     Armor_Gloves,
 
     Consumable,
-    Throwable, // Grenades, Throwing Knifes, Shuriken, Molotov, Oil Flask
+    Throwable,  // Grenades, Throwing Knifes, Shuriken, Molotov, Oil Flask
     Scroll
 };
 
@@ -59,10 +60,10 @@ enum class Controller
 
 enum class AbilityType
 {
-    Damage,       // Maul, Precision shot, Life Drain, Pounce
-    Healing,      // First Aid,
-    Summoning,    // Summon Familiar, Man's best friend, Raise corpse
-    StatusEffect, // Knockdown, Evasion, Magic Shield, Poison
+    Damage,        // Maul, Precision shot, Life Drain, Pounce
+    Healing,       // First Aid,
+    Summoning,     // Summon Familiar, Man's best friend, Raise corpse
+    StatusEffect,  // Knockdown, Evasion, Magic Shield, Poison
     AoE_Status,
     AoE_Damage,
     AoE_Healing,
@@ -77,10 +78,10 @@ enum class Target
 
 enum class StatusEffectType
 {
-    SkipTurn,   // Knockdown
-    Damage,     // Poision, Burning, ...
-    Heal,       // Restoration
-    Protection, // Magic Armor
+    SkipTurn,    // Knockdown
+    Damage,      // Poision, Burning, ...
+    Heal,        // Restoration
+    Protection,  // Magic Armor
     Invisibility,
 };
 
@@ -212,102 +213,69 @@ GLOBAL LISTS
 *************************************************************************************************/
 
 const std::unordered_map<Race, RaceDetail> g_AllRaces{
-    {Race::Human, {"Human", "The most common among the races.", "race_human"}},
-    {Race::Repsoris, {"Repsoris", "Identified by their reptilian features and hatred of cold.", "race_repsoris"}},
-    {Race::Ursobac, {"Ursobac", "Their large intimidating physique makes them valuable protectors.", "race_ursobac"}},
-    {Race::Rodanto, {"Rodanto", "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.", "race_rodanto"}},
-    {Race::Felidae, {"Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "race_felidae"}},
-    {Race::Strigifor, {"Strigifor", "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little protection.", "race_strigifor"}},
-    {Race::Vulpotis, {"Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "race_vulpotis"}},
-    {Race::Canis, {"Canis", "A domesticated descendant of the grey wolf.", ""}},
+    { Race::Human, { "Human", "The most common among the races.", "race_human" } },
+    { Race::Repsoris, { "Repsoris", "Identified by their reptilian features and hatred of cold.", "race_repsoris" } },
+    { Race::Ursobac, { "Ursobac", "Their large intimidating physique makes them valuable protectors.", "race_ursobac" } },
+    { Race::Rodanto,
+      { "Rodanto",
+        "They are especially proud of their prominent incisors. Their small physique allows them to hide easily.",
+        "race_rodanto" } },
+    { Race::Felidae,
+      { "Felidae", "Recognized by their cat-like eyes. Their grace and finesse is matched by none.", "race_felidae" } },
+    { Race::Strigifor,
+      { "Strigifor",
+        "Their huge eyes are full of wisdom and understanding, but the feathery crown on their head provides little "
+        "protection.",
+        "race_strigifor" } },
+    { Race::Vulpotis,
+      { "Vulpotis", "Slick, cunning and opportunistic. They hide a lot of wits under their dense fur.", "race_vulpotis" } },
+    { Race::Canis, { "Canis", "A domesticated descendant of the grey wolf.", "" } },
 };
 
 const std::unordered_map<std::string, StatusEffect> g_StatusEffects{
-    {"s_Knockdown", {StatusEffectType::SkipTurn, "Knocked Down", 1, 0}},
-    {"s_Poison", {StatusEffectType::Damage, "Poisoned", 2, 10}},
-    {"s_Evasion", {StatusEffectType::Protection, "Evading", 3, 15}},
-    {"s_Camouflage", {StatusEffectType::Invisibility, "Invisible", 3, 10}},
-    {"s_MagicShield", {StatusEffectType::Protection, "M.Shield", 1, 5}},
+    { "s_Knockdown", { StatusEffectType::SkipTurn, "Knocked Down", 1, 0 } },
+    { "s_Poison", { StatusEffectType::Damage, "Poisoned", 2, 10 } },
+    { "s_Evasion", { StatusEffectType::Protection, "Evading", 3, 15 } },
+    { "s_Camouflage", { StatusEffectType::Invisibility, "Invisible", 3, 10 } },
+    { "s_MagicShield", { StatusEffectType::Protection, "M.Shield", 1, 5 } },
 };
 
 const std::vector<Item> g_AllItems{
-    {"Dagger",
-     "Knife you stole from your mom's kitchen",
-     ItemType::Melee_OneHanded,
-     PrimaryAttribute::Dexterity,
-     {0, 0, 0, 0},
-     5,
-     0},
-    {"Short sword",
-     "Simple short sword that anyone can use",
-     ItemType::Melee_OneHanded,
-     PrimaryAttribute::Strength,
-     {0, 0, 0, 0},
-     10,
-     0},
-    {"Short bow",
-     "Basic wooden bow",
-     ItemType::Ranged_TwoHanded,
-     PrimaryAttribute::Dexterity,
-     {0, 0, 0, 0},
-     10,
-     0},
-    {"Wand",
-     "A simple tree branch",
-     ItemType::Ranged_OneHanded,
-     PrimaryAttribute::Intelligence,
-     {0, 0, 0, 0},
-     10,
-     0},
-    {"Long sword",
-     "A long and heavy two-handed sword",
-     ItemType::Melee_TwoHanded,
-     PrimaryAttribute::Strength,
-     {5, 0, 0, 0},
-     20,
-     0},
-    {"Long bow",
-     "A very strong bow",
-     ItemType::Ranged_TwoHanded,
-     PrimaryAttribute::Dexterity,
-     {0, 5, 0, 0},
-     20,
-     0},
-    {"Quarterstaff",
-     "A simple broomstick",
-     ItemType::Melee_TwoHanded,
-     PrimaryAttribute::Intelligence,
-     {0, 0, 0, 5},
-     20,
-     0},
-    {"Worn clothes",
-     "Basic clothing",
-     ItemType::Armor_Torso,
-     PrimaryAttribute::None,
-     {},
-     0,
-     2},
-    {"Worn boots",
-     "Basic boots",
-     ItemType::Armor_Legs,
-     PrimaryAttribute::None,
-     {},
-     0,
-     2},
-    {"Worn hood",
-     "Simple hood",
-     ItemType::Armor_Head,
-     PrimaryAttribute::None,
-     {},
-     0,
-     2},
-    {"Worn gloves",
-     "Worn gloves",
-     ItemType::Armor_Gloves,
-     PrimaryAttribute::None,
-     {},
-     0,
-     2},
+    { "Dagger",
+      "Knife you stole from your mom's kitchen",
+      ItemType::Melee_OneHanded,
+      PrimaryAttribute::Dexterity,
+      { 0, 0, 0, 0 },
+      5,
+      0 },
+    { "Short sword",
+      "Simple short sword that anyone can use",
+      ItemType::Melee_OneHanded,
+      PrimaryAttribute::Strength,
+      { 0, 0, 0, 0 },
+      10,
+      0 },
+    { "Short bow", "Basic wooden bow", ItemType::Ranged_TwoHanded, PrimaryAttribute::Dexterity, { 0, 0, 0, 0 }, 10, 0 },
+    { "Wand", "A simple tree branch", ItemType::Ranged_OneHanded, PrimaryAttribute::Intelligence, { 0, 0, 0, 0 }, 10, 0 },
+    { "Long sword",
+      "A long and heavy two-handed sword",
+      ItemType::Melee_TwoHanded,
+      PrimaryAttribute::Strength,
+      { 5, 0, 0, 0 },
+      20,
+      0 },
+    { "Long bow", "A very strong bow", ItemType::Ranged_TwoHanded, PrimaryAttribute::Dexterity, { 0, 5, 0, 0 }, 20, 0 },
+    { "Quarterstaff",
+      "A simple broomstick",
+      ItemType::Melee_TwoHanded,
+      PrimaryAttribute::Intelligence,
+      { 0, 0, 0, 5 },
+      20,
+      0 },
+    { "Worn clothes", "Basic clothing", ItemType::Armor_Torso, PrimaryAttribute::None, {}, 0, 2 },
+    { "Worn boots", "Basic boots", ItemType::Armor_Legs, PrimaryAttribute::None, {}, 0, 2 },
+    { "Worn hood", "Simple hood", ItemType::Armor_Head, PrimaryAttribute::None, {}, 0, 2 },
+    { "Worn gloves", "Worn gloves", ItemType::Armor_Gloves, PrimaryAttribute::None, {}, 0, 2 },
 };
 
 #endif

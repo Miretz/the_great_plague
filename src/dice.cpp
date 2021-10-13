@@ -19,4 +19,4 @@ namespace Dice
         std::uniform_int_distribution<> distr(min, max);
         return distr(generator);
     }
-}
+}  // namespace Dice

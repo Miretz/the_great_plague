@@ -2,16 +2,16 @@
 #ifndef utils_hpp
 #define utils_hpp
 
-#include "entities.hpp"
-
 #include <functional>
 #include <random>
+
+#include "entities.hpp"
+
 
 using PointsMenuInput = std::vector<std::tuple<std::string, std::string, uint32_t>>;
 
 namespace Utils
 {
-
     const std::string COLOR_GREEN = "\033[1;32m";
     const std::string COLOR_YELLOW = "\033[1;33m";
     const std::string COLOR_GREY = "\033[2;37m";
@@ -57,7 +57,7 @@ namespace Utils
     void printHeroInventory(const Inventory &inventory);
 
     void printHeroHeader(const std::string &name, const uint32_t level);
-    
+
     void printCombatHeroHeader(const Hero &hero);
 
     void printBorderedText(const std::string &text);
@@ -78,7 +78,8 @@ namespace Utils
 
     uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
 
-    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute);
+    std::pair<std::vector<uint32_t>, uint32_t>
+    pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute);
 
     void clearScreen();
 
@@ -90,7 +91,8 @@ namespace Utils
 
     void pressEnterToContinue();
 
-    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture);
+    std::function<void()>
+    createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture);
 
     const std::string enterName();
 
@@ -102,6 +104,6 @@ namespace Utils
 
     uint32_t getInput();
 
-}
+}  // namespace Utils
 
 #endif

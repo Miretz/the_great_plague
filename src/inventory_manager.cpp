@@ -1,10 +1,11 @@
 #include "inventory_manager.hpp"
 
+#include <iostream>
+
+#include "dice.hpp"
 #include "entities.hpp"
 #include "utils.hpp"
-#include "dice.hpp"
 
-#include <iostream>
 
 namespace InventoryManager
 {
@@ -125,18 +126,15 @@ namespace InventoryManager
             auto item = g_AllItems[itemId];
             if (slot == EquipmentSlot::MainHand)
             {
-                if (item.type == ItemType::Melee_OneHanded ||
-                    item.type == ItemType::Melee_TwoHanded ||
-                    item.type == ItemType::Ranged_OneHanded ||
-                    item.type == ItemType::Ranged_TwoHanded)
+                if (item.type == ItemType::Melee_OneHanded || item.type == ItemType::Melee_TwoHanded ||
+                    item.type == ItemType::Ranged_OneHanded || item.type == ItemType::Ranged_TwoHanded)
                 {
                     equipable.push_back(itemId);
                 }
             }
             else if (slot == EquipmentSlot::Offhand)
             {
-                if (item.type == ItemType::Shield ||
-                    item.type == ItemType::Melee_OneHanded ||
+                if (item.type == ItemType::Shield || item.type == ItemType::Melee_OneHanded ||
                     item.type == ItemType::Ranged_OneHanded)
                 {
                     equipable.push_back(itemId);
@@ -178,12 +176,8 @@ namespace InventoryManager
     std::pair<bool, EquipmentSlot> selectSlot(const Hero &hero)
     {
         std::vector<EquipmentSlot> availableSlots{
-            EquipmentSlot::Head,
-            EquipmentSlot::Torso,
-            EquipmentSlot::Gloves,
-            EquipmentSlot::Legs,
-            EquipmentSlot::MainHand,
-            EquipmentSlot::Offhand,
+            EquipmentSlot::Head, EquipmentSlot::Torso,    EquipmentSlot::Gloves,
+            EquipmentSlot::Legs, EquipmentSlot::MainHand, EquipmentSlot::Offhand,
         };
 
         auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
@@ -221,7 +215,8 @@ namespace InventoryManager
         }
         auto selectedSlot = availableSlots[selection];
 
-        std::cout << "\nSelected slot " << getEquipmentSlotName(selectedSlot) << " (current: " << getEquippedItemName(hero, selectedSlot) << ")\n";
+        std::cout << "\nSelected slot " << getEquipmentSlotName(selectedSlot)
+                  << " (current: " << getEquippedItemName(hero, selectedSlot) << ")\n";
 
         return std::make_pair(true, selectedSlot);
     }
@@ -231,17 +226,13 @@ namespace InventoryManager
         while (true)
         {
             std::vector<std::string> menu;
-            std::transform(heroes.begin(), heroes.end(),
-                           std::back_inserter(menu),
-                           [](const auto &h) -> std::string
-                           { return h.name; });
+            std::transform(
+                heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h) -> std::string { return h.name; });
 
             menu.push_back("Print Character Sheet");
             menu.push_back("Exit");
 
-            auto selection = Utils::pickOptionFromList([]()
-                                                       { Utils::printBorderedText("Manage inventory of:"); },
-                                                       menu);
+            auto selection = Utils::pickOptionFromList([]() { Utils::printBorderedText("Manage inventory of:"); }, menu);
             if (selection < menu.size() - 2)
             {
                 auto &hero = heroes[selection];
@@ -264,7 +255,6 @@ namespace InventoryManager
     {
         while (true)
         {
-
             Utils::clearScreen();
 
             auto selectedSlotTuple = selectSlot(hero);
@@ -330,10 +320,7 @@ namespace InventoryManager
                     chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j], true));
                 }
 
-                auto pickItemPrompt = []()
-                {
-                    Utils::printBorderedText("Select equipment:");
-                };
+                auto pickItemPrompt = []() { Utils::printBorderedText("Select equipment:"); };
                 auto itemSelection = Utils::pickOptionFromList(pickItemPrompt, chooseWeapon);
                 auto newItem = listOfEquipable[itemSelection];
 
@@ -348,7 +335,6 @@ namespace InventoryManager
 
     uint32_t getEquippedArmorValue(const Hero &hero)
     {
-
         uint32_t value = 0;
 
         std::vector<EquipmentSlot> armorSlots{
@@ -373,7 +359,6 @@ namespace InventoryManager
 
     uint32_t getEquippedDamageValue(const Hero &hero)
     {
-
         uint32_t value = 0;
 
         // handle main hand
@@ -411,9 +396,8 @@ namespace InventoryManager
                 value += getPrimaryAttributeValueFromHero(mainItem, hero);
 
                 // dual wielding penalty on the offhand weapon
-                value += static_cast<uint32_t>(
-                    std::ceil(
-                        static_cast<double>(offItem.damage) / 2.0 + 0.25 * static_cast<double>(hero.specialties.dualWielding)));
+                value += static_cast<uint32_t>(std::ceil(
+                    static_cast<double>(offItem.damage) / 2.0 + 0.25 * static_cast<double>(hero.specialties.dualWielding)));
             }
             // sword + shield and other combinations
             else
@@ -457,20 +441,13 @@ namespace InventoryManager
     {
         switch (eSlot)
         {
-        case EquipmentSlot::MainHand:
-            return equipmentSlotNames[0];
-        case EquipmentSlot::Offhand:
-            return equipmentSlotNames[1];
-        case EquipmentSlot::Torso:
-            return equipmentSlotNames[2];
-        case EquipmentSlot::Head:
-            return equipmentSlotNames[3];
-        case EquipmentSlot::Legs:
-            return equipmentSlotNames[4];
-        case EquipmentSlot::Gloves:
-            return equipmentSlotNames[5];
-        default:
-            std::cout << "Bad Slot!\n";
+            case EquipmentSlot::MainHand: return equipmentSlotNames[0];
+            case EquipmentSlot::Offhand: return equipmentSlotNames[1];
+            case EquipmentSlot::Torso: return equipmentSlotNames[2];
+            case EquipmentSlot::Head: return equipmentSlotNames[3];
+            case EquipmentSlot::Legs: return equipmentSlotNames[4];
+            case EquipmentSlot::Gloves: return equipmentSlotNames[5];
+            default: std::cout << "Bad Slot!\n";
         }
 
         return equipmentSlotNames[0];
@@ -482,16 +459,11 @@ namespace InventoryManager
 
         switch (item.primaryAttribute)
         {
-        case PrimaryAttribute::Strength:
-            return hero.attributes.strength - scaleDownBy;
-        case PrimaryAttribute::Dexterity:
-            return hero.attributes.dexterity - scaleDownBy;
-        case PrimaryAttribute::Intelligence:
-            return hero.attributes.intelligence - scaleDownBy;
-        case PrimaryAttribute::None:
-            return 0;
-        default:
-            return 0;
+            case PrimaryAttribute::Strength: return hero.attributes.strength - scaleDownBy;
+            case PrimaryAttribute::Dexterity: return hero.attributes.dexterity - scaleDownBy;
+            case PrimaryAttribute::Intelligence: return hero.attributes.intelligence - scaleDownBy;
+            case PrimaryAttribute::None: return 0;
+            default: return 0;
         }
     }
-}
+}  // namespace InventoryManager

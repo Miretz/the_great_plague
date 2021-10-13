@@ -1,15 +1,16 @@
 #include "areas.hpp"
 
-#include "entities.hpp"
-#include "utils.hpp"
-#include "files.hpp"
+#include <iostream>
+
 #include "abilities.hpp"
 #include "characters.hpp"
-#include "inventory_manager.hpp"
 #include "combat_system.hpp"
 #include "conversation_system.hpp"
+#include "entities.hpp"
+#include "files.hpp"
+#include "inventory_manager.hpp"
+#include "utils.hpp"
 
-#include <iostream>
 
 namespace Areas
 {
@@ -32,10 +33,11 @@ namespace Areas
 
         // display navigation menu
         std::vector<std::string> menu;
-        std::transform(area.connections.begin(), area.connections.end(),
-                       std::back_inserter(menu),
-                       [](uint32_t t) -> std::string
-                       { return "Go to " + allAreas[t].name; });
+        std::transform(
+            area.connections.begin(),
+            area.connections.end(),
+            std::back_inserter(menu),
+            [](uint32_t t) -> std::string { return "Go to " + allAreas[t].name; });
 
         menu.push_back("Open Inventory");
         menu.push_back("Exit");
@@ -98,10 +100,14 @@ namespace Areas
         Utils::clearScreen();
         if (conversationResult == "end_yes")
         {
-            if (gameState.heroes.size() == 4) // Party is full
+            if (gameState.heroes.size() == 4)  // Party is full
             {
                 Utils::clearScreen();
-                Utils::createConversationPrompt(dansea.name, "Looks like you already have enough people with you. Maybe you can find me later in the city. (Dansea leaves the area)", danseaPicture)();
+                Utils::createConversationPrompt(
+                    dansea.name,
+                    "Looks like you already have enough people with you. Maybe you can find me later in the city. (Dansea "
+                    "leaves the area)",
+                    danseaPicture)();
                 gameState.stateInfo[propertyDanseaLocation] = 2;
                 Utils::newLine();
                 Utils::pressEnterToContinue();
@@ -120,7 +126,8 @@ namespace Areas
         else
         {
             Utils::clearScreen();
-            Utils::createConversationPrompt(dansea.name, "In that case, I'll see you around. (Dansea leaves the area)", danseaPicture)();
+            Utils::createConversationPrompt(
+                dansea.name, "In that case, I'll see you around. (Dansea leaves the area)", danseaPicture)();
             gameState.stateInfo[propertyDanseaLocation] = 2;
             Utils::newLine();
             Utils::pressEnterToContinue();
@@ -147,7 +154,7 @@ namespace Areas
         auto partySize = gameState.heroes.size();
 
         // possible names
-        std::vector<std::string> names{"Maurice", "Salomon", "Frederic", "Noel", "Derek", "Daniel", "Calum", "Franz"};
+        std::vector<std::string> names{ "Maurice", "Salomon", "Frederic", "Noel", "Derek", "Daniel", "Calum", "Franz" };
         std::random_device rd;
         std::mt19937 g(rd());
         std::shuffle(names.begin(), names.end(), g);
@@ -187,7 +194,7 @@ namespace Areas
     void t04_inkeeperConversation(GameState &gameState)
     {
         const auto areaImage = Files::loadFile(AREA_FOLDER + "04_inn/image.txt");
-        auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
+        const auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
         std::cout << Utils::COLOR_CYAN;
         std::cout << areaImage;
         std::cout << Utils::COLOR_END;
@@ -205,4 +212,4 @@ namespace Areas
         }
     }
 
-}
+}  // namespace Areas

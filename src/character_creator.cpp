@@ -1,15 +1,15 @@
 #include "character_creator.hpp"
 
-#include "utils.hpp"
-#include "abilities.hpp"
-#include "inventory_manager.hpp"
-#include "characters.hpp"
-
 #include <iterator>
+
+#include "abilities.hpp"
+#include "characters.hpp"
+#include "inventory_manager.hpp"
+#include "utils.hpp"
+
 
 namespace CharacterCreator
 {
-
     std::vector<Hero> createHeroes()
     {
         std::vector<Hero> heroes;
@@ -17,10 +17,7 @@ namespace CharacterCreator
         Utils::clearScreen();
 
         // pick number of players
-        auto prompt = []()
-        {
-            Utils::printBorderedText("Please select the number of heroes");
-        };
+        auto prompt = []() { Utils::printBorderedText("Please select the number of heroes"); };
         auto numHeroes = Utils::slider(prompt, 1, 4);
 
         Utils::clearScreen();
@@ -77,10 +74,7 @@ namespace CharacterCreator
 
     Hero pickHeroRace(const std::string &name)
     {
-        auto prompt = []()
-        {
-            Utils::printBorderedText("Please select your race:");
-        };
+        auto prompt = []() { Utils::printBorderedText("Please select your race:"); };
 
         std::vector<std::string> menu;
 
@@ -103,8 +97,8 @@ namespace CharacterCreator
         auto selection = Utils::pickOptionFromList(prompt, menu);
         auto race = g_AllRaces.at(startingRaces[selection]);
 
-        Attributes defaultAttributes{10, 10, 10, 10};
-        Specialties defaultSpecialties{0, 0, 0, 0, 0, 0, 0, 0, 0};
+        Attributes defaultAttributes{ 10, 10, 10, 10 };
+        Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         uint32_t maxHealth = 100;
         uint32_t xp = 0;
         uint32_t level = 1;
@@ -112,24 +106,23 @@ namespace CharacterCreator
 
         std::string uniqueId = "PLR_" + name;
 
-        Hero hero{
-            uniqueId,
-            name,
-            maxHealth,
-            xp,
-            maxHealth,
-            level,
-            xpToLevelUp,
-            STARTING_ATTRIBUTE_POINTS,
-            STARTING_SPECIALTY_POINTS,
-            startingRaces[selection],
-            Controller::Player,
-            defaultAttributes,
-            defaultSpecialties,
-            {race.abilityId},
-            basicInventory,
-            {},
-            0};
+        Hero hero{ uniqueId,
+                   name,
+                   maxHealth,
+                   xp,
+                   maxHealth,
+                   level,
+                   xpToLevelUp,
+                   STARTING_ATTRIBUTE_POINTS,
+                   STARTING_SPECIALTY_POINTS,
+                   startingRaces[selection],
+                   Controller::Player,
+                   defaultAttributes,
+                   defaultSpecialties,
+                   { race.abilityId },
+                   basicInventory,
+                   {},
+                   0 };
         return hero;
     }
 
@@ -137,10 +130,7 @@ namespace CharacterCreator
     {
         Utils::clearScreen();
 
-        auto prompt = []()
-        {
-            Utils::printBorderedText("Pick a starting ability:");
-        };
+        auto prompt = []() { Utils::printBorderedText("Pick a starting ability:"); };
 
         std::vector<std::string> menu;
         for (const auto &abilityId : startingAbilities)
@@ -154,16 +144,12 @@ namespace CharacterCreator
 
     uint32_t pickStartingItem(const Attributes &attributes)
     {
-
         std::vector<uint32_t> filtered;
         for (auto itemId : startingItems)
         {
             const auto &reqs = g_AllItems[itemId].requirements;
-            if (
-                attributes.strength >= reqs.strength &&
-                attributes.dexterity >= reqs.dexterity &&
-                attributes.constitution >= reqs.constitution &&
-                attributes.intelligence >= reqs.intelligence)
+            if (attributes.strength >= reqs.strength && attributes.dexterity >= reqs.dexterity &&
+                attributes.constitution >= reqs.constitution && attributes.intelligence >= reqs.intelligence)
             {
                 filtered.push_back(itemId);
             }
@@ -171,18 +157,16 @@ namespace CharacterCreator
 
         Utils::clearScreen();
 
-        auto prompt = []()
-        {
-            Utils::printBorderedText("Pick a starting item:");
-        };
+        auto prompt = []() { Utils::printBorderedText("Pick a starting item:"); };
 
         std::vector<std::string> menu;
-        std::transform(filtered.begin(), filtered.end(),
-                       std::back_inserter(menu),
-                       [](uint32_t t) -> std::string
-                       { return Utils::getItemString(t, true); });
+        std::transform(
+            filtered.begin(),
+            filtered.end(),
+            std::back_inserter(menu),
+            [](uint32_t t) -> std::string { return Utils::getItemString(t, true); });
 
         return filtered[Utils::pickOptionFromList(prompt, menu)];
     }
 
-}
+}  // namespace CharacterCreator

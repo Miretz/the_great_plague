@@ -2,8 +2,9 @@
 #ifndef inventory_manager_hpp
 #define inventory_manager_hpp
 
-#include <vector>
 #include <string>
+#include <vector>
+
 
 struct Hero;
 struct Item;
@@ -20,7 +21,7 @@ namespace InventoryManager
         Gloves
     };
 
-    const std::vector<std::string> equipmentSlotNames{"Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves"};
+    const std::vector<std::string> equipmentSlotNames{ "Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves" };
 
     void addToBackpack(Hero &hero, const uint32_t itemId);
 
@@ -42,7 +43,7 @@ namespace InventoryManager
 
     void selectEquipment(Hero &hero);
 
-    void selectPartyEquipment(std::vector<Hero>& heroes);
+    void selectPartyEquipment(std::vector<Hero> &heroes);
 
     uint32_t getEquippedArmorValue(const Hero &hero);
 
@@ -51,6 +52,6 @@ namespace InventoryManager
     const std::string getEquipmentSlotName(const EquipmentSlot eSlot);
 
     uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero);
-}
+}  // namespace InventoryManager
 
 #endif

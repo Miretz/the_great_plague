@@ -1,10 +1,11 @@
 #include "conversation_system.hpp"
 
-#include "entities.hpp"
-#include "utils.hpp"
-#include "files.hpp"
-
 #include <iterator>
+
+#include "entities.hpp"
+#include "files.hpp"
+#include "utils.hpp"
+
 
 namespace ConversationSystem
 {
@@ -18,10 +19,11 @@ namespace ConversationSystem
         while (true)
         {
             std::vector<std::string> options;
-            std::transform(currentLine.jumps.begin(), currentLine.jumps.end(),
-                           std::back_inserter(options),
-                           [&](const std::string &jump) -> std::string
-                           { return conversation.at(jump).text; });
+            std::transform(
+                currentLine.jumps.begin(),
+                currentLine.jumps.end(),
+                std::back_inserter(options),
+                [&](const std::string &jump) -> std::string { return conversation.at(jump).text; });
 
             auto selection = Utils::pickOptionFromList(
                 Utils::createConversationPrompt(currentLine.who, currentLine.text, picture), options);
@@ -52,4 +54,4 @@ namespace ConversationSystem
 
         return conversation;
     }
-}
+}  // namespace ConversationSystem

@@ -2,9 +2,10 @@
 #ifndef combat_system_hpp
 #define combat_system_hpp
 
+#include <queue>
 #include <string>
 #include <vector>
-#include <queue>
+
 
 struct Hero;
 struct Combat;
@@ -31,9 +32,19 @@ namespace CombatSystem
 
     void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat);
 
-    void printDamageNumbers(uint32_t oldHeroHP, uint32_t oldTargetHP, const Hero &hero, const Hero &target, const std::string &description);
+    void printDamageNumbers(
+        uint32_t oldHeroHP,
+        uint32_t oldTargetHP,
+        const Hero &hero,
+        const Hero &target,
+        const std::string &description);
 
-    void printDamageNumbersMultiple(uint32_t oldHeroHP, std::vector<uint32_t> oldHps, const Hero &hero, const std::vector<Hero> &targets, const std::string &description);
+    void printDamageNumbersMultiple(
+        uint32_t oldHeroHP,
+        std::vector<uint32_t> oldHps,
+        const Hero &hero,
+        const std::vector<Hero> &targets,
+        const std::string &description);
 
     std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId);
 
@@ -48,6 +59,6 @@ namespace CombatSystem
     void decreaseAP(Hero &hero, uint32_t amount);
 
     void fleeCombat(Combat &combat);
-}
+}  // namespace CombatSystem
 
 #endif

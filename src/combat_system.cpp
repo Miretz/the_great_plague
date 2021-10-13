@@ -1,16 +1,17 @@
 #include "combat_system.hpp"
 
-#include "entities.hpp"
-#include "utils.hpp"
-#include "abilities.hpp"
-#include "characters.hpp"
-#include "inventory_manager.hpp"
-#include "dice.hpp"
-
-#include <random>
 #include <algorithm>
 #include <functional>
 #include <iterator>
+#include <random>
+
+#include "abilities.hpp"
+#include "characters.hpp"
+#include "dice.hpp"
+#include "entities.hpp"
+#include "inventory_manager.hpp"
+#include "utils.hpp"
+
 
 namespace CombatSystem
 {
@@ -38,7 +39,7 @@ namespace CombatSystem
             }
         }
 
-        return {1, 0, turnQueue, {}, {}};
+        return { 1, 0, turnQueue, {}, {} };
     }
 
     void resetActionPoints(Combat &combat)
@@ -56,38 +57,29 @@ namespace CombatSystem
     bool isAnyFriendlyAlive(Combat &combat)
     {
         auto isFriendly = [](Hero h)
-        {
-            return h.controller == Controller::Player ||
-                   h.controller == Controller::AI_Friendly;
-        };
+        { return h.controller == Controller::Player || h.controller == Controller::AI_Friendly; };
 
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isFriendly) != combat.turnQueue.end();
     }
 
     bool isAnyEnemyAlive(Combat &combat)
     {
-
-        auto isEnemy = [](Hero h)
-        {
-            return h.controller == Controller::AI_Enemy;
-        };
+        auto isEnemy = [](Hero h) { return h.controller == Controller::AI_Enemy; };
 
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isEnemy) != combat.turnQueue.end();
     }
 
     bool isInvisible(const Hero &hero)
     {
-        return std::any_of(hero.statusEffects.cbegin(), hero.statusEffects.cend(),
-                           [](const auto &se)
-                           { return se.type == StatusEffectType::Invisibility; });
+        return std::any_of(
+            hero.statusEffects.cbegin(),
+            hero.statusEffects.cend(),
+            [](const auto &se) { return se.type == StatusEffectType::Invisibility; });
     }
 
     void cleanTurnQueue(Combat &combat)
     {
-        auto isDead = [](Hero h)
-        {
-            return h.health == 0;
-        };
+        auto isDead = [](Hero h) { return h.health == 0; };
 
         for (const auto &h : combat.turnQueue)
         {
@@ -105,8 +97,7 @@ namespace CombatSystem
         combat.spawnQueue.clear();
 
         combat.turnQueue.erase(
-            std::remove_if(combat.turnQueue.begin(), combat.turnQueue.end(), isDead),
-            combat.turnQueue.end());
+            std::remove_if(combat.turnQueue.begin(), combat.turnQueue.end(), isDead), combat.turnQueue.end());
     }
 
     bool startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies)
@@ -213,12 +204,18 @@ namespace CombatSystem
         Utils::pressEnterToContinue();
     }
 
-    void printDamageNumbers(uint32_t oldHeroHP, uint32_t oldTargetHP, const Hero &hero, const Hero &target, const std::string &description)
+    void printDamageNumbers(
+        uint32_t oldHeroHP,
+        uint32_t oldTargetHP,
+        const Hero &hero,
+        const Hero &target,
+        const std::string &description)
     {
         Utils::clearScreen();
         Utils::printCombatHeroHeader(hero);
         Utils::printCombatHeroHeader(target);
-        Utils::printSpacedText(hero.name + " used " + Utils::COLOR_YELLOW + description + Utils::COLOR_END + " on " + target.name + ".");
+        Utils::printSpacedText(
+            hero.name + " used " + Utils::COLOR_YELLOW + description + Utils::COLOR_END + " on " + target.name + ".");
 
         if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
         {
@@ -243,7 +240,12 @@ namespace CombatSystem
         Utils::pressEnterToContinue();
     }
 
-    void printDamageNumbersMultiple(uint32_t oldHeroHP, std::vector<uint32_t> oldHps, const Hero &hero, const std::vector<Hero> &targets, const std::string &description)
+    void printDamageNumbersMultiple(
+        uint32_t oldHeroHP,
+        std::vector<uint32_t> oldHps,
+        const Hero &hero,
+        const std::vector<Hero> &targets,
+        const std::string &description)
     {
         Utils::clearScreen();
         Utils::printCombatHeroHeader(hero);
@@ -258,7 +260,8 @@ namespace CombatSystem
             const auto &target = targets[i];
             const auto oldHp = oldHps[i];
 
-            std::string text = hero.name + " used " + Utils::COLOR_YELLOW + description + Utils::COLOR_END + " on " + target.name + ".";
+            std::string text =
+                hero.name + " used " + Utils::COLOR_YELLOW + description + Utils::COLOR_END + " on " + target.name + ".";
 
             if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
             {
@@ -293,11 +296,11 @@ namespace CombatSystem
 
         auto damageValue = InventoryManager::getEquippedDamageValue(hero);
 
-        if (critical) // critical always double damage
+        if (critical)  // critical always double damage
         {
             damageValue = damageValue * 2;
         }
-        else if (damageValue > 5) // non-critical above 5 will get a random small penalty
+        else if (damageValue > 5)  // non-critical above 5 will get a random small penalty
         {
             damageValue -= Dice::randomSelection(0, 5);
         }
@@ -314,7 +317,12 @@ namespace CombatSystem
             {
                 if (Dice::rollDice(Dice::D20) < se.specialValue)
                 {
-                    printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, "Protected by " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                    printDamageNumbers(
+                        oldHeroHP,
+                        oldTargetHP,
+                        hero,
+                        target,
+                        "Protected by " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
                     return;
                 }
             }
@@ -333,7 +341,8 @@ namespace CombatSystem
 
         const auto oldHeroHP = hero.health;
 
-        if (ability.type == AbilityType::AoE_Damage || ability.type == AbilityType::AoE_Healing || ability.type == AbilityType::AoE_Status)
+        if (ability.type == AbilityType::AoE_Damage || ability.type == AbilityType::AoE_Healing ||
+            ability.type == AbilityType::AoE_Status)
         {
             std::vector<uint32_t> oldHps;
             std::vector<Hero> targets;
@@ -376,13 +385,11 @@ namespace CombatSystem
 
         if (isBasicAttack)
         {
-
             for (uint32_t i = 0; i < combat.turnQueue.size(); ++i)
             {
                 if (i == combat.currentHero ||
                     combat.turnQueue[i].controller == combat.turnQueue[combat.currentHero].controller ||
-                    isInvisible(combat.turnQueue[i]) ||
-                    combat.turnQueue[i].health == 0)
+                    isInvisible(combat.turnQueue[i]) || combat.turnQueue[i].health == 0)
                 {
                     continue;
                 }
@@ -408,13 +415,11 @@ namespace CombatSystem
                         continue;
                     }
 
-                    if (target == Target::Friendly &&
-                        combat.turnQueue[i].controller == myController)
+                    if (target == Target::Friendly && combat.turnQueue[i].controller == myController)
                     {
                         targetable.push_back(i);
                     }
-                    if (target == Target::Enemy &&
-                        combat.turnQueue[i].controller != myController)
+                    if (target == Target::Enemy && combat.turnQueue[i].controller != myController)
                     {
                         if (i == combat.currentHero || isInvisible(combat.turnQueue[i]))
                         {
@@ -478,15 +483,15 @@ namespace CombatSystem
             auto &target = combat.turnQueue[targetable[Dice::randomSelection(0, targetable.size() - 1)]];
 
             // roll for miss chance
-            if (Dice::rollDice(Dice::D20) == 1) // Miss
+            if (Dice::rollDice(Dice::D20) == 1)  // Miss
             {
                 miss(hero, target);
             }
-            else if (isBasicAttack) // Basic Attack
+            else if (isBasicAttack)  // Basic Attack
             {
                 basicAttack(hero, target);
             }
-            else // Ability
+            else  // Ability
             {
                 abilityAttack(hero, target, abilityId, combat);
             }
@@ -529,8 +534,9 @@ namespace CombatSystem
 
                 Utils::clearScreen();
                 Utils::printCombatHeroHeader(hero);
-                Utils::printSpacedText("Recieved " + std::to_string(se.specialValue) +
-                                       " damage from " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                Utils::printSpacedText(
+                    "Recieved " + std::to_string(se.specialValue) + " damage from " + Utils::COLOR_YELLOW + se.name +
+                    Utils::COLOR_END);
                 Utils::newLine();
                 if (hero.health == 0)
                 {
@@ -558,8 +564,9 @@ namespace CombatSystem
 
                 Utils::clearScreen();
                 Utils::printCombatHeroHeader(hero);
-                Utils::printSpacedText("Recieved " + std::to_string(se.specialValue) +
-                                       " health from " + Utils::COLOR_YELLOW + se.name + Utils::COLOR_END);
+                Utils::printSpacedText(
+                    "Recieved " + std::to_string(se.specialValue) + " health from " + Utils::COLOR_YELLOW + se.name +
+                    Utils::COLOR_END);
                 Utils::newLine();
                 Utils::pressEnterToContinue();
             }
@@ -577,7 +584,7 @@ namespace CombatSystem
         {
             Utils::clearScreen();
 
-            //pick action
+            // pick action
             auto pickActionPrompt = [hero]()
             {
                 Utils::printCombatHeroHeader(hero);
@@ -666,8 +673,9 @@ namespace CombatSystem
             {
                 const auto &h = combat.turnQueue[t];
                 const auto color = h.controller == Controller::AI_Enemy ? Utils::COLOR_RED : Utils::COLOR_GREEN;
-                targets.push_back("Target " + color + h.name + Utils::COLOR_END + " (Level: " + std::to_string(h.level) +
-                                  " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
+                targets.push_back(
+                    "Target " + color + h.name + Utils::COLOR_END + " (Level: " + std::to_string(h.level) +
+                    " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
             }
 
             // selected target
@@ -699,10 +707,11 @@ namespace CombatSystem
         for (auto &h : combat.turnQueue)
         {
             std::vector<StatusEffect> newEffects;
-            std::copy_if(h.statusEffects.begin(), h.statusEffects.end(),
-                         std::back_inserter(newEffects),
-                         [](const auto &se)
-                         { return se.turnsLeft > 0; });
+            std::copy_if(
+                h.statusEffects.begin(),
+                h.statusEffects.end(),
+                std::back_inserter(newEffects),
+                [](const auto &se) { return se.turnsLeft > 0; });
             h.statusEffects = newEffects;
         }
     }
@@ -715,4 +724,4 @@ namespace CombatSystem
         }
     }
 
-}
+}  // namespace CombatSystem

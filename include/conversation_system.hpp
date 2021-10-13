@@ -12,6 +12,6 @@ namespace ConversationSystem
     std::string start(const std::string &picture, const std::string &conversationFilePath);
 
     std::unordered_map<std::string, ConversationLine> loadConversation(const std::string &conversationFilePath);
-}
+}  // namespace ConversationSystem
 
 #endif

@@ -2,15 +2,15 @@
 #ifndef areas_hpp
 #define areas_hpp
 
+#include <functional>
 #include <string>
 #include <vector>
-#include <functional>
+
 
 struct GameState;
 
 namespace Areas
 {
-
     const std::string AREA_FOLDER = "assets/areas/";
     const std::string DESC_FILE = "/description.txt";
     const std::string IMAGE_FILE = "/image.txt";
@@ -35,13 +35,12 @@ namespace Areas
 
     void t04_inkeeperConversation(GameState &gameState);
 
-    const std::vector<Area> allAreas{
-        {"Introduction", "00_introduction", {1}, nullptr},
-        {"Shore", "01_shore", {2}, t01_shore_DanseaConversation},
-        {"Forest", "02_forest", {3}, nullptr},
-        {"City Gate", "03_city_gate", {4, 5}, t03_gateCombat},
-        {"The Inn", "04_inn", {3, 5}, t04_inkeeperConversation},
-        {"Town Square", "05_town_square", {3, 4}, nullptr}};
-}
+    const std::vector<Area> allAreas{ { "Introduction", "00_introduction", { 1 }, nullptr },
+                                      { "Shore", "01_shore", { 2 }, t01_shore_DanseaConversation },
+                                      { "Forest", "02_forest", { 3 }, nullptr },
+                                      { "City Gate", "03_city_gate", { 4, 5 }, t03_gateCombat },
+                                      { "The Inn", "04_inn", { 3, 5 }, t04_inkeeperConversation },
+                                      { "Town Square", "05_town_square", { 3, 4 }, nullptr } };
+}  // namespace Areas
 
 #endif

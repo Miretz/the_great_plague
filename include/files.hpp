@@ -36,6 +36,6 @@ namespace Files
     std::vector<Ability> loadAbilities(const std::string &filePath);
 
     std::vector<ConversationLine> loadConversationFile(const std::string &conversationFilePath);
-}
+}  // namespace Files
 
 #endif

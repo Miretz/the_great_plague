@@ -1,12 +1,13 @@
 #include "files.hpp"
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+
 #include "entities.hpp"
 #include "utils.hpp"
 
-#include <sstream>
-#include <fstream>
-#include <iostream>
-#include <stdexcept>
 
 namespace Files
 {
@@ -99,7 +100,8 @@ namespace Files
         hero.race = static_cast<Race>(static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter)))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
-        hero.controller = static_cast<Controller>(static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter)))));
+        hero.controller =
+            static_cast<Controller>(static_cast<uint32_t>(std::stoul(serialized.substr(0, serialized.find(delimiter)))));
         serialized.erase(0, serialized.find(delimiter) + delimiter.length());
 
         // Attributes
@@ -264,7 +266,6 @@ namespace Files
 
     const std::string loadFile(const std::string &filePath)
     {
-
         std::ostringstream ss;
 
         std::fstream file;
@@ -437,4 +438,4 @@ namespace Files
         }
         return lines;
     }
-}
+}  // namespace Files

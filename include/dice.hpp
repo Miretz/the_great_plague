@@ -3,8 +3,9 @@
 #define dice_hpp
 
 #include <algorithm>
-#include <random>
 #include <functional>
+#include <random>
+
 
 namespace Dice
 {
@@ -21,6 +22,6 @@ namespace Dice
     uint32_t rollDice(std::uniform_int_distribution<int> die);
 
     uint32_t randomSelection(uint32_t min, uint32_t max);
-}
+}  // namespace Dice
 
 #endif
