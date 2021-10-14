@@ -284,6 +284,25 @@ namespace Utils
                   << text << "\n\n";
     }
 
+    void printArea(const std::string &image, const std::string &description)
+    {
+        std::cout << Utils::COLOR_CYAN;
+        std::cout << image;
+        std::cout << Utils::COLOR_END;
+        std::cout << description;
+    }
+
+    void printCombatStart(const std::string &description)
+    {
+        printBorder(130);
+        std::cout << "|" << Utils::COLOR_RED << "You are under attack!" << Utils::COLOR_END << '\n';
+        printBorder(130);
+        std::cout << Utils::COLOR_RED;
+        std::cout << Files::loadFile("assets/other/combat_image.txt");
+        std::cout << Utils::COLOR_END;
+        std::cout << description;
+    }
+
     void newLine()
     {
         std::cout << '\n';

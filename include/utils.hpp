@@ -63,6 +63,10 @@ namespace Utils
 
     void printSpacedText(const std::string &text);
 
+    void printArea(const std::string &image, const std::string &description);
+
+    void printCombatStart(const std::string &description);
+
     void newLine();
 
     const std::string getFullPhysicalDamage(const Hero &hero);

@@ -1,4 +1,4 @@
 +--------------------------------------------------------------------------------------------------------------------------------+
-You're standing on a sandy beach lined by a lush forest. You can see the beached vessel from here. There's also a path
-between the trees.
+|You're standing on a sandy beach lined by a lush forest. You can see the beached vessel from here. There's also a path
+|between the trees.
 +--------------------------------------------------------------------------------------------------------------------------------+

@@ -1,16 +1,16 @@
 +--------------------------------------------------------------------------------------------------------------------------------+
-You have woken up aboard an old, smelly vessel called The Lord's Wisdom, not quite remembering how long you have been sailing 
-the great seas. Each time you close your eyes, you are haunted by the nightmares you saw back home. Your friends... your family... 
-most of the people you knew are gone.
-
-The unstoppable wrath of the plague left many people without their loved ones. You are one of the few desperate survivors lucky 
-enough to flee. This was your last attempt to escape to a place hopefully untouched by the disease. As the days went by, 
-everyone started to realize that the ship was not spared from the epidemic. One by one, people began falling sick. Food rations 
-were running out. The only way to survive was to reach the shore as soon as possible. The captain decided to head towards the 
-shores of a nearby island called Damaranzel.
-
-You remember your mother reading you some stories about this place. In your mind, you imagine the lush forests and majestic 
-mountains in the north. Maybe the island could be a new beginning for you, free of the disease and full of fascinating places 
-to explore. Unfortunatelly, the early morning mist obscured the captain's vision, causing the ship to run ashore. You overhear 
-murmurs about a city called Alaxis nearby. You decided to disembark and head there by foot...
+|You have woken up aboard an old, smelly vessel called The Lord's Wisdom, not quite remembering how long you have been sailing 
+|the great seas. Each time you close your eyes, you are haunted by the nightmares you saw back home. 
+|Your friends... your family... most of the people you knew are gone...
+|
+|The unstoppable wrath of the plague left many people without their loved ones. You are one of the few desperate survivors lucky 
+|enough to flee. This was your last attempt to escape to a place hopefully untouched by the disease. As the days went by, 
+|everyone started to realize that the ship was not spared from the epidemic. One by one, people began falling sick. Food rations 
+|were running out. The only way to survive was to reach the shore as soon as possible. The captain decided to head towards the 
+|shores of a nearby island called Damaranzel.
+|
+|You remember your mother reading you some stories about this place. In your mind, you imagine the lush forests and majestic 
+|mountains in the north. Maybe the island could be a new beginning for you, free of the disease and full of fascinating places 
+|to explore. Unfortunatelly, the early morning mist obscured the captain's vision, causing the ship to run ashore. You overhear 
+|murmurs about a city called Alaxis nearby. You decided to disembark and head there by foot...
 +--------------------------------------------------------------------------------------------------------------------------------+

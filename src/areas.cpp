@@ -1,7 +1,5 @@
 #include "areas.hpp"
 
-#include <iostream>
-
 #include "abilities.hpp"
 #include "characters.hpp"
 #include "combat_system.hpp"
@@ -48,10 +46,7 @@ namespace Areas
         auto prompt = [&]()
         {
             Utils::printBorderedText(area.name);
-            std::cout << Utils::COLOR_CYAN;
-            std::cout << areaImage;
-            std::cout << Utils::COLOR_END;
-            std::cout << areaDescription;
+            Utils::printArea(areaImage, areaDescription);
         };
 
         auto selection = Utils::pickOptionFromList(prompt, menu);
@@ -75,7 +70,6 @@ namespace Areas
 
     void t01_shore_DanseaConversation(GameState &gameState)
     {
-        const auto propertyDanseaLocation = "danseaLocation";
         if (gameState.stateInfo[propertyDanseaLocation] == 1 || gameState.stateInfo[propertyDanseaLocation] == 2)
         {
             // she is with me or in the city
@@ -84,21 +78,19 @@ namespace Areas
 
         Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
 
-        auto danseaPicture = Files::loadFile(f_danseaPicture);
-        std::cout << Utils::COLOR_CYAN;
-        std::cout << danseaPicture;
-        std::cout << Utils::COLOR_END;
-        std::cout << Files::loadFile(f_danseaIntro);
+        const auto danseaPicture = Files::loadFile(f_danseaPicture);
+        const auto danseaIntro = Files::loadFile(f_danseaIntro);
+        Utils::printArea(danseaPicture, danseaIntro);
         Utils::newLine();
 
         Utils::pressEnterToContinue();
         Utils::clearScreen();
 
         const auto danseaConversationFile = AREA_FOLDER + "01_shore/conversation.txt";
-        auto conversationResult = ConversationSystem::start(danseaPicture, danseaConversationFile);
+        const auto conversationResult = ConversationSystem::start(danseaPicture, danseaConversationFile);
 
         Utils::clearScreen();
-        if (conversationResult == "end_yes")
+        if (conversationResult == ConversationSystem::RESULT_POSITIVE)
         {
             if (gameState.heroes.size() == 4)  // Party is full
             {
@@ -145,7 +137,7 @@ namespace Areas
         }
 
         Utils::clearScreen();
-        std::cout << Files::loadFile("assets/areas/03_city_gate/combat_intro.txt");
+        Utils::printCombatStart(Files::loadFile("assets/areas/03_city_gate/combat_intro.txt"));
         Utils::newLine();
         Utils::pressEnterToContinue();
 
@@ -195,10 +187,7 @@ namespace Areas
     {
         const auto areaImage = Files::loadFile(AREA_FOLDER + "04_inn/image.txt");
         const auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
-        std::cout << Utils::COLOR_CYAN;
-        std::cout << areaImage;
-        std::cout << Utils::COLOR_END;
-        std::cout << areaDescription;
+        Utils::printArea(areaImage, areaDescription);
         Utils::newLine();
 
         if (Utils::askConfirmation("Do you want to talk with the Innkeeper?"))
@@ -207,9 +196,23 @@ namespace Areas
 
             Utils::clearScreen();
             ConversationSystem::start(areaImage, conversationFile);
-
-            Files::saveGame(gameState);
         }
+
+        Utils::newLine();
+        Utils::newLine();
+        if (gameState.stateInfo.at(propertyDanseaLocation) == 2 && Utils::askConfirmation("Dansea is also here. Do you want to recruit her?"))
+        {
+            Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
+            gameState.heroes.push_back(dansea);
+            gameState.stateInfo[propertyDanseaLocation] = 1;
+            Utils::clearScreen();
+            Utils::printBorderedText("Dansea has joined your party.");
+            Utils::printHero(dansea);
+            Utils::newLine();
+            Utils::pressEnterToContinue();
+        }
+
+        Files::saveGame(gameState);
     }
 
 }  // namespace Areas

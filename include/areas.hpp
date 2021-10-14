@@ -18,6 +18,8 @@ namespace Areas
     const std::string f_danseaPicture = "assets/characters/dansea/dansea_image.txt";
     const std::string f_danseaIntro = "assets/characters/dansea/dansea_introduction.txt";
 
+    const std::string propertyDanseaLocation = "danseaLocation";
+
     struct Area
     {
         std::string name;

@@ -1,4 +1,4 @@
 +--------------------------------------------------------------------------------------------------------------------------------+
-The innkeeper is patiently watching the clock, waiting for his shift to be over. There are various bottles and glasses on the bar
-in front of him and on the shelves behind his back.
+|The innkeeper is patiently watching the clock, waiting for his shift to be over. There are various bottles and glasses on the bar
+|in front of him and on the shelves behind his back.
 +--------------------------------------------------------------------------------------------------------------------------------+

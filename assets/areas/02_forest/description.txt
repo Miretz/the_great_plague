@@ -1,4 +1,4 @@
 +--------------------------------------------------------------------------------------------------------------------------------+
-A narrow path leads through a wooded area. As the forest gets progressively less dense, you start to notice obvious signs of
-civilization. The chopped down trees indicate that a settlement may not be too far away.
+|A narrow path leads through a wooded area. As the forest gets progressively less dense, you start to notice obvious signs of
+|civilization. The chopped down trees indicate that a settlement may not be too far away.
 +--------------------------------------------------------------------------------------------------------------------------------+
