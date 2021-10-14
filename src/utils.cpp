@@ -12,6 +12,9 @@
 #if defined _WIN32
 #include <conio.h>
 #include <windows.h>
+
+#include <cwchar>
+
 #else
 #include <termios.h>
 #include <unistd.h>
@@ -20,6 +23,35 @@
 
 namespace Utils
 {
+    void maximizeConsole()
+    {
+#if defined _WIN32
+        // Windowed fullscreen
+        /*
+        COORD ScreenBufferSize{ 1500, 300 };
+        HANDLE ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+        HWND ConsoleWindow = GetConsoleWindow();
+
+        SetConsoleScreenBufferSize(ConsoleHandle, ScreenBufferSize);
+        ShowWindow(ConsoleWindow, SW_MAXIMIZE);
+        */
+
+        // Fullscreen without header
+        SendMessage(GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
+
+        // Change font
+        CONSOLE_FONT_INFOEX cfi;
+        cfi.cbSize = sizeof(cfi);
+        cfi.nFont = 0;
+        cfi.dwFontSize.X = 0;   // Width of each character in the font
+        cfi.dwFontSize.Y = 20;  // Height
+        cfi.FontFamily = FF_DONTCARE;
+        cfi.FontWeight = FW_NORMAL;
+        std::wcscpy(cfi.FaceName, L"Consolas");  // Choose your font
+        SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+#endif
+    }
+
     const std::string addPlus(uint32_t value)
     {
         if (value > 0)
@@ -280,7 +312,7 @@ namespace Utils
 
     void printSpacedText(const std::string &text)
     {
-        std::cout << "\n"
+        std::cout << '\n'
                   << text << "\n\n";
     }
 

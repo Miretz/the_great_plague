@@ -35,6 +35,8 @@ namespace Utils
     const char KEY_ENTER_LF = '\n';
 #endif
 
+    void maximizeConsole();
+
     const std::string addPlus(uint32_t value);
 
     void printAttributes(const Attributes &attributes);

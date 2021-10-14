@@ -7,6 +7,8 @@
 
 int main(void)
 {
+    Utils::maximizeConsole();
+    
     Abilities::init();
 
     while (true)
