@@ -102,7 +102,7 @@ namespace CombatSystem
             std::remove_if(combat.turnQueue.begin(), combat.turnQueue.end(), isDead), combat.turnQueue.end());
     }
 
-    bool startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies)
+    bool startCombat(const std::vector<Hero>& heroes, const std::vector<Hero> &enemies)
     {
         auto combat = prepare(heroes, enemies);
 

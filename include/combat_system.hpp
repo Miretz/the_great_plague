@@ -23,7 +23,7 @@ namespace CombatSystem
 
     void cleanTurnQueue(Combat &combat);
 
-    bool startCombat(std::vector<Hero> heroes, std::vector<Hero> enemies);
+    bool startCombat(const std::vector<Hero>& heroes, const std::vector<Hero> &enemies);
 
     void miss(Hero &hero, const Hero &target);
 
