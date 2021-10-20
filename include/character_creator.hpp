@@ -2,16 +2,18 @@
 #ifndef character_creator_hpp
 #define character_creator_hpp
 
+#include <array>
+
 #include "entities.hpp"
 
 namespace CharacterCreator
 {
-    constexpr uint32_t STARTING_ATTRIBUTE_POINTS = 2;
-    constexpr uint32_t STARTING_SPECIALTY_POINTS = 2;
+    static constexpr uint32_t STARTING_ATTRIBUTE_POINTS = 2;
+    static constexpr uint32_t STARTING_SPECIALTY_POINTS = 2;
 
     const Inventory basicInventory{ {}, { { "Torso", 7 }, { "Legs", 8 } } };
 
-    const std::vector<Race> startingRaces{
+    static constexpr std::array<Race, 7> startingRaces{
         Race::Human,
         Race::Repsoris,
         Race::Ursobac,
@@ -21,7 +23,7 @@ namespace CharacterCreator
         Race::Vulpotis,
     };
 
-    const std::vector<std::string> startingAbilities{
+    static constexpr std::array<const char *, 10> startingAbilities{
         "first_aid",
         "evasion",
         "knockdown",
@@ -34,7 +36,7 @@ namespace CharacterCreator
         "reanimate",
     };
 
-    const std::vector<uint32_t> startingItems{ 0, 1, 2, 3, 4, 5, 6 };
+    static constexpr std::array<uint32_t, 7> startingItems{ 0, 1, 2, 3, 4, 5, 6 };
 
     std::vector<Hero> createHeroes();
 

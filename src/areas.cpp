@@ -86,8 +86,7 @@ namespace Areas
         Utils::pressEnterToContinue();
         Utils::clearScreen();
 
-        const auto danseaConversationFile = AREA_FOLDER + "01_shore/conversation.txt";
-        const auto conversationResult = ConversationSystem::start(danseaPicture, danseaConversationFile);
+        const auto conversationResult = ConversationSystem::start(danseaPicture, f_danseaConversation);
 
         Utils::clearScreen();
         if (conversationResult == ConversationSystem::RESULT_POSITIVE)
@@ -185,17 +184,15 @@ namespace Areas
 
     void t04_inkeeperConversation(GameState &gameState)
     {
-        const auto areaImage = Files::loadFile(AREA_FOLDER + "04_inn/image.txt");
+        const auto areaImage = Files::loadFile(f_innkeeperPicture);
         const auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
         Utils::printArea(areaImage, areaDescription);
         Utils::newLine();
 
         if (Utils::askConfirmation("Do you want to talk with the Innkeeper?"))
         {
-            const auto conversationFile = AREA_FOLDER + "04_inn/conversation.txt";
-
             Utils::clearScreen();
-            ConversationSystem::start(areaImage, conversationFile);
+            ConversationSystem::start(areaImage, f_innkeeperConversation);
         }
 
         Utils::newLine();

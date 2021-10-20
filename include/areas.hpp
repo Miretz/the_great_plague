@@ -10,15 +10,19 @@ struct GameState;
 
 namespace Areas
 {
-    const std::string AREA_FOLDER = "assets/areas/";
-    const std::string DESC_FILE = "/description.txt";
-    const std::string IMAGE_FILE = "/image.txt";
+    static constexpr auto AREA_FOLDER = "assets/areas/";
+    static constexpr auto DESC_FILE = "/description.txt";
+    static constexpr auto IMAGE_FILE = "/image.txt";
 
-    const std::string f_danseaConfig = "assets/characters/dansea/dansea.txt";
-    const std::string f_danseaPicture = "assets/characters/dansea/dansea_image.txt";
-    const std::string f_danseaIntro = "assets/characters/dansea/dansea_introduction.txt";
+    static constexpr auto f_danseaConfig = "assets/characters/dansea/dansea.txt";
+    static constexpr auto f_danseaPicture = "assets/characters/dansea/dansea_image.txt";
+    static constexpr auto f_danseaIntro = "assets/characters/dansea/dansea_introduction.txt";
 
-    const std::string propertyDanseaLocation = "danseaLocation";
+    static constexpr auto propertyDanseaLocation = "danseaLocation";
+    static constexpr auto f_danseaConversation = "assets/areas/01_shore/conversation.txt";
+
+    static constexpr auto f_innkeeperPicture = "assets/areas/04_inn/image.txt";
+    static constexpr auto f_innkeeperConversation = "assets/areas/04_inn/conversation.txt";
 
     struct Area
     {
@@ -36,7 +40,7 @@ namespace Areas
 
     void t04_inkeeperConversation(GameState &gameState);
 
-    const std::vector<Area> allAreas{
+    static const std::vector<Area> allAreas{
         { "Introduction", "00_introduction", { 1 }, nullptr },
         { "Shore", "01_shore", { 2 }, t01_shore_DanseaConversation },
         { "Forest", "02_forest", { 3 }, nullptr },

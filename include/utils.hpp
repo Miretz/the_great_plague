@@ -11,28 +11,28 @@ using PointsMenuInput = std::vector<std::tuple<std::string, std::string, uint32_
 
 namespace Utils
 {
-    const std::string COLOR_GREEN = "\033[1;32m";
-    const std::string COLOR_YELLOW = "\033[1;33m";
-    const std::string COLOR_GREY = "\033[2;37m";
-    const std::string COLOR_RED = "\33[1;31m";
-    const std::string COLOR_END = "\033[0m";
-    const std::string COLOR_CYAN = "\033[0;36m";
-    const std::string COLOR_CYAN_LIGHT = "\033[1;36m";
+    static constexpr auto COLOR_GREEN = "\033[1;32m";
+    static constexpr auto COLOR_YELLOW = "\033[1;33m";
+    static constexpr auto COLOR_GREY = "\033[2;37m";
+    static constexpr auto COLOR_RED = "\33[1;31m";
+    static constexpr auto COLOR_END = "\033[0m";
+    static constexpr auto COLOR_CYAN = "\033[0;36m";
+    static constexpr auto COLOR_CYAN_LIGHT = "\033[1;36m";
 
 #if defined _WIN32
-    const uint32_t KEY_UP = 72;
-    const uint32_t KEY_DOWN = 80;
-    const uint32_t KEY_LEFT = 75;
-    const uint32_t KEY_RIGHT = 77;
-    const uint32_t KEY_ENTER = 13;
-    const uint32_t KEY_ENTER_LF = 10;
+    static constexpr uint32_t KEY_UP = 72;
+    static constexpr uint32_t KEY_DOWN = 80;
+    static constexpr uint32_t KEY_LEFT = 75;
+    static constexpr uint32_t KEY_RIGHT = 77;
+    static constexpr uint32_t KEY_ENTER = 13;
+    static constexpr uint32_t KEY_ENTER_LF = 10;
 #else
-    const char KEY_UP = 'A';
-    const char KEY_DOWN = 'B';
-    const char KEY_LEFT = 'D';
-    const char KEY_RIGHT = 'C';
-    const char KEY_ENTER = '\r';
-    const char KEY_ENTER_LF = '\n';
+    static constexpr char KEY_UP = 'A';
+    static constexpr char KEY_DOWN = 'B';
+    static constexpr char KEY_LEFT = 'D';
+    static constexpr char KEY_RIGHT = 'C';
+    static constexpr char KEY_ENTER = '\r';
+    static constexpr char KEY_ENTER_LF = '\n';
 #endif
 
     void maximizeConsole();
@@ -62,6 +62,10 @@ namespace Utils
     void printCombatHeroHeader(const Hero &hero);
 
     void printBorderedText(const std::string &text);
+
+    void printBorderedTextWithColor(const std::string &text, const std::string &color);
+
+    const std::string colorize(const std::string &text, const std::string &color);
 
     void printSpacedText(const std::string &text);
 

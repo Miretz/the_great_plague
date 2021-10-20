@@ -306,8 +306,27 @@ namespace Utils
     void printBorderedText(const std::string &text)
     {
         printBorder(130);
-        std::cout << "|" << text << '\n';
+        std::cout << '|' << text << '\n';
         printBorder(130);
+    }
+
+    void printBorderedTextWithColor(const std::string &text, const std::string &color)
+    {
+        printBorder(130);
+        std::cout << '|';
+        std::cout << color;
+        std::cout << text << '\n';
+        std::cout << COLOR_END;
+        printBorder(130);
+    }
+
+    const std::string colorize(const std::string &text, const std::string &color)
+    {
+        std::ostringstream ss;
+        ss << color;
+        ss << text;
+        ss << COLOR_END;
+        return ss.str();
     }
 
     void printSpacedText(const std::string &text)
@@ -318,7 +337,7 @@ namespace Utils
 
     void printArea(const std::string &image, const std::string &description)
     {
-        std::cout << Utils::COLOR_CYAN;
+        std::cout << Utils::COLOR_GREEN;
         std::cout << image;
         std::cout << Utils::COLOR_END;
         std::cout << description;
@@ -722,7 +741,7 @@ namespace Utils
             printBorder(130);
             std::cout << "|" << COLOR_GREEN << who << COLOR_END << '\n';
             printBorder(130);
-            std::cout << Utils::COLOR_CYAN;
+            std::cout << Utils::COLOR_GREEN;
             std::cout << picture;
             std::cout << Utils::COLOR_END;
             printBorder(130);

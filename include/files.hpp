@@ -12,10 +12,10 @@ struct ConversationLine;
 
 namespace Files
 {
-    const std::string SAVE_FILE = "save.txt";
+    static constexpr auto SAVE_FILE = "save.txt";
 
-    const std::string delimiter = "|";
-    const std::string valueDelimitter = ";";
+    static const std::string delimiter = "|";
+    static const std::string valueDelimitter = ";";
 
     const std::string serializeHero(const Hero &hero);
 

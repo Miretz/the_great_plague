@@ -9,11 +9,11 @@ struct Hero;
 
 namespace Characters
 {
-    constexpr uint32_t HEALTH_PER_VITALITY_POINT = 10;
+    static constexpr uint32_t HEALTH_PER_VITALITY_POINT = 10;
 
-    constexpr uint32_t ATTRIBUTE_POINTS_PER_LEVEL = 2;
-    constexpr uint32_t SPECIALTY_POINTS_PER_LEVEL = 2;
-    constexpr uint32_t HEALTH_PER_LEVEL = 5;
+    static constexpr uint32_t ATTRIBUTE_POINTS_PER_LEVEL = 2;
+    static constexpr uint32_t SPECIALTY_POINTS_PER_LEVEL = 2;
+    static constexpr uint32_t HEALTH_PER_LEVEL = 5;
 
     void levelUp(Hero &hero);
 

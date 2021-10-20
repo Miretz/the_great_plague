@@ -2,6 +2,7 @@
 #ifndef inventory_manager_hpp
 #define inventory_manager_hpp
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -20,7 +21,7 @@ namespace InventoryManager
         Gloves
     };
 
-    const std::vector<std::string> equipmentSlotNames{ "Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves" };
+    static constexpr std::array<const char *, 6> equipmentSlotNames{ "Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves" };
 
     void addToBackpack(Hero &hero, const uint32_t itemId);
 
