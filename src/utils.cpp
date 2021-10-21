@@ -576,7 +576,10 @@ namespace Utils
             elements.end(),
             std::back_inserter(values),
             [](const auto &e) -> uint32_t
-            { return std::get<2>(e); });
+            {
+                auto [name, desc, value] = e;
+                return value;
+            });
 
         clearScreen();
         redrawFunction();
@@ -599,6 +602,8 @@ namespace Utils
 
             for (size_t i = 0; i < elements.size(); i++)
             {
+                auto [name, description, value] = elements[i];
+
                 if (i == row)
                 {
                     ss << COLOR_YELLOW;
@@ -608,7 +613,7 @@ namespace Utils
                 {
                     ss << "  ";
                 }
-                ss << std::left << std::setw(15) << std::get<0>(elements[i]);
+                ss << std::left << std::setw(15) << name;
                 if (i == row)
                 {
                     ss << COLOR_END;
@@ -616,7 +621,7 @@ namespace Utils
 
                 ss << " <- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n  ";
                 ss << COLOR_GREY;
-                ss << std::get<1>(elements[i]);
+                ss << description;
                 ss << COLOR_END;
                 ss << "\n\n";
             }
@@ -628,33 +633,41 @@ namespace Utils
             switch ((c = getInput()))
             {
                 case KEY_UP:
+                {
                     if (row == 0)
                     {
                         row = elements.size();
                     }
                     row--;
                     break;
+                }
                 case KEY_DOWN:
+                {
                     row++;
                     if (row > elements.size() - 1)
                     {
                         row = 0;
                     }
                     break;
+                }
                 case KEY_LEFT:
+                {
                     if (availablePoints == pointsToDistribute)
                     {
                         break;
                     }
-                    if (values[row] <= std::get<2>(elements[row]))
+                    const auto [name, desc, value] = elements[row];
+                    if (values[row] <= value)
                     {
-                        values[row] = std::get<2>(elements[row]);
+                        values[row] = value;
                         break;
                     }
                     values[row] -= 1;
                     availablePoints++;
                     break;
+                }
                 case KEY_RIGHT:
+                {
                     if (availablePoints == 0)
                     {
                         break;
@@ -662,6 +675,7 @@ namespace Utils
                     values[row] += 1;
                     availablePoints--;
                     break;
+                }
                 case KEY_ENTER: finished = true; break;
                 case KEY_ENTER_LF: finished = true; break;
                 default: break;
