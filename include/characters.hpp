@@ -9,13 +9,13 @@ struct Hero;
 
 namespace Characters
 {
-    static constexpr uint32_t kVitalityPerPoint = 10;
+    inline constexpr uint32_t kVitalityPerPoint = 10;
 
-    static constexpr uint32_t kAttributePointsPerLevel = 2;
-    static constexpr uint32_t kSpecialtyPointsPerLevel = 2;
-    static constexpr uint32_t kHealthPerLevel = 5;
+    inline constexpr uint32_t kAttributePointsPerLevel = 2;
+    inline constexpr uint32_t kSpecialtyPointsPerLevel = 2;
+    inline constexpr uint32_t kHealthPerLevel = 5;
 
-    static constexpr uint32_t kAdjustmentBorderSize = 55;
+    inline constexpr uint32_t kAdjustmentBorderSize = 55;
 
     void levelUp(Hero &hero);
 

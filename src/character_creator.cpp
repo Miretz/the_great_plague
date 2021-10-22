@@ -98,12 +98,12 @@ namespace CharacterCreator
         auto selection = Utils::pickOptionFromList(prompt, menu);
         auto race = g_AllRaces.at(startingRaces.at(selection));
 
-        constexpr Attributes defaultAttributes{ 10, 10, 10, 10 };
-        constexpr Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        constexpr uint32_t maxHealth = 100;
-        constexpr uint32_t xp = 0;
-        constexpr uint32_t level = 1;
-        constexpr uint32_t xpToLevelUp = 100;
+        static constexpr Attributes defaultAttributes{ 10, 10, 10, 10 };
+        static constexpr Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        static constexpr uint32_t maxHealth = 100;
+        static constexpr uint32_t xp = 0;
+        static constexpr uint32_t level = 1;
+        static constexpr uint32_t xpToLevelUp = 100;
 
         std::string uniqueId = "PLR_" + name;
 

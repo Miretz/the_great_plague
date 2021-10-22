@@ -10,14 +10,14 @@
 namespace Dice
 {
     // used for weapon attacks, healing, spells, etc.
-    constexpr uint32_t D4 = 4;
-    constexpr uint32_t D6 = 6;
-    constexpr uint32_t D8 = 8;
-    constexpr uint32_t D10 = 10;
-    constexpr uint32_t D12 = 12;
+    inline constexpr uint32_t D4 = 4;
+    inline constexpr uint32_t D6 = 6;
+    inline constexpr uint32_t D8 = 8;
+    inline constexpr uint32_t D10 = 10;
+    inline constexpr uint32_t D12 = 12;
 
     // used for checking the success of an action
-    constexpr uint32_t D20 = 20;
+    inline constexpr uint32_t D20 = 20;
 
     auto rollDice(uint32_t die) -> uint32_t;
 

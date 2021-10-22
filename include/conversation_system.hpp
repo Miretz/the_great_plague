@@ -9,8 +9,8 @@ struct ConversationLine;
 
 namespace ConversationSystem
 {
-    static constexpr auto kConversationResultPositive = "end_yes";
-    static constexpr auto kConversationResultNegative = "end_no";
+    inline constexpr auto kConversationResultPositive = "end_yes";
+    inline constexpr auto kConversationResultNegative = "end_no";
     
     auto start(const std::string &picture, const std::string &conversationFilePath) -> std::string;
 

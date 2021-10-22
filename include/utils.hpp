@@ -11,32 +11,32 @@ using PointsMenuInput = std::vector<std::tuple<std::string, std::string, uint32_
 
 namespace Utils
 {
-    static constexpr auto COLOR_GREEN = "\033[1;32m";
-    static constexpr auto COLOR_YELLOW = "\033[1;33m";
-    static constexpr auto COLOR_GREY = "\033[2;37m";
-    static constexpr auto COLOR_RED = "\33[1;31m";
-    static constexpr auto COLOR_END = "\033[0m";
-    static constexpr auto COLOR_CYAN = "\033[0;36m";
-    static constexpr auto COLOR_CYAN_LIGHT = "\033[1;36m";
+    inline constexpr auto COLOR_GREEN = "\033[1;32m";
+    inline constexpr auto COLOR_YELLOW = "\033[1;33m";
+    inline constexpr auto COLOR_GREY = "\033[2;37m";
+    inline constexpr auto COLOR_RED = "\33[1;31m";
+    inline constexpr auto COLOR_END = "\033[0m";
+    inline constexpr auto COLOR_CYAN = "\033[0;36m";
+    inline constexpr auto COLOR_CYAN_LIGHT = "\033[1;36m";
 
 #if defined _WIN32
-    static constexpr uint32_t KEY_UP = 72;
-    static constexpr uint32_t KEY_DOWN = 80;
-    static constexpr uint32_t KEY_LEFT = 75;
-    static constexpr uint32_t KEY_RIGHT = 77;
-    static constexpr uint32_t KEY_ENTER = 13;
-    static constexpr uint32_t KEY_ENTER_LF = 10;
+    inline constexpr uint32_t KEY_UP = 72;
+    inline constexpr uint32_t KEY_DOWN = 80;
+    inline constexpr uint32_t KEY_LEFT = 75;
+    inline constexpr uint32_t KEY_RIGHT = 77;
+    inline constexpr uint32_t KEY_ENTER = 13;
+    inline constexpr uint32_t KEY_ENTER_LF = 10;
 #else
-    static constexpr char KEY_UP = 'A';
-    static constexpr char KEY_DOWN = 'B';
-    static constexpr char KEY_LEFT = 'D';
-    static constexpr char KEY_RIGHT = 'C';
-    static constexpr char KEY_ENTER = '\r';
-    static constexpr char KEY_ENTER_LF = '\n';
+    inline constexpr char KEY_UP = 'A';
+    inline constexpr char KEY_DOWN = 'B';
+    inline constexpr char KEY_LEFT = 'D';
+    inline constexpr char KEY_RIGHT = 'C';
+    inline constexpr char KEY_ENTER = '\r';
+    inline constexpr char KEY_ENTER_LF = '\n';
 #endif
 
-    static constexpr auto kPaddingLeft = 16;
-    static constexpr auto kPaddingRight = 6;
+    inline constexpr auto kPaddingLeft = 16;
+    inline constexpr auto kPaddingRight = 6;
 
     void maximizeConsole();
 

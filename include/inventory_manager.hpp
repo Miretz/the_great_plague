@@ -12,8 +12,8 @@ struct Item;
 
 namespace InventoryManager
 {
-    static constexpr auto kDualWieldPenalty = 0.25;
-    static constexpr auto kEmptyHandsDamage = 5;
+    inline constexpr auto kDualWieldPenalty = 0.25;
+    inline constexpr auto kEmptyHandsDamage = 5;
 
     enum class EquipmentSlot
     {
@@ -25,7 +25,7 @@ namespace InventoryManager
         Gloves = 5
     };
 
-    static constexpr std::array<const char *, 6> equipmentSlotNames{ "Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves" };
+    inline constexpr std::array<const char *, 6> equipmentSlotNames{ "Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves" };
 
     void addToBackpack(Hero &hero, const uint32_t itemId);
 

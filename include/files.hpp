@@ -1,4 +1,5 @@
 #pragma once
+#include <string_view>
 #ifndef files_hpp
 #define files_hpp
 
@@ -12,10 +13,9 @@ struct ConversationLine;
 
 namespace Files
 {
-    static constexpr auto kSaveFile = "save.txt";
-
-    static const std::string kDelimiter = "|";
-    static const std::string kValueDelimiter = ";";
+    inline constexpr auto kSaveFile = "save.txt";
+    inline constexpr std::string_view kDelimiter = "|";
+    inline constexpr std::string_view kValueDelimiter = ";";
 
     auto serializeHero(const Hero &hero) -> const std::string;
 

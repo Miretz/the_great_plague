@@ -8,12 +8,12 @@
 
 namespace CharacterCreator
 {
-    static constexpr uint32_t kStartingAttributePoints = 2;
-    static constexpr uint32_t kStartingSpecialtyPoints = 2;
+    inline constexpr uint32_t kStartingAttributePoints = 2;
+    inline constexpr uint32_t kStartingSpecialtyPoints = 2;
 
-    const Inventory basicInventory{ {}, { { "Torso", 7 }, { "Legs", 8 } } };
+    inline const Inventory basicInventory{ {}, { { "Torso", 7 }, { "Legs", 8 } } };
 
-    static constexpr std::array<Race, 7> startingRaces{
+    inline constexpr std::array<Race, 7> startingRaces{
         Race::Human,
         Race::Repsoris,
         Race::Ursobac,
@@ -23,7 +23,7 @@ namespace CharacterCreator
         Race::Vulpotis,
     };
 
-    static constexpr std::array<const char *, 10> startingAbilities{
+    inline constexpr std::array<const char *, 10> startingAbilities{
         "first_aid",
         "evasion",
         "knockdown",
@@ -36,7 +36,7 @@ namespace CharacterCreator
         "reanimate",
     };
 
-    static constexpr std::array<uint32_t, 7> startingItems{ 0, 1, 2, 3, 4, 5, 6 };
+    inline constexpr std::array<uint32_t, 7> startingItems{ 0, 1, 2, 3, 4, 5, 6 };
 
     auto createHeroes() -> std::vector<Hero>;
 
