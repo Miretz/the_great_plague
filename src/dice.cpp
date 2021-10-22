@@ -2,21 +2,22 @@
 
 namespace Dice
 {
-    static std::random_device rd;
-    static std::mt19937 generator(rd());
+    static std::random_device rd;         //NOLINT
+    static std::mt19937 generator(rd());  //NOLINT
 
-    uint32_t rollDice(std::uniform_int_distribution<int> die)
+    auto rollDice(uint32_t die) -> uint32_t
     {
-        return die(generator);
+        return randomSelection(1, die);
     }
 
-    uint32_t randomSelection(uint32_t min, uint32_t max)
+    auto randomSelection(uint32_t min, uint32_t max) -> uint32_t
     {
         if (min == max)
         {
             return min;
         }
-        std::uniform_int_distribution<> distr(min, max);
+
+        std::uniform_int_distribution<uint32_t> distr(min, max);
         return distr(generator);
     }
 }  // namespace Dice

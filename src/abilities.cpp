@@ -1,5 +1,7 @@
 #include "abilities.hpp"
 
+#include <optional>
+
 #include "characters.hpp"
 #include "dice.hpp"
 #include "entities.hpp"
@@ -9,13 +11,13 @@
 
 namespace Abilities
 {
-    std::unordered_map<std::string, Ability> loadedAbilities;
+    std::unordered_map<std::string, Ability> loadedAbilities;  //NOLINT
 
-    std::optional<Ability> getAbility(const std::string &id)
+    auto getAbility(const std::string &id) -> std::optional<Ability>
     {
         if (id.empty())
         {
-            return {};
+            return std::nullopt;
         }
         return loadedAbilities.at(id);
     }
@@ -23,7 +25,7 @@ namespace Abilities
     void init()
     {
         const auto abilitiesFromFile = Files::loadAbilities("assets/abilities/abilities.txt");
-        for (auto ab : abilitiesFromFile)
+        for (const auto &ab : abilitiesFromFile)
         {
             loadedAbilities[ab.id] = ab;
         }
@@ -45,7 +47,7 @@ namespace Abilities
 
             if (ability.type == AbilityType::StatusEffect || ability.type == AbilityType::AoE_Status)
             {
-                auto se = g_StatusEffects.at(ability.mapping);
+                const auto &se = g_StatusEffects.at(ability.mapping);
 
                 // prevent applying twice
                 for (auto &seApplied : target.statusEffects)
@@ -67,18 +69,18 @@ namespace Abilities
         }
     }
 
-    void f_Maul(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    void f_Maul(const Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
-        auto damage = 5 + caster.level * 10;
+        auto damage = 5 + caster.level * 10;  // NOLINT
         Characters::takeDamage(target, damage);
     }
 
-    void f_FirstAid(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    void f_FirstAid(const Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         if (target.controller == Controller::Player || target.controller == Controller::AI_Friendly)
         {
             // level * 5
-            uint32_t newHealth = 20 + target.health + caster.level * 5;
+            uint32_t newHealth = 20 + target.health + caster.level * 5;  //NOLINT
             if (newHealth >= target.maxHealth)
             {
                 target.health = target.maxHealth;
@@ -93,7 +95,7 @@ namespace Abilities
     void f_LifeDrain(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         // take level*5 from enemy health
-        uint32_t healthStolen = 10 + caster.level * 5;
+        uint32_t healthStolen = 10 + caster.level * 5;  //NOLINT
 
         // if enemy has less than level*5 steal only remaining HP
         if (target.health <= healthStolen)
@@ -149,13 +151,13 @@ namespace Abilities
         combat.spawnQueue.push_back(doggo);
     }
 
-    void f_HailStorm(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
+    void f_HailStorm(const Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
-        auto damage = 5 + caster.level * 10 + Dice::randomSelection(0, 10);
+        auto damage = 5 + caster.level * 10 + Dice::randomSelection(0, 10);  // NOLINT
         Characters::takeDamage(target, damage);
     }
 
-    void f_ReviveDead(Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
+    void f_ReviveDead(const Hero &caster, [[maybe_unused]] Hero &target, Combat &combat)
     {
         if (combat.dead.size() == 0)
         {

@@ -9,7 +9,7 @@
 
 namespace CharacterCreator
 {
-    std::vector<Hero> createHeroes()
+    auto createHeroes() -> std::vector<Hero>
     {
         std::vector<Hero> heroes;
 
@@ -72,7 +72,7 @@ namespace CharacterCreator
         return heroes;
     }
 
-    Hero pickHeroRace(const std::string &name)
+    auto pickHeroRace(const std::string &name) -> Hero
     {
         auto prompt = []()
         { Utils::printBorderedText("Please select your race:"); };
@@ -96,14 +96,14 @@ namespace CharacterCreator
         }
 
         auto selection = Utils::pickOptionFromList(prompt, menu);
-        auto race = g_AllRaces.at(startingRaces[selection]);
+        auto race = g_AllRaces.at(startingRaces.at(selection));
 
-        Attributes defaultAttributes{ 10, 10, 10, 10 };
-        Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        uint32_t maxHealth = 100;
-        uint32_t xp = 0;
-        uint32_t level = 1;
-        uint32_t xpToLevelUp = 100;
+        constexpr Attributes defaultAttributes{ 10, 10, 10, 10 };
+        constexpr Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        constexpr uint32_t maxHealth = 100;
+        constexpr uint32_t xp = 0;
+        constexpr uint32_t level = 1;
+        constexpr uint32_t xpToLevelUp = 100;
 
         std::string uniqueId = "PLR_" + name;
 
@@ -115,9 +115,9 @@ namespace CharacterCreator
             maxHealth,
             level,
             xpToLevelUp,
-            STARTING_ATTRIBUTE_POINTS,
-            STARTING_SPECIALTY_POINTS,
-            startingRaces[selection],
+            kStartingAttributePoints,
+            kStartingSpecialtyPoints,
+            startingRaces.at(selection),
             Controller::Player,
             defaultAttributes,
             defaultSpecialties,
@@ -129,7 +129,7 @@ namespace CharacterCreator
         return hero;
     }
 
-    const std::string pickStartingAbility()
+    auto pickStartingAbility() -> const std::string
     {
         Utils::clearScreen();
 
@@ -143,10 +143,10 @@ namespace CharacterCreator
             menu.push_back(sa.name + " - " + sa.description);
         }
 
-        return startingAbilities[Utils::pickOptionFromList(prompt, menu)];
+        return startingAbilities.at(Utils::pickOptionFromList(prompt, menu));
     }
 
-    uint32_t pickStartingItem(const Attributes &attributes)
+    auto pickStartingItem(const Attributes &attributes) -> uint32_t
     {
         std::vector<uint32_t> filtered;
         for (auto itemId : startingItems)

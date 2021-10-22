@@ -12,30 +12,30 @@ struct ConversationLine;
 
 namespace Files
 {
-    static constexpr auto SAVE_FILE = "save.txt";
+    static constexpr auto kSaveFile = "save.txt";
 
-    static const std::string delimiter = "|";
-    static const std::string valueDelimitter = ";";
+    static const std::string kDelimiter = "|";
+    static const std::string kValueDelimiter = ";";
 
-    const std::string serializeHero(const Hero &hero);
+    auto serializeHero(const Hero &hero) -> const std::string;
 
-    Hero deserializeHero(std::string serialized);
+    auto deserializeHero(std::string serialized) -> Hero;
 
     void saveGame(const GameState &gameState);
 
-    GameState loadGame();
+    auto loadGame() -> GameState;
 
-    const std::string loadFile(const std::string &filePath);
+    auto loadFile(const std::string &filePath) -> const std::string;
 
     void saveFile(const std::string &data, const std::string &filePath);
 
-    Hero loadHeroFromConfig(const std::string &filePath);
+    auto loadHeroFromConfig(const std::string &filePath) -> Hero;
 
     void saveHeroToFile(const Hero &hero, const std::string &filePath);
 
-    std::vector<Ability> loadAbilities(const std::string &filePath);
+    auto loadAbilities(const std::string &filePath) -> std::vector<Ability>;
 
-    std::vector<ConversationLine> loadConversationFile(const std::string &conversationFilePath);
+    auto loadConversationFile(const std::string &conversationFilePath) -> std::vector<ConversationLine>;
 }  // namespace Files
 
 #endif

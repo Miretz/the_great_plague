@@ -16,6 +16,7 @@
 #include <cwchar>
 
 #else
+
 #include <termios.h>
 #include <unistd.h>
 
@@ -37,22 +38,22 @@ namespace Utils
         */
 
         // Fullscreen without header
-        SendMessage(GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
+        SendMessage(GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);  //NOLINT
 
         // Change font
         CONSOLE_FONT_INFOEX cfi;
         cfi.cbSize = sizeof(cfi);
         cfi.nFont = 0;
         cfi.dwFontSize.X = 0;   // Width of each character in the font
-        cfi.dwFontSize.Y = 20;  // Height
+        cfi.dwFontSize.Y = 20;  // NOLINT
         cfi.FontFamily = FF_DONTCARE;
         cfi.FontWeight = FW_NORMAL;
-        std::wcscpy(cfi.FaceName, L"Consolas");  // Choose your font
+        std::wcscpy(cfi.FaceName, L"Consolas");  // NOLINT
         SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 #endif
     }
 
-    const std::string addPlus(uint32_t value)
+    auto addPlus(uint32_t value) -> const std::string
     {
         if (value > 0)
         {
@@ -63,26 +64,26 @@ namespace Utils
 
     void printAttributes(const Attributes &attributes)
     {
-        std::cout << '|' << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << attributes.strength
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Strength: " << std::left << std::setw(kPaddingRight) << attributes.strength
                   << '\n';
-        std::cout << '|' << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << attributes.dexterity
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Dexterity: " << std::left << std::setw(kPaddingRight) << attributes.dexterity
                   << '\n';
-        std::cout << '|' << std::left << std::setw(16) << "Constitution: " << std::left << std::setw(6)
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Constitution: " << std::left << std::setw(kPaddingRight)
                   << attributes.constitution << '\n';
-        std::cout << '|' << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6)
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Intelligence: " << std::left << std::setw(kPaddingRight)
                   << attributes.intelligence << '\n';
     }
 
     void printAttributesAdjustment(const Attributes &base, const Attributes &adjustment)
     {
-        std::cout << '|' << std::left << std::setw(16) << "Strength: " << std::left << std::setw(6) << base.strength
-                  << std::left << std::setw(6) << adjustment.strength << '\n';
-        std::cout << '|' << std::left << std::setw(16) << "Dexterity: " << std::left << std::setw(6) << base.dexterity
-                  << std::left << std::setw(6) << adjustment.dexterity << '\n';
-        std::cout << '|' << std::left << std::setw(16) << "Constitution: " << std::left << std::setw(6) << base.constitution
-                  << std::left << std::setw(6) << adjustment.constitution << '\n';
-        std::cout << '|' << std::left << std::setw(16) << "Intelligence: " << std::left << std::setw(6) << base.intelligence
-                  << std::left << std::setw(6) << adjustment.intelligence << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Strength: " << std::left << std::setw(kPaddingRight) << base.strength
+                  << std::left << std::setw(kPaddingRight) << adjustment.strength << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Dexterity: " << std::left << std::setw(kPaddingRight) << base.dexterity
+                  << std::left << std::setw(kPaddingRight) << adjustment.dexterity << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Constitution: " << std::left << std::setw(kPaddingRight) << base.constitution
+                  << std::left << std::setw(kPaddingRight) << adjustment.constitution << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Intelligence: " << std::left << std::setw(kPaddingRight) << base.intelligence
+                  << std::left << std::setw(kPaddingRight) << adjustment.intelligence << '\n';
     }
 
     void printSpecialties(const Specialties &specialties)
@@ -91,7 +92,7 @@ namespace Utils
         {
             if (value > 0)
             {
-                std::cout << '|' << std::left << std::setw(16) << name << std::left << std::setw(6) << addPlus(value)
+                std::cout << '|' << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight) << addPlus(value)
                           << '\n';
             }
         };
@@ -114,8 +115,8 @@ namespace Utils
         {
             if (v2 > v1)
             {
-                std::cout << "|" << std::left << std::setw(16) << name << std::left << std::setw(6) << addPlus(v1)
-                          << std::left << std::setw(6) << addPlus(v2) << '\n';
+                std::cout << "|" << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight) << addPlus(v1)
+                          << std::left << std::setw(kPaddingRight) << addPlus(v2) << '\n';
             }
         };
 
@@ -141,13 +142,13 @@ namespace Utils
         }
     }
 
-    const std::string getItemString(const uint32_t itemId, bool describe)
+    auto getItemString(const uint32_t itemId, bool describe) -> const std::string
     {
         auto a = g_AllItems[itemId];
         std::stringstream ss;
-        ss << std::left << std::setw(40) << a.name << " ";
+        ss << std::left << std::setw(40) << a.name << " "; // NOLINT
 
-        ss << std::left << std::setw(20);
+        ss << std::left << std::setw(20); // NOLINT
 
         switch (a.primaryAttribute)
         {
@@ -157,7 +158,7 @@ namespace Utils
             default: ss << " [None] "; break;
         }
 
-        ss << std::left << std::setw(23);
+        ss << std::left << std::setw(23); // NOLINT
         switch (a.type)
         {
             case ItemType::Armor_Gloves: ss << " [Armor gloves] "; break;
@@ -194,7 +195,7 @@ namespace Utils
         return ss.str();
     }
 
-    const std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped)
+    auto getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped) -> const std::string
     {
         std::stringstream ss;
         for (const auto &s : InventoryManager::equipmentSlotNames)
@@ -203,7 +204,7 @@ namespace Utils
             {
                 ss << '|';
                 ss << "Equipped in ";
-                ss << std::left << std::setw(10) << s << " - ";
+                ss << std::left << std::setw(10) << s << " - "; // NOLINT
                 ss << getItemString(equipped.at(s), false);
                 ss << '\n';
             }
@@ -211,7 +212,7 @@ namespace Utils
         return ss.str();
     }
 
-    const std::string getBackpack(const std::vector<uint32_t> &backpack)
+    auto getBackpack(const std::vector<uint32_t> &backpack) -> const std::string
     {
         std::stringstream ss;
         if (backpack.size() > 0)
@@ -236,14 +237,14 @@ namespace Utils
 
     void printHeroHeader(const std::string &name, const uint32_t level)
     {
-        printBorder(130);
+        printBorder();
         std::cout << '|' << COLOR_GREEN << name << COLOR_END << " (Level " << level << ") \n";
-        printBorder(130);
+        printBorder();
     }
 
     void printCombatHeroHeader(const Hero &hero)
     {
-        printBorder(130);
+        printBorder();
 
         std::ostringstream ss;
 
@@ -252,25 +253,25 @@ namespace Utils
 
         // hero name
         ss << color;
-        ss << std::left << std::setw(10);
+        ss << std::left << std::setw(10); // NOLINT
         ss << hero.name;
         ss << COLOR_END;
         ss << " (Level " << hero.level << ") ";
 
         ss << " | AP: " << COLOR_YELLOW << std::to_string(hero.actionPoints) << COLOR_END;
         ss << " | HP: ";
-        ss << std::left << std::setw(8);
+        ss << std::left << std::setw(8); // NOLINT
         ss << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
         ss << '|';
 
         // health bar
-        auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN;
-        healthBarColor = hero.health < 25 ? COLOR_RED : healthBarColor;
+        auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN; // NOLINT
+        healthBarColor = hero.health < 25 ? COLOR_RED : healthBarColor; // NOLINT
         ss << healthBarColor;
-        ss << std::left << std::setw(20);
+        ss << std::left << std::setw(20); // NOLINT
 
         std::ostringstream healthBarSs;
-        for (uint32_t i = 0; i < hero.health; i += 10)
+        for (uint32_t i = 0; i < hero.health; i += 10) // NOLINT
         {
             healthBarSs << '|';
         }
@@ -300,27 +301,27 @@ namespace Utils
             std::cout << ssfx.str();
         }
 
-        printBorder(130);
+        printBorder();
     }
 
     void printBorderedText(const std::string &text)
     {
-        printBorder(130);
+        printBorder();
         std::cout << '|' << text << '\n';
-        printBorder(130);
+        printBorder();
     }
 
     void printBorderedTextWithColor(const std::string &text, const std::string &color)
     {
-        printBorder(130);
+        printBorder();
         std::cout << '|';
         std::cout << color;
         std::cout << text << '\n';
         std::cout << COLOR_END;
-        printBorder(130);
+        printBorder();
     }
 
-    const std::string colorize(const std::string &text, const std::string &color)
+    auto colorize(const std::string &text, const std::string &color) -> const std::string
     {
         std::ostringstream ss;
         ss << color;
@@ -345,9 +346,9 @@ namespace Utils
 
     void printCombatStart(const std::string &description)
     {
-        printBorder(130);
+        printBorder();
         std::cout << "|" << Utils::COLOR_RED << "You are under attack!" << Utils::COLOR_END << '\n';
-        printBorder(130);
+        printBorder();
         std::cout << Utils::COLOR_RED;
         std::cout << Files::loadFile("assets/other/combat_image.txt");
         std::cout << Utils::COLOR_END;
@@ -359,7 +360,7 @@ namespace Utils
         std::cout << '\n';
     }
 
-    const std::string getFullPhysicalDamage(const Hero &hero)
+    auto getFullPhysicalDamage(const Hero &hero) -> const std::string
     {
         std::ostringstream ss;
         ss << "|Full physical Damage: " << InventoryManager::getEquippedDamageValue(hero);
@@ -379,20 +380,20 @@ namespace Utils
         std::cout << " Armor: " << InventoryManager::getEquippedArmorValue(hero) << '\n';
         std::cout << "|XP: " << hero.xp << "/" << hero.xpToLevelUp << '\n';
         std::cout << "|Race: " << g_AllRaces.at(hero.race).name << '\n';
-        printBorder(130);
+        printBorder();
         printAttributes(hero.attributes);
-        printBorder(130);
+        printBorder();
         printSpecialties(hero.specialties);
-        printBorder(130);
+        printBorder();
         if (hero.abilities.size() > 0)
         {
             printHeroAbilities(hero.abilities);
         }
-        printBorder(130);
+        printBorder();
         printFullPhysicalDamage(hero);
-        printBorder(130);
+        printBorder();
         printHeroInventory(hero.inventory);
-        printBorder(130);
+        printBorder();
     }
 
     void printListOfHeroes(const std::vector<Hero> &heroes)
@@ -406,7 +407,7 @@ namespace Utils
         std::cout << '\n';
     }
 
-    uint32_t getInput()
+    auto getInput() -> uint32_t
     {
         uint32_t result = 0;
 
@@ -451,7 +452,7 @@ namespace Utils
         return result;
     }
 
-    uint32_t slider(std::function<void()> redrawFunction, const uint32_t min, const uint32_t max)
+    auto slider(const std::function<void()> &redrawFunction, const uint32_t min, const uint32_t max) -> uint32_t
     {
         uint32_t result = min;
 
@@ -474,7 +475,7 @@ namespace Utils
 
             std::cout << ss.str();
 
-            uint32_t c;
+            uint32_t c = 0;
             switch ((c = getInput()))
             {
                 case KEY_LEFT:
@@ -491,7 +492,7 @@ namespace Utils
                         result = max;
                     }
                     break;
-                case KEY_ENTER: finished = true; break;
+                case KEY_ENTER:
                 case KEY_ENTER_LF: finished = true; break;
                 default: break;
             }
@@ -500,7 +501,7 @@ namespace Utils
         return result;
     }
 
-    uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list)
+    auto pickOptionFromList(const std::function<void()> &redrawFunction, const std::vector<std::string> &list) -> uint32_t
     {
         uint32_t selected = 0;
 
@@ -536,7 +537,7 @@ namespace Utils
             setCursorPosition(0, y);
             std::cout << ss.str();
 
-            uint32_t c;
+            uint32_t c = 0;
             switch ((c = getInput()))
             {
                 case KEY_UP:
@@ -554,7 +555,7 @@ namespace Utils
                         selected = 0;
                     }
                     break;
-                case KEY_ENTER: finished = true; break;
+                case KEY_ENTER:
                 case KEY_ENTER_LF: finished = true; break;
                 default: break;
             }
@@ -563,7 +564,7 @@ namespace Utils
         return selected;
     }
 
-    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute)
+    auto pointsDistributionMenu(const std::function<void()> &redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute) -> std::pair<std::vector<uint32_t>, uint32_t>
     {
         uint32_t row = 0;
 
@@ -613,7 +614,7 @@ namespace Utils
                 {
                     ss << "  ";
                 }
-                ss << std::left << std::setw(15) << name;
+                ss << std::left << std::setw(15) << name; // NOLINT
                 if (i == row)
                 {
                     ss << COLOR_END;
@@ -629,7 +630,7 @@ namespace Utils
             setCursorPosition(0, y);
             std::cout << ss.str();
 
-            uint32_t c;
+            uint32_t c = 0;
             switch ((c = getInput()))
             {
                 case KEY_UP:
@@ -676,7 +677,7 @@ namespace Utils
                     availablePoints--;
                     break;
                 }
-                case KEY_ENTER: finished = true; break;
+                case KEY_ENTER:
                 case KEY_ENTER_LF: finished = true; break;
                 default: break;
             }
@@ -694,7 +695,7 @@ namespace Utils
 #endif
     }
 
-    std::string trim(std::string s)
+    auto trim(const std::string &s) -> std::string
     {
         // remove leading and trailing spaces
         std::regex e("^\\s+|\\s+$");
@@ -709,7 +710,7 @@ namespace Utils
         std::cout << "---=== Main menu ===---\n";
     }
 
-    bool askConfirmation(const std::string &question)
+    auto askConfirmation(const std::string &question) -> bool
     {
         std::cout << question << " (Y or n): ";
 
@@ -718,15 +719,9 @@ namespace Utils
 
         switch ((c = getInput()))
         {
-            case 89:  // y
-                result = true;
-                break;
-            case 121:  // Y
-                result = true;
-                break;
+            case 89:            // y // NOLINT
+            case 121:           // Y // NOLINT
             case KEY_ENTER_LF:  // Line Feed
-                result = true;
-                break;
             case KEY_ENTER: result = true; break;
             default: break;
         }
@@ -748,26 +743,26 @@ namespace Utils
         }
     }
 
-    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
+    auto createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture) -> std::function<void()>
     {
         auto prompt = [who, what, picture]()
         {
-            printBorder(130);
+            printBorder();
             std::cout << "|" << COLOR_GREEN << who << COLOR_END << '\n';
-            printBorder(130);
+            printBorder();
             std::cout << Utils::COLOR_GREEN;
             std::cout << picture;
             std::cout << Utils::COLOR_END;
-            printBorder(130);
+            printBorder();
             std::cout << "|\n";
             std::cout << "| " << Utils::COLOR_GREY << who << ": " << Utils::COLOR_END << what << '\n';
             std::cout << "|\n";
-            printBorder(130);
+            printBorder();
         };
         return prompt;
     }
 
-    const std::string enterName()
+    auto enterName() -> const std::string
     {
         newLine();
         std::string name = "";
@@ -775,16 +770,18 @@ namespace Utils
         std::cout << "Name: ";
         std::cin >> name;
 
+        static constexpr auto ignoreSize = 256;
+
         while (name == "" || trim(name) == "" || name.length() < 1 || std::cin.fail())
         {
             std::cin.clear();
-            std::cin.ignore(256, '\n');
+            std::cin.ignore(ignoreSize, '\n');
             std::cout << "Name: ";
             std::cin >> name;
         }
 
         std::cin.clear();
-        std::cin.ignore(256, '\n');
+        std::cin.ignore(ignoreSize, '\n');
 
         return trim(name);
     }
@@ -801,7 +798,7 @@ namespace Utils
         std::cout << ss.str();
     }
 
-    uint32_t getCursorPosition()
+    auto getCursorPosition() -> uint32_t
     {
 #if defined _WIN32
         static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -820,7 +817,7 @@ namespace Utils
 #if defined _WIN32
         static const HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
         std::cout.flush();
-        COORD coord = { (SHORT)x, (SHORT)y };
+        COORD coord = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
         SetConsoleCursorPosition(hOut, coord);
 #else
         std::cout << "\033[u";

@@ -8,8 +8,8 @@
 
 namespace CharacterCreator
 {
-    static constexpr uint32_t STARTING_ATTRIBUTE_POINTS = 2;
-    static constexpr uint32_t STARTING_SPECIALTY_POINTS = 2;
+    static constexpr uint32_t kStartingAttributePoints = 2;
+    static constexpr uint32_t kStartingSpecialtyPoints = 2;
 
     const Inventory basicInventory{ {}, { { "Torso", 7 }, { "Legs", 8 } } };
 
@@ -38,13 +38,13 @@ namespace CharacterCreator
 
     static constexpr std::array<uint32_t, 7> startingItems{ 0, 1, 2, 3, 4, 5, 6 };
 
-    std::vector<Hero> createHeroes();
+    auto createHeroes() -> std::vector<Hero>;
 
-    Hero pickHeroRace(const std::string &name);
+    auto pickHeroRace(const std::string &name) -> Hero;
 
-    const std::string pickStartingAbility();
+    auto pickStartingAbility() -> const std::string;
 
-    uint32_t pickStartingItem(const Attributes &attributes);
+    auto pickStartingItem(const Attributes &attributes) -> uint32_t;
 }  // namespace CharacterCreator
 
 #endif

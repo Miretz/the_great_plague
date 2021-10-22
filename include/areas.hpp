@@ -10,19 +10,19 @@ struct GameState;
 
 namespace Areas
 {
-    static constexpr auto AREA_FOLDER = "assets/areas/";
-    static constexpr auto DESC_FILE = "/description.txt";
-    static constexpr auto IMAGE_FILE = "/image.txt";
+    static constexpr auto kAreaFolder = "assets/areas/";
+    static constexpr auto kDescriptionFile = "/description.txt";
+    static constexpr auto kImageFile = "/image.txt";
 
-    static constexpr auto f_danseaConfig = "assets/characters/dansea/dansea.txt";
-    static constexpr auto f_danseaPicture = "assets/characters/dansea/dansea_image.txt";
-    static constexpr auto f_danseaIntro = "assets/characters/dansea/dansea_introduction.txt";
+    static constexpr auto kDanseaConfigFile = "assets/characters/dansea/dansea.txt";
+    static constexpr auto kDanseaPictureFile = "assets/characters/dansea/dansea_image.txt";
+    static constexpr auto kDanseaIntroFile = "assets/characters/dansea/dansea_introduction.txt";
 
-    static constexpr auto propertyDanseaLocation = "danseaLocation";
-    static constexpr auto f_danseaConversation = "assets/areas/01_shore/conversation.txt";
+    static constexpr auto kDanseaLocationGameProperty = "danseaLocation";
+    static constexpr auto kDanseaConversationFile = "assets/areas/01_shore/conversation.txt";
 
-    static constexpr auto f_innkeeperPicture = "assets/areas/04_inn/image.txt";
-    static constexpr auto f_innkeeperConversation = "assets/areas/04_inn/conversation.txt";
+    static constexpr auto kInnkeeperPictureFile = "assets/areas/04_inn/image.txt";
+    static constexpr auto kInnkeeperConversationFile = "assets/areas/04_inn/conversation.txt";
 
     struct Area
     {

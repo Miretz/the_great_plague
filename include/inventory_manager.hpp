@@ -3,15 +3,18 @@
 #define inventory_manager_hpp
 
 #include <array>
+#include <optional>
 #include <string>
 #include <vector>
-#include <optional>
 
 struct Hero;
 struct Item;
 
 namespace InventoryManager
 {
+    static constexpr auto kDualWieldPenalty = 0.25;
+    static constexpr auto kEmptyHandsDamage = 5;
+
     enum class EquipmentSlot
     {
         MainHand = 0,
@@ -36,23 +39,23 @@ namespace InventoryManager
 
     void equipItem(Hero &hero, const uint32_t itemId, const EquipmentSlot slot);
 
-    const std::vector<uint32_t> equipableInHand(const Hero &hero, const EquipmentSlot slot);
+    auto equipableInHand(const Hero &hero, const EquipmentSlot slot) -> const std::vector<uint32_t>;
 
-    std::optional<std::string> getEquippedItemName(const Hero &hero, const EquipmentSlot slot);
+    auto getEquippedItemName(const Hero &hero, const EquipmentSlot slot) -> std::optional<std::string>;
 
-    std::optional<EquipmentSlot> selectSlot(const Hero &hero);
+    auto selectSlot(const Hero &hero) -> std::optional<EquipmentSlot>;
 
     void selectEquipment(Hero &hero);
 
     void selectPartyEquipment(std::vector<Hero> &heroes);
 
-    uint32_t getEquippedArmorValue(const Hero &hero);
+    auto getEquippedArmorValue(const Hero &hero) -> uint32_t;
 
-    uint32_t getEquippedDamageValue(const Hero &hero);
+    auto getEquippedDamageValue(const Hero &hero) -> uint32_t;
 
-    std::string getEquipmentSlotName(const EquipmentSlot eSlot);
+    auto getEquipmentSlotName(const EquipmentSlot eSlot) -> std::string;
 
-    uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero);
+    auto getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero) -> uint32_t;
 }  // namespace InventoryManager
 
 #endif

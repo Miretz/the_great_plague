@@ -5,7 +5,7 @@
 #include "files.hpp"
 #include "utils.hpp"
 
-int main(void)
+auto main() -> int
 {
     Utils::maximizeConsole();
     

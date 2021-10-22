@@ -14,7 +14,7 @@
 
 namespace CombatSystem
 {
-    Combat prepare(std::vector<Hero> heroes, std::vector<Hero> enemies)
+    auto prepare(std::vector<Hero> heroes, std::vector<Hero> enemies) -> Combat
     {
         // shuffle heroes and enemies
         std::random_device rd;
@@ -46,30 +46,30 @@ namespace CombatSystem
         for (auto &h : combat.turnQueue)
         {
             h.actionPoints += 3;
-            if (h.actionPoints > 6)
+            if (h.actionPoints > kMaxActionPoints)
             {
-                h.actionPoints = 6;
+                h.actionPoints = kMaxActionPoints;
             }
         }
     }
 
-    bool isAnyFriendlyAlive(Combat &combat)
+    auto isAnyFriendlyAlive(Combat &combat) -> bool
     {
-        auto isFriendly = [](Hero h)
+        auto isFriendly = [](const Hero &h)
         { return h.controller == Controller::Player || h.controller == Controller::AI_Friendly; };
 
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isFriendly) != combat.turnQueue.end();
     }
 
-    bool isAnyEnemyAlive(Combat &combat)
+    auto isAnyEnemyAlive(Combat &combat) -> bool
     {
-        auto isEnemy = [](Hero h)
+        auto isEnemy = [](const Hero &h)
         { return h.controller == Controller::AI_Enemy; };
 
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isEnemy) != combat.turnQueue.end();
     }
 
-    bool isInvisible(const Hero &hero)
+    auto isInvisible(const Hero &hero) -> bool
     {
         return std::any_of(
             hero.statusEffects.cbegin(),
@@ -80,7 +80,7 @@ namespace CombatSystem
 
     void cleanTurnQueue(Combat &combat)
     {
-        auto isDead = [](Hero h)
+        auto isDead = [](const Hero &h)
         { return h.health == 0; };
 
         for (const auto &h : combat.turnQueue)
@@ -102,7 +102,7 @@ namespace CombatSystem
             std::remove_if(combat.turnQueue.begin(), combat.turnQueue.end(), isDead), combat.turnQueue.end());
     }
 
-    bool startCombat(const std::vector<Hero>& heroes, const std::vector<Hero> &enemies)
+    auto startCombat(const std::vector<Hero> &heroes, const std::vector<Hero> &enemies) -> bool
     {
         auto combat = prepare(heroes, enemies);
 
@@ -125,7 +125,7 @@ namespace CombatSystem
                     Utils::printCombatHeroHeader(combat.turnQueue[i]);
                 }
             }
-            Utils::printBorder(130);
+            Utils::printBorder();
             if (combat.currentHero != 0)
             {
                 for (uint32_t i = 0; i < combat.currentHero; ++i)
@@ -294,17 +294,18 @@ namespace CombatSystem
     void basicAttack(Hero &hero, Hero &target)
     {
         auto d20Result = Dice::rollDice(Dice::D20);
-        bool critical = d20Result == 20;
+        const bool critical = d20Result == 20;
 
         auto damageValue = InventoryManager::getEquippedDamageValue(hero);
 
+        static constexpr auto randomDamageValue = 5;
         if (critical)  // critical always double damage
         {
             damageValue = damageValue * 2;
         }
-        else if (damageValue > 5)  // non-critical above 5 will get a random small penalty
+        else if (damageValue > randomDamageValue)
         {
-            damageValue -= Dice::randomSelection(0, 5);
+            damageValue -= Dice::randomSelection(0, randomDamageValue);
         }
 
         auto oldHeroHP = hero.health;
@@ -332,7 +333,7 @@ namespace CombatSystem
 
         Characters::takeDamage(target, damageValue);
 
-        auto description = critical ? "Critical Hit" : "Basic Attack";
+        const std::string description = critical ? "Critical Hit" : "Basic Attack";  // NOLINT
 
         printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, description);
     }
@@ -381,7 +382,7 @@ namespace CombatSystem
         }
     }
 
-    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId)
+    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId) -> std::vector<uint32_t>
     {
         std::vector<uint32_t> targetable;
 
@@ -437,7 +438,6 @@ namespace CombatSystem
         return targetable;
     }
 
-    // TODO: extract to AI system later
     void executeHeroAITurn(Combat &combat)
     {
         auto &hero = combat.turnQueue[combat.currentHero];
@@ -603,9 +603,9 @@ namespace CombatSystem
                     validAbilityIds.push_back(abilityId);
                 }
             }
-            actions.push_back("Basic Attack (AP: 1)");
-            actions.push_back("Skip Turn");
-            actions.push_back("[Party] Flee from the fight");
+            actions.emplace_back("Basic Attack (AP: 1)");
+            actions.emplace_back("Skip Turn");
+            actions.emplace_back("[Party] Flee from the fight");
 
             const auto selection = Utils::pickOptionFromList(pickActionPrompt, actions);
 

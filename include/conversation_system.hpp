@@ -9,12 +9,12 @@ struct ConversationLine;
 
 namespace ConversationSystem
 {
-    static constexpr auto RESULT_POSITIVE = "end_yes";
-    static constexpr auto RESULT_NEGATIVE = "end_no";
+    static constexpr auto kConversationResultPositive = "end_yes";
+    static constexpr auto kConversationResultNegative = "end_no";
     
-    std::string start(const std::string &picture, const std::string &conversationFilePath);
+    auto start(const std::string &picture, const std::string &conversationFilePath) -> std::string;
 
-    std::unordered_map<std::string, ConversationLine> loadConversation(const std::string &conversationFilePath);
+    auto loadConversation(const std::string &conversationFilePath) -> std::unordered_map<std::string, ConversationLine>;
 }  // namespace ConversationSystem
 
 #endif

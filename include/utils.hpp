@@ -35,9 +35,12 @@ namespace Utils
     static constexpr char KEY_ENTER_LF = '\n';
 #endif
 
+    static constexpr auto kPaddingLeft = 16;
+    static constexpr auto kPaddingRight = 6;
+
     void maximizeConsole();
 
-    const std::string addPlus(uint32_t value);
+    auto addPlus(uint32_t value) -> const std::string;
 
     void printAttributes(const Attributes &attributes);
 
@@ -49,11 +52,11 @@ namespace Utils
 
     void printHeroAbilities(const std::vector<std::string> &abilities);
 
-    const std::string getItemString(const uint32_t a, bool describe);
+    auto getItemString(const uint32_t a, bool describe) -> const std::string;
 
-    const std::string getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped);
+    auto getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped) -> const std::string;
 
-    const std::string getBackpack(const std::vector<uint32_t> &backpack);
+    auto getBackpack(const std::vector<uint32_t> &backpack) -> const std::string;
 
     void printHeroInventory(const Inventory &inventory);
 
@@ -65,7 +68,7 @@ namespace Utils
 
     void printBorderedTextWithColor(const std::string &text, const std::string &color);
 
-    const std::string colorize(const std::string &text, const std::string &color);
+    auto colorize(const std::string &text, const std::string &color) -> const std::string;
 
     void printSpacedText(const std::string &text);
 
@@ -75,7 +78,7 @@ namespace Utils
 
     void newLine();
 
-    const std::string getFullPhysicalDamage(const Hero &hero);
+    auto getFullPhysicalDamage(const Hero &hero) -> const std::string;
 
     void printFullPhysicalDamage(const Hero &hero);
 
@@ -83,33 +86,33 @@ namespace Utils
 
     void printListOfHeroes(const std::vector<Hero> &heroes);
 
-    uint32_t slider(std::function<void()> redrawFunction, const uint32_t min, const uint32_t max);
+    auto slider(const std::function<void()> &redrawFunction, const uint32_t min, const uint32_t max) -> uint32_t;
 
-    uint32_t pickOptionFromList(std::function<void()> redrawFunction, const std::vector<std::string> &list);
+    auto pickOptionFromList(const std::function<void()> &redrawFunction, const std::vector<std::string> &list) -> uint32_t;
 
-    std::pair<std::vector<uint32_t>, uint32_t> pointsDistributionMenu(std::function<void()> redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute);
+    auto pointsDistributionMenu(const std::function<void()> &redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute) -> std::pair<std::vector<uint32_t>, uint32_t>;
 
     void clearScreen();
 
-    std::string trim(std::string s);
+    auto trim(const std::string &s) -> std::string;
 
     void printIntro();
 
-    bool askConfirmation(const std::string &question);
+    auto askConfirmation(const std::string &question) -> bool;
 
     void pressEnterToContinue();
 
-    std::function<void()> createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture);
+    auto createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture) -> std::function<void()>;
 
-    const std::string enterName();
+    auto enterName() -> const std::string;
 
-    void printBorder(const uint32_t length);
+    void printBorder(const uint32_t length = 130);
 
-    uint32_t getCursorPosition();
+    auto getCursorPosition() -> uint32_t;
 
     void setCursorPosition(const uint32_t x, const uint32_t y);
 
-    uint32_t getInput();
+    auto getInput() -> uint32_t;
 
 }  // namespace Utils
 

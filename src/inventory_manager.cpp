@@ -119,7 +119,7 @@ namespace InventoryManager
         }
     }
 
-    const std::vector<uint32_t> equipableInHand(const Hero &hero, const EquipmentSlot slot)
+    auto equipableInHand(const Hero &hero, const EquipmentSlot slot) -> const std::vector<uint32_t>
     {
         std::vector<uint32_t> equipable;
 
@@ -142,19 +142,11 @@ namespace InventoryManager
                     equipable.push_back(itemId);
                 }
             }
-            else if (slot == EquipmentSlot::Gloves && itemType == ItemType::Armor_Gloves)
-            {
-                equipable.push_back(itemId);
-            }
-            else if (slot == EquipmentSlot::Torso && itemType == ItemType::Armor_Torso)
-            {
-                equipable.push_back(itemId);
-            }
-            else if (slot == EquipmentSlot::Legs && itemType == ItemType::Armor_Legs)
-            {
-                equipable.push_back(itemId);
-            }
-            else if (slot == EquipmentSlot::Head && itemType == ItemType::Armor_Head)
+            else if (
+                (slot == EquipmentSlot::Gloves && itemType == ItemType::Armor_Gloves) ||
+                (slot == EquipmentSlot::Torso && itemType == ItemType::Armor_Torso) ||
+                (slot == EquipmentSlot::Legs && itemType == ItemType::Armor_Legs) ||
+                (slot == EquipmentSlot::Head && itemType == ItemType::Armor_Head))
             {
                 equipable.push_back(itemId);
             }
@@ -163,7 +155,7 @@ namespace InventoryManager
         return equipable;
     }
 
-    std::optional<std::string> getEquippedItemName(const Hero &hero, const EquipmentSlot slot)
+    auto getEquippedItemName(const Hero &hero, const EquipmentSlot slot) -> std::optional<std::string>
     {
         const auto &slotName = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
@@ -174,7 +166,7 @@ namespace InventoryManager
         return std::nullopt;
     }
 
-    std::optional<EquipmentSlot> selectSlot(const Hero &hero)
+    auto selectSlot(const Hero &hero) -> std::optional<EquipmentSlot>
     {
         const auto &heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
         const auto &heroBackpack = Utils::getBackpack(hero.inventory.backpack);
@@ -185,19 +177,19 @@ namespace InventoryManager
             Utils::printHeroHeader(hero.name, hero.level);
             std::cout << "|"
                       << "Inventory\n";
-            Utils::printBorder(130);
+            Utils::printBorder();
             std::cout << heroEquipped;
             std::cout << heroBackpack;
-            Utils::printBorder(130);
+            Utils::printBorder();
             std::cout << fullDamage;
-            Utils::printBorder(130);
+            Utils::printBorder();
             std::cout << "\n\n";
             std::cout << "\nPick a slot to edit:\n\n";
         };
 
         std::vector<std::string> slotMenu;
         std::copy(equipmentSlotNames.begin(), equipmentSlotNames.end(), std::back_inserter(slotMenu));
-        slotMenu.push_back("Exit");
+        slotMenu.emplace_back("Exit");
 
         const auto selection = Utils::pickOptionFromList(prompt, slotMenu);
         if (selection == slotMenu.size() - 1)
@@ -220,12 +212,14 @@ namespace InventoryManager
             std::transform(
                 heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h)
                 { return h.name; });
-            menu.push_back("Print Character Sheet");
-            menu.push_back("Exit");
+            menu.emplace_back("Print Character Sheet");
+            menu.emplace_back("Exit");
 
-            const auto selection = Utils::pickOptionFromList([]()
-                                                             { Utils::printBorderedText("Manage inventory of:"); },
-                                                             menu);
+            const auto selection = Utils::pickOptionFromList(
+                []()
+                { Utils::printBorderedText("Manage inventory of:"); },
+                menu);
+
             if (selection < menu.size() - 2)
             {
                 auto &hero = heroes[selection];
@@ -266,13 +260,13 @@ namespace InventoryManager
             std::vector<std::string> actions;
             if (canUnequip)
             {
-                actions.push_back("Unequip");
+                actions.emplace_back("Unequip");
             }
             if (canEquip)
             {
-                actions.push_back("Equip");
+                actions.emplace_back("Equip");
             }
-            actions.push_back("Back");
+            actions.emplace_back("Back");
 
             const auto &heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
             const auto &heroBackpack = Utils::getBackpack(hero.inventory.backpack);
@@ -283,12 +277,12 @@ namespace InventoryManager
                 Utils::printHeroHeader(hero.name, hero.level);
                 std::cout << "|"
                           << "Inventory\n";
-                Utils::printBorder(130);
+                Utils::printBorder();
                 std::cout << heroEquipped;
                 std::cout << heroBackpack;
-                Utils::printBorder(130);
+                Utils::printBorder();
                 std::cout << "|Manage slot: " << slotName << '\n';
-                Utils::printBorder(130);
+                Utils::printBorder();
                 std::cout << "\n\n";
                 std::cout << "Pick action:\n\n";
             };
@@ -324,7 +318,7 @@ namespace InventoryManager
         }
     }
 
-    uint32_t getEquippedArmorValue(const Hero &hero)
+    auto getEquippedArmorValue(const Hero &hero) -> uint32_t
     {
         uint32_t value = 0;
 
@@ -347,7 +341,7 @@ namespace InventoryManager
         return value;
     }
 
-    uint32_t getEquippedDamageValue(const Hero &hero)
+    auto getEquippedDamageValue(const Hero &hero) -> uint32_t
     {
         uint32_t value = 0;
 
@@ -386,8 +380,9 @@ namespace InventoryManager
                 value += getPrimaryAttributeValueFromHero(mainItem, hero);
 
                 // dual wielding penalty on the offhand weapon
+                static constexpr auto division = 2.0;
                 value += static_cast<uint32_t>(std::ceil(
-                    static_cast<double>(offItem.damage) / 2.0 + 0.25 * static_cast<double>(hero.specialties.dualWielding)));
+                    static_cast<double>(offItem.damage) / division + kDualWieldPenalty * static_cast<double>(hero.specialties.dualWielding)));
             }
             // sword + shield and other combinations
             else
@@ -421,28 +416,28 @@ namespace InventoryManager
         // you can still do some damage with empty hands
         if (value == 0)
         {
-            value += 5;
+            value += kEmptyHandsDamage;
         }
 
         return value;
     }
 
-    std::string getEquipmentSlotName(const EquipmentSlot eSlot)
+    auto getEquipmentSlotName(const EquipmentSlot eSlot) -> std::string
     {
         switch (eSlot)
         {
-            case EquipmentSlot::MainHand: return equipmentSlotNames[0];
-            case EquipmentSlot::Offhand: return equipmentSlotNames[1];
-            case EquipmentSlot::Torso: return equipmentSlotNames[2];
-            case EquipmentSlot::Head: return equipmentSlotNames[3];
-            case EquipmentSlot::Legs: return equipmentSlotNames[4];
-            case EquipmentSlot::Gloves: return equipmentSlotNames[5];
+            case EquipmentSlot::MainHand: return equipmentSlotNames[0];  // NOLINT
+            case EquipmentSlot::Offhand: return equipmentSlotNames[1];   // NOLINT
+            case EquipmentSlot::Torso: return equipmentSlotNames[2];     // NOLINT
+            case EquipmentSlot::Head: return equipmentSlotNames[3];      // NOLINT
+            case EquipmentSlot::Legs: return equipmentSlotNames[4];      // NOLINT
+            case EquipmentSlot::Gloves: return equipmentSlotNames[5];    // NOLINT
         }
 
         throw std::invalid_argument("Recieved a wrong EquipmentSlot value");
     }
 
-    uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero)
+    auto getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero) -> uint32_t
     {
         static constexpr uint32_t scaleDownBy = 9;
 
@@ -451,7 +446,7 @@ namespace InventoryManager
             case PrimaryAttribute::Strength: return hero.attributes.strength - scaleDownBy;
             case PrimaryAttribute::Dexterity: return hero.attributes.dexterity - scaleDownBy;
             case PrimaryAttribute::Intelligence: return hero.attributes.intelligence - scaleDownBy;
-            case PrimaryAttribute::None: return 0;
+            case PrimaryAttribute::None:
             default: return 0;
         }
     }

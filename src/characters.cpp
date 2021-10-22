@@ -10,8 +10,8 @@ namespace Characters
     void levelUp(Hero &hero)
     {
         hero.level += 1;
-        hero.unspentAttributePoints += ATTRIBUTE_POINTS_PER_LEVEL;
-        hero.unspentSpecialtyPoints += SPECIALTY_POINTS_PER_LEVEL;
+        hero.unspentAttributePoints += kAttributePointsPerLevel;
+        hero.unspentSpecialtyPoints += kSpecialtyPointsPerLevel;
         assignAttributePoints(hero);
         assignSpecialtyPoints(hero);
     }
@@ -73,9 +73,9 @@ namespace Characters
             Utils::printBorderedText("Unspent attribute points: " + std::to_string(availablePoints));
             Utils::printBorderedText("New attributes:");
 
-            Utils::printBorder(55);
+            Utils::printBorder(kAdjustmentBorderSize);
             Utils::printAttributesAdjustment(hero.attributes, attributes);
-            Utils::printBorder(55);
+            Utils::printBorder(kAdjustmentBorderSize);
 
             if (Utils::askConfirmation("\nDo you accept the new attributes?"))
             {
@@ -133,7 +133,7 @@ namespace Characters
 
             auto results = distributedPoints.first;
 
-            Specialties specialties{ results[0], results[1], results[2], results[3], results[4], results[5], results[6], results[7], results[8] };
+            Specialties specialties{ results[0], results[1], results[2], results[3], results[4], results[5], results[6], results[7], results[8] };  //NOLINT
 
             availablePoints = distributedPoints.second;
 
@@ -141,9 +141,9 @@ namespace Characters
             Utils::printBorderedText("Unspent specialty points: " + std::to_string(availablePoints));
             Utils::printBorderedText("New specialties:");
 
-            Utils::printBorder(55);
+            Utils::printBorder(kAdjustmentBorderSize);
             Utils::printSpecialtiesAdjustment(hero.specialties, specialties);
-            Utils::printBorder(55);
+            Utils::printBorder(kAdjustmentBorderSize);
 
             if (Utils::askConfirmation("\nDo you accept the new attributes?"))
             {
@@ -156,7 +156,7 @@ namespace Characters
 
     void recalculateHeroHealth(Hero &hero)
     {
-        auto newValue = (hero.attributes.constitution * HEALTH_PER_VITALITY_POINT) + ((hero.level - 1) * HEALTH_PER_LEVEL);
+        auto newValue = (hero.attributes.constitution * kVitalityPerPoint) + ((hero.level - 1) * kHealthPerLevel);
         hero.health = newValue;
         hero.maxHealth = newValue;
     }
@@ -186,7 +186,7 @@ namespace Characters
         }
     }
 
-    bool isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes)
+    auto isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes) -> bool
     {
         return std::any_of(heroes.cbegin(), heroes.cend(), [name](const auto &hero)
                            { return hero.name == name; });

@@ -37,12 +37,12 @@ namespace Areas
             [](uint32_t t) -> std::string
             { return "Go to " + allAreas[t].name; });
 
-        menu.push_back("Open Inventory");
-        menu.push_back("Exit");
+        menu.emplace_back("Open Inventory");
+        menu.emplace_back("Exit");
 
         // print the area text and navigation menu
-        const auto areaDescription = Files::loadFile(AREA_FOLDER + area.folder + DESC_FILE);
-        const auto areaImage = Files::loadFile(AREA_FOLDER + area.folder + IMAGE_FILE);
+        const auto areaDescription = Files::loadFile(kAreaFolder + area.folder + kDescriptionFile);
+        const auto areaImage = Files::loadFile(kAreaFolder + area.folder + kImageFile);
         auto prompt = [&]()
         {
             Utils::printBorderedText(area.name);
@@ -70,26 +70,26 @@ namespace Areas
 
     void t01_shore_DanseaConversation(GameState &gameState)
     {
-        if (gameState.stateInfo[propertyDanseaLocation] == 1 || gameState.stateInfo[propertyDanseaLocation] == 2)
+        if (gameState.stateInfo[kDanseaLocationGameProperty] == 1 || gameState.stateInfo[kDanseaLocationGameProperty] == 2)
         {
             // she is with me or in the city
             return;
         }
 
-        Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
+        Hero dansea = Files::loadHeroFromConfig(kDanseaConfigFile);
 
-        const auto danseaPicture = Files::loadFile(f_danseaPicture);
-        const auto danseaIntro = Files::loadFile(f_danseaIntro);
+        const auto danseaPicture = Files::loadFile(kDanseaPictureFile);
+        const auto danseaIntro = Files::loadFile(kDanseaIntroFile);
         Utils::printArea(danseaPicture, danseaIntro);
         Utils::newLine();
 
         Utils::pressEnterToContinue();
         Utils::clearScreen();
 
-        const auto conversationResult = ConversationSystem::start(danseaPicture, f_danseaConversation);
+        const auto conversationResult = ConversationSystem::start(danseaPicture, kDanseaConversationFile);
 
         Utils::clearScreen();
-        if (conversationResult == ConversationSystem::RESULT_POSITIVE)
+        if (conversationResult == ConversationSystem::kConversationResultPositive)
         {
             if (gameState.heroes.size() == 4)  // Party is full
             {
@@ -99,14 +99,14 @@ namespace Areas
                     "Looks like you already have enough people with you. Maybe you can find me later in the city. (Dansea "
                     "leaves the area)",
                     danseaPicture)();
-                gameState.stateInfo[propertyDanseaLocation] = 2;
+                gameState.stateInfo[kDanseaLocationGameProperty] = 2;
                 Utils::newLine();
                 Utils::pressEnterToContinue();
             }
             else
             {
                 gameState.heroes.push_back(dansea);
-                gameState.stateInfo[propertyDanseaLocation] = 1;
+                gameState.stateInfo[kDanseaLocationGameProperty] = 1;
                 Utils::clearScreen();
                 Utils::printBorderedText("Dansea has joined your party.");
                 Utils::printHero(dansea);
@@ -119,7 +119,7 @@ namespace Areas
             Utils::clearScreen();
             Utils::createConversationPrompt(
                 dansea.name, "In that case, I'll see you around. (Dansea leaves the area)", danseaPicture)();
-            gameState.stateInfo[propertyDanseaLocation] = 2;
+            gameState.stateInfo[kDanseaLocationGameProperty] = 2;
             Utils::newLine();
             Utils::pressEnterToContinue();
         }
@@ -184,24 +184,24 @@ namespace Areas
 
     void t04_inkeeperConversation(GameState &gameState)
     {
-        const auto areaImage = Files::loadFile(f_innkeeperPicture);
-        const auto areaDescription = Files::loadFile(AREA_FOLDER + allAreas[gameState.areaId].folder + DESC_FILE);
+        const auto areaImage = Files::loadFile(kInnkeeperPictureFile);
+        const auto areaDescription = Files::loadFile(kAreaFolder + allAreas[gameState.areaId].folder + kDescriptionFile);
         Utils::printArea(areaImage, areaDescription);
         Utils::newLine();
 
         if (Utils::askConfirmation("Do you want to talk with the Innkeeper?"))
         {
             Utils::clearScreen();
-            ConversationSystem::start(areaImage, f_innkeeperConversation);
+            ConversationSystem::start(areaImage, kInnkeeperConversationFile);
         }
 
         Utils::newLine();
         Utils::newLine();
-        if (gameState.stateInfo.at(propertyDanseaLocation) == 2 && Utils::askConfirmation("Dansea is also here. Do you want to recruit her?"))
+        if (gameState.stateInfo.at(kDanseaLocationGameProperty) == 2 && Utils::askConfirmation("Dansea is also here. Do you want to recruit her?"))
         {
-            Hero dansea = Files::loadHeroFromConfig(f_danseaConfig);
+            Hero dansea = Files::loadHeroFromConfig(kDanseaConfigFile);
             gameState.heroes.push_back(dansea);
-            gameState.stateInfo[propertyDanseaLocation] = 1;
+            gameState.stateInfo[kDanseaLocationGameProperty] = 1;
             Utils::clearScreen();
             Utils::printBorderedText("Dansea has joined your party.");
             Utils::printHero(dansea);

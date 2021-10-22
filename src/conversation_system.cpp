@@ -8,7 +8,7 @@
 
 namespace ConversationSystem
 {
-    std::string start(const std::string &picture, const std::string &conversationFilePath)
+    auto start(const std::string &picture, const std::string &conversationFilePath) -> std::string
     {
         const auto conversation = loadConversation(conversationFilePath);
         auto currentLine = conversation.at("start");
@@ -41,7 +41,7 @@ namespace ConversationSystem
         return result;
     }
 
-    std::unordered_map<std::string, ConversationLine> loadConversation(const std::string &conversationFilePath)
+    auto loadConversation(const std::string &conversationFilePath) -> std::unordered_map<std::string, ConversationLine>
     {
         const auto lines = Files::loadConversationFile(conversationFilePath);
 

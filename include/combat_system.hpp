@@ -11,19 +11,22 @@ struct Combat;
 
 namespace CombatSystem
 {
-    Combat prepare(std::vector<Hero> heroes, std::vector<Hero> enemies);
+
+    static constexpr auto kMaxActionPoints = 6;
+
+    auto prepare(std::vector<Hero> heroes, std::vector<Hero> enemies) -> Combat;
 
     void resetActionPoints(Combat &combat);
 
-    bool isAnyFriendlyAlive(Combat &combat);
+    auto isAnyFriendlyAlive(Combat &combat) -> bool;
 
-    bool isAnyEnemyAlive(Combat &combat);
+    auto isAnyEnemyAlive(Combat &combat) -> bool;
 
-    bool isInvisible(const Hero &hero);
+    auto isInvisible(const Hero &hero) -> bool;
 
     void cleanTurnQueue(Combat &combat);
 
-    bool startCombat(const std::vector<Hero>& heroes, const std::vector<Hero> &enemies);
+    auto startCombat(const std::vector<Hero> &heroes, const std::vector<Hero> &enemies) -> bool;
 
     void miss(Hero &hero, const Hero &target);
 
@@ -45,7 +48,7 @@ namespace CombatSystem
         const std::vector<Hero> &targets,
         const std::string &description);
 
-    std::vector<uint32_t> getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId);
+    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId) -> std::vector<uint32_t>;
 
     void executeHeroAITurn(Combat &combat);
 
