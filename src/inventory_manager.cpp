@@ -1,6 +1,9 @@
 #include "inventory_manager.hpp"
 
 #include <iostream>
+#include <iterator>
+#include <optional>
+#include <stdexcept>
 
 #include "dice.hpp"
 #include "entities.hpp"
@@ -32,12 +35,12 @@ namespace InventoryManager
 
     void clearIfTwoHanded(Hero &hero)
     {
-        auto mainHand = getEquipmentSlotName(EquipmentSlot::MainHand);
-        auto offHand = getEquipmentSlotName(EquipmentSlot::Offhand);
+        const auto &mainHand = getEquipmentSlotName(EquipmentSlot::MainHand);
+        const auto &offHand = getEquipmentSlotName(EquipmentSlot::Offhand);
 
         if (hero.inventory.equipped.find(mainHand) != hero.inventory.equipped.end())
         {
-            auto equippedMainHandItem = g_AllItems[hero.inventory.equipped[mainHand]];
+            const auto &equippedMainHandItem = g_AllItems[hero.inventory.equipped[mainHand]];
             if (equippedMainHandItem.type == ItemType::Melee_TwoHanded ||
                 equippedMainHandItem.type == ItemType::Ranged_TwoHanded)
             {
@@ -55,17 +58,17 @@ namespace InventoryManager
             clearIfTwoHanded(hero);
         }
 
-        auto hand = getEquipmentSlotName(slot);
+        const auto &hand = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(hand) != hero.inventory.equipped.end())
         {
             addToBackpack(hero, hero.inventory.equipped[hand]);
         }
         hero.inventory.equipped[hand] = itemId;
 
-        auto item = g_AllItems[itemId];
+        const auto &item = g_AllItems[itemId];
         if (item.type == ItemType::Melee_TwoHanded || item.type == ItemType::Ranged_TwoHanded)
         {
-            auto offHand = getEquipmentSlotName(EquipmentSlot::Offhand);
+            const auto &offHand = getEquipmentSlotName(EquipmentSlot::Offhand);
             if (hero.inventory.equipped.find(offHand) != hero.inventory.equipped.end())
             {
                 addToBackpack(hero, hero.inventory.equipped[offHand]);
@@ -84,7 +87,7 @@ namespace InventoryManager
             clearIfTwoHanded(hero);
         }
 
-        auto slotName = getEquipmentSlotName(slot);
+        const auto &slotName = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
         {
             addToBackpack(hero, hero.inventory.equipped[slotName]);
@@ -95,7 +98,7 @@ namespace InventoryManager
     void equipItem(Hero &hero, const uint32_t itemId, const EquipmentSlot slot)
     {
         // Can't equip these types
-        auto item = g_AllItems[itemId];
+        const auto &item = g_AllItems[itemId];
         if (item.type == ItemType::Scroll || item.type == ItemType::Throwable || item.type == ItemType::Consumable)
         {
             addToBackpack(hero, itemId);
@@ -122,36 +125,36 @@ namespace InventoryManager
 
         for (auto itemId : hero.inventory.backpack)
         {
-            auto item = g_AllItems[itemId];
+            const auto itemType = g_AllItems[itemId].type;
             if (slot == EquipmentSlot::MainHand)
             {
-                if (item.type == ItemType::Melee_OneHanded || item.type == ItemType::Melee_TwoHanded ||
-                    item.type == ItemType::Ranged_OneHanded || item.type == ItemType::Ranged_TwoHanded)
+                if (itemType == ItemType::Melee_OneHanded || itemType == ItemType::Melee_TwoHanded ||
+                    itemType == ItemType::Ranged_OneHanded || itemType == ItemType::Ranged_TwoHanded)
                 {
                     equipable.push_back(itemId);
                 }
             }
             else if (slot == EquipmentSlot::Offhand)
             {
-                if (item.type == ItemType::Shield || item.type == ItemType::Melee_OneHanded ||
-                    item.type == ItemType::Ranged_OneHanded)
+                if (itemType == ItemType::Shield || itemType == ItemType::Melee_OneHanded ||
+                    itemType == ItemType::Ranged_OneHanded)
                 {
                     equipable.push_back(itemId);
                 }
             }
-            else if (slot == EquipmentSlot::Gloves && item.type == ItemType::Armor_Gloves)
+            else if (slot == EquipmentSlot::Gloves && itemType == ItemType::Armor_Gloves)
             {
                 equipable.push_back(itemId);
             }
-            else if (slot == EquipmentSlot::Torso && item.type == ItemType::Armor_Torso)
+            else if (slot == EquipmentSlot::Torso && itemType == ItemType::Armor_Torso)
             {
                 equipable.push_back(itemId);
             }
-            else if (slot == EquipmentSlot::Legs && item.type == ItemType::Armor_Legs)
+            else if (slot == EquipmentSlot::Legs && itemType == ItemType::Armor_Legs)
             {
                 equipable.push_back(itemId);
             }
-            else if (slot == EquipmentSlot::Head && item.type == ItemType::Armor_Head)
+            else if (slot == EquipmentSlot::Head && itemType == ItemType::Armor_Head)
             {
                 equipable.push_back(itemId);
             }
@@ -160,34 +163,24 @@ namespace InventoryManager
         return equipable;
     }
 
-    const std::string getEquippedItemName(const Hero &hero, const EquipmentSlot slot)
+    std::optional<std::string> getEquippedItemName(const Hero &hero, const EquipmentSlot slot)
     {
-        auto slotName = getEquipmentSlotName(slot);
+        const auto &slotName = getEquipmentSlotName(slot);
         if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
         {
-            auto item = g_AllItems[hero.inventory.equipped.at(slotName)];
-            return item.name;
+            return g_AllItems[hero.inventory.equipped.at(slotName)].name;
         }
 
-        return "Empty";
+        return std::nullopt;
     }
 
-    std::pair<bool, EquipmentSlot> selectSlot(const Hero &hero)
+    std::optional<EquipmentSlot> selectSlot(const Hero &hero)
     {
-        std::vector<EquipmentSlot> availableSlots{
-            EquipmentSlot::Head,
-            EquipmentSlot::Torso,
-            EquipmentSlot::Gloves,
-            EquipmentSlot::Legs,
-            EquipmentSlot::MainHand,
-            EquipmentSlot::Offhand,
-        };
+        const auto &heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
+        const auto &heroBackpack = Utils::getBackpack(hero.inventory.backpack);
+        const auto &fullDamage = Utils::getFullPhysicalDamage(hero);
 
-        auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
-        auto heroBackpack = Utils::getBackpack(hero.inventory.backpack);
-        auto fullDamage = Utils::getFullPhysicalDamage(hero);
-
-        auto prompt = [hero, heroEquipped, heroBackpack, fullDamage]()
+        const auto prompt = [hero, heroEquipped, heroBackpack, fullDamage]()
         {
             Utils::printHeroHeader(hero.name, hero.level);
             std::cout << "|"
@@ -203,25 +196,20 @@ namespace InventoryManager
         };
 
         std::vector<std::string> slotMenu;
-
-        for (size_t i = 0; i < availableSlots.size(); i++)
-        {
-            auto slotName = getEquipmentSlotName(availableSlots[i]);
-            slotMenu.push_back(slotName);
-        }
+        std::copy(equipmentSlotNames.begin(), equipmentSlotNames.end(), std::back_inserter(slotMenu));
         slotMenu.push_back("Exit");
 
-        auto selection = Utils::pickOptionFromList(prompt, slotMenu);
-        if (selection == availableSlots.size())
+        const auto selection = Utils::pickOptionFromList(prompt, slotMenu);
+        if (selection == slotMenu.size() - 1)
         {
-            return std::make_pair(false, EquipmentSlot::MainHand);
+            return std::nullopt;
         }
-        auto selectedSlot = availableSlots[selection];
+        const auto selectedSlot = static_cast<EquipmentSlot>(selection);
 
-        std::cout << "\nSelected slot " << getEquipmentSlotName(selectedSlot)
-                  << " (current: " << getEquippedItemName(hero, selectedSlot) << ")\n";
+        std::cout << "\nSelected slot " << slotMenu[selection]
+                  << " (current: " << getEquippedItemName(hero, selectedSlot).value_or("Empty") << ")\n";
 
-        return std::make_pair(true, selectedSlot);
+        return selectedSlot;
     }
 
     void selectPartyEquipment(std::vector<Hero> &heroes)
@@ -230,15 +218,14 @@ namespace InventoryManager
         {
             std::vector<std::string> menu;
             std::transform(
-                heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h) -> std::string
+                heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h)
                 { return h.name; });
-
             menu.push_back("Print Character Sheet");
             menu.push_back("Exit");
 
-            auto selection = Utils::pickOptionFromList([]()
-                                                       { Utils::printBorderedText("Manage inventory of:"); },
-                                                       menu);
+            const auto selection = Utils::pickOptionFromList([]()
+                                                             { Utils::printBorderedText("Manage inventory of:"); },
+                                                             menu);
             if (selection < menu.size() - 2)
             {
                 auto &hero = heroes[selection];
@@ -263,19 +250,17 @@ namespace InventoryManager
         {
             Utils::clearScreen();
 
-            auto selectedSlotTuple = selectSlot(hero);
-            if (!selectedSlotTuple.first)
+            const auto selectedSlotMaybe = selectSlot(hero);
+            if (!selectedSlotMaybe.has_value())
             {
                 break;
             }
-            auto selectedSlot = selectedSlotTuple.second;
+            const auto selectedSlot = selectedSlotMaybe.value();
 
-            // select the action
+            // check what we can equip
+            const auto listOfEquipable = equipableInHand(hero, selectedSlot);
 
-            // check if we can equip
-            auto listOfEquipable = equipableInHand(hero, selectedSlot);
-
-            bool canUnequip = getEquippedItemName(hero, selectedSlot) != "Empty";
+            bool canUnequip = getEquippedItemName(hero, selectedSlot).has_value();
             bool canEquip = listOfEquipable.size() > 0;
 
             std::vector<std::string> actions;
@@ -289,11 +274,11 @@ namespace InventoryManager
             }
             actions.push_back("Back");
 
-            auto heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
-            auto heroBackpack = Utils::getBackpack(hero.inventory.backpack);
-            auto slotName = getEquipmentSlotName(selectedSlot);
+            const auto &heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
+            const auto &heroBackpack = Utils::getBackpack(hero.inventory.backpack);
+            const auto &slotName = getEquipmentSlotName(selectedSlot);
 
-            auto prompt = [hero, heroEquipped, heroBackpack, slotName]()
+            const auto prompt = [hero, heroEquipped, heroBackpack, slotName]()
             {
                 Utils::printHeroHeader(hero.name, hero.level);
                 std::cout << "|"
@@ -308,7 +293,7 @@ namespace InventoryManager
                 std::cout << "Pick action:\n\n";
             };
 
-            auto selectedAction = actions[Utils::pickOptionFromList(prompt, actions)];
+            const auto &selectedAction = actions[Utils::pickOptionFromList(prompt, actions)];
 
             // execute the action
 
@@ -321,15 +306,14 @@ namespace InventoryManager
                 Utils::clearScreen();
 
                 std::vector<std::string> chooseWeapon;
-                for (size_t j = 0; j < listOfEquipable.size(); j++)
-                {
-                    chooseWeapon.push_back(Utils::getItemString(listOfEquipable[j], true));
-                }
+                std::transform(
+                    listOfEquipable.begin(), listOfEquipable.end(), std::back_inserter(chooseWeapon), [](const auto &e)
+                    { return Utils::getItemString(e, true); });
 
-                auto pickItemPrompt = []()
+                const auto pickItemPrompt = []()
                 { Utils::printBorderedText("Select equipment:"); };
-                auto itemSelection = Utils::pickOptionFromList(pickItemPrompt, chooseWeapon);
-                auto newItem = listOfEquipable[itemSelection];
+                const auto itemSelection = Utils::pickOptionFromList(pickItemPrompt, chooseWeapon);
+                const auto newItem = listOfEquipable[itemSelection];
 
                 equipItem(hero, newItem, selectedSlot);
             }
@@ -353,11 +337,10 @@ namespace InventoryManager
 
         for (auto slot : armorSlots)
         {
-            auto slotName = getEquipmentSlotName(slot);
+            const auto &slotName = getEquipmentSlotName(slot);
             if (hero.inventory.equipped.find(slotName) != hero.inventory.equipped.end())
             {
-                auto item = g_AllItems[hero.inventory.equipped.at(slotName)];
-                value += item.armor;
+                value += g_AllItems[hero.inventory.equipped.at(slotName)].armor;
             }
         }
 
@@ -369,18 +352,18 @@ namespace InventoryManager
         uint32_t value = 0;
 
         // handle main hand
-        auto mainHandSlot = getEquipmentSlotName(EquipmentSlot::MainHand);
-        auto offHandSlot = getEquipmentSlotName(EquipmentSlot::Offhand);
+        const auto &mainHandSlot = getEquipmentSlotName(EquipmentSlot::MainHand);
+        const auto &offHandSlot = getEquipmentSlotName(EquipmentSlot::Offhand);
 
         // check which slots are equipped
-        bool isMainHand = hero.inventory.equipped.find(mainHandSlot) != hero.inventory.equipped.end();
-        bool isOffHand = hero.inventory.equipped.find(offHandSlot) != hero.inventory.equipped.end();
+        const bool isMainHand = hero.inventory.equipped.find(mainHandSlot) != hero.inventory.equipped.end();
+        const bool isOffHand = hero.inventory.equipped.find(offHandSlot) != hero.inventory.equipped.end();
 
         // both hands are equipped
         if (isMainHand && isOffHand)
         {
-            auto mainItem = g_AllItems[hero.inventory.equipped.at(mainHandSlot)];
-            auto offItem = g_AllItems[hero.inventory.equipped.at(offHandSlot)];
+            const auto &mainItem = g_AllItems[hero.inventory.equipped.at(mainHandSlot)];
+            const auto &offItem = g_AllItems[hero.inventory.equipped.at(offHandSlot)];
 
             // if it's a two handed melee weapon
             if (mainItem.type == ItemType::Melee_TwoHanded)
@@ -419,7 +402,7 @@ namespace InventoryManager
         // only main hand is equipped
         else if (isMainHand)
         {
-            auto mainItem = g_AllItems[hero.inventory.equipped.at(mainHandSlot)];
+            const auto &mainItem = g_AllItems[hero.inventory.equipped.at(mainHandSlot)];
 
             value += mainItem.damage;
             value += getPrimaryAttributeValueFromHero(mainItem, hero);
@@ -428,7 +411,7 @@ namespace InventoryManager
         // only offhand is eqipped
         else if (isOffHand)
         {
-            auto offItem = g_AllItems[hero.inventory.equipped.at(offHandSlot)];
+            const auto &offItem = g_AllItems[hero.inventory.equipped.at(offHandSlot)];
 
             value += offItem.damage;
             value += getPrimaryAttributeValueFromHero(offItem, hero);
@@ -444,7 +427,7 @@ namespace InventoryManager
         return value;
     }
 
-    const std::string getEquipmentSlotName(const EquipmentSlot eSlot)
+    std::string getEquipmentSlotName(const EquipmentSlot eSlot)
     {
         switch (eSlot)
         {
@@ -454,15 +437,14 @@ namespace InventoryManager
             case EquipmentSlot::Head: return equipmentSlotNames[3];
             case EquipmentSlot::Legs: return equipmentSlotNames[4];
             case EquipmentSlot::Gloves: return equipmentSlotNames[5];
-            default: std::cout << "Bad Slot!\n";
         }
 
-        return equipmentSlotNames[0];
+        throw std::invalid_argument("Recieved a wrong EquipmentSlot value");
     }
 
     uint32_t getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero)
     {
-        const uint32_t scaleDownBy = 9;
+        static constexpr uint32_t scaleDownBy = 9;
 
         switch (item.primaryAttribute)
         {
