@@ -107,15 +107,10 @@ namespace Characters
                   "Grants new abilities for one-handed weapons such as daggers, swords and maces.",
                   previous.oneHanded },
                 { "Two-handed",
-                  "Grants new abilities for two-handed weapons such as longswords and quarterstaffs.",
+                  "Grants new abilities for two-handed weapons such as longswords and staffs.",
                   previous.twoHanded },
-                { "Ranged",
-                  "Grants new abilities for ranged weapons such as bows and crossbows.",
-                  previous.ranged },
-                { "Dual wielding",
-                  "Reduces the penalty of the weapon wielded in off-hand by 5%.",
-                  previous.dualWielding },
-
+                { "Ranged", "Grants new abilities for ranged weapons such as bows and crossbows.", previous.ranged },
+                { "Dual wielding", "Reduces the penalty of the weapon wielded in off-hand by 5%.", previous.dualWielding },
                 { "Mysticism", "Grants abilities that manipulate life force.", previous.mysticism },
                 { "Terramancy", "Grants abilities that use the power of nature.", previous.terramancy },
                 { "Hydromancy", "Grants abilities that use the power of water and ice.", previous.hydromancy },
@@ -133,7 +128,8 @@ namespace Characters
 
             auto results = distributedPoints.first;
 
-            Specialties specialties{ results[0], results[1], results[2], results[3], results[4], results[5], results[6], results[7], results[8] };  //NOLINT
+            Specialties specialties{ results[0], results[1], results[2], results[3], results[4],
+                                     results[5], results[6], results[7], results[8] };  // NOLINT
 
             availablePoints = distributedPoints.second;
 
@@ -188,8 +184,7 @@ namespace Characters
 
     auto isNameAlreadyInUse(const std::string &name, const std::vector<Hero> &heroes) -> bool
     {
-        return std::any_of(heroes.cbegin(), heroes.cend(), [name](const auto &hero)
-                           { return hero.name == name; });
+        return std::any_of(heroes.cbegin(), heroes.cend(), [name](const auto &hero) { return hero.name == name; });
     }
 
 }  // namespace Characters

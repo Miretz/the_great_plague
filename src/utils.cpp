@@ -38,7 +38,7 @@ namespace Utils
         */
 
         // Fullscreen without header
-        SendMessage(GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);  //NOLINT
+        SendMessage(GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);  // NOLINT
 
         // Change font
         CONSOLE_FONT_INFOEX cfi;
@@ -64,10 +64,10 @@ namespace Utils
 
     void printAttributes(const Attributes &attributes)
     {
-        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Strength: " << std::left << std::setw(kPaddingRight) << attributes.strength
-                  << '\n';
-        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Dexterity: " << std::left << std::setw(kPaddingRight) << attributes.dexterity
-                  << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Strength: " << std::left << std::setw(kPaddingRight)
+                  << attributes.strength << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Dexterity: " << std::left << std::setw(kPaddingRight)
+                  << attributes.dexterity << '\n';
         std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Constitution: " << std::left << std::setw(kPaddingRight)
                   << attributes.constitution << '\n';
         std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Intelligence: " << std::left << std::setw(kPaddingRight)
@@ -76,14 +76,14 @@ namespace Utils
 
     void printAttributesAdjustment(const Attributes &base, const Attributes &adjustment)
     {
-        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Strength: " << std::left << std::setw(kPaddingRight) << base.strength
-                  << std::left << std::setw(kPaddingRight) << adjustment.strength << '\n';
-        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Dexterity: " << std::left << std::setw(kPaddingRight) << base.dexterity
-                  << std::left << std::setw(kPaddingRight) << adjustment.dexterity << '\n';
-        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Constitution: " << std::left << std::setw(kPaddingRight) << base.constitution
-                  << std::left << std::setw(kPaddingRight) << adjustment.constitution << '\n';
-        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Intelligence: " << std::left << std::setw(kPaddingRight) << base.intelligence
-                  << std::left << std::setw(kPaddingRight) << adjustment.intelligence << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Strength: " << std::left << std::setw(kPaddingRight)
+                  << base.strength << std::left << std::setw(kPaddingRight) << adjustment.strength << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Dexterity: " << std::left << std::setw(kPaddingRight)
+                  << base.dexterity << std::left << std::setw(kPaddingRight) << adjustment.dexterity << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Constitution: " << std::left << std::setw(kPaddingRight)
+                  << base.constitution << std::left << std::setw(kPaddingRight) << adjustment.constitution << '\n';
+        std::cout << '|' << std::left << std::setw(kPaddingLeft) << "Intelligence: " << std::left << std::setw(kPaddingRight)
+                  << base.intelligence << std::left << std::setw(kPaddingRight) << adjustment.intelligence << '\n';
     }
 
     void printSpecialties(const Specialties &specialties)
@@ -92,8 +92,8 @@ namespace Utils
         {
             if (value > 0)
             {
-                std::cout << '|' << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight) << addPlus(value)
-                          << '\n';
+                std::cout << '|' << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight)
+                          << addPlus(value) << '\n';
             }
         };
 
@@ -115,8 +115,8 @@ namespace Utils
         {
             if (v2 > v1)
             {
-                std::cout << "|" << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight) << addPlus(v1)
-                          << std::left << std::setw(kPaddingRight) << addPlus(v2) << '\n';
+                std::cout << "|" << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight)
+                          << addPlus(v1) << std::left << std::setw(kPaddingRight) << addPlus(v2) << '\n';
             }
         };
 
@@ -146,9 +146,9 @@ namespace Utils
     {
         auto a = g_AllItems[itemId];
         std::stringstream ss;
-        ss << std::left << std::setw(40) << a.name << " "; // NOLINT
+        ss << std::left << std::setw(40) << a.name << " ";  // NOLINT
 
-        ss << std::left << std::setw(20); // NOLINT
+        ss << std::left << std::setw(20);  // NOLINT
 
         switch (a.primaryAttribute)
         {
@@ -158,7 +158,7 @@ namespace Utils
             default: ss << " [None] "; break;
         }
 
-        ss << std::left << std::setw(23); // NOLINT
+        ss << std::left << std::setw(23);  // NOLINT
         switch (a.type)
         {
             case ItemType::Armor_Gloves: ss << " [Armor gloves] "; break;
@@ -204,7 +204,7 @@ namespace Utils
             {
                 ss << '|';
                 ss << "Equipped in ";
-                ss << std::left << std::setw(10) << s << " - "; // NOLINT
+                ss << std::left << std::setw(10) << s << " - ";  // NOLINT
                 ss << getItemString(equipped.at(s), false);
                 ss << '\n';
             }
@@ -253,25 +253,25 @@ namespace Utils
 
         // hero name
         ss << color;
-        ss << std::left << std::setw(10); // NOLINT
+        ss << std::left << std::setw(10);  // NOLINT
         ss << hero.name;
         ss << COLOR_END;
         ss << " (Level " << hero.level << ") ";
 
         ss << " | AP: " << COLOR_YELLOW << std::to_string(hero.actionPoints) << COLOR_END;
         ss << " | HP: ";
-        ss << std::left << std::setw(8); // NOLINT
+        ss << std::left << std::setw(8);  // NOLINT
         ss << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
         ss << '|';
 
         // health bar
-        auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN; // NOLINT
-        healthBarColor = hero.health < 25 ? COLOR_RED : healthBarColor; // NOLINT
+        auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN;  // NOLINT
+        healthBarColor = hero.health < 25 ? COLOR_RED : healthBarColor;       // NOLINT
         ss << healthBarColor;
-        ss << std::left << std::setw(20); // NOLINT
+        ss << std::left << std::setw(20);  // NOLINT
 
         std::ostringstream healthBarSs;
-        for (uint32_t i = 0; i < hero.health; i += 10) // NOLINT
+        for (uint32_t i = 0; i < hero.health; i += 10)  // NOLINT
         {
             healthBarSs << '|';
         }
@@ -332,8 +332,7 @@ namespace Utils
 
     void printSpacedText(const std::string &text)
     {
-        std::cout << '\n'
-                  << text << "\n\n";
+        std::cout << '\n' << text << "\n\n";
     }
 
     void printArea(const std::string &image, const std::string &description)
@@ -419,7 +418,7 @@ namespace Utils
         std::cout << "\n";
 
         char buf = 0;
-        termios old;
+        termios old{};
         if (tcgetattr(0, &old) < 0)
         {
             std::cout << "Error: tcgetattr error\n";
@@ -447,7 +446,7 @@ namespace Utils
             std::cout << "Error: tcsetattr ~ICANON\n";
             exit(1);
         }
-        result = buf;
+        result = static_cast<unsigned char>(buf);
 #endif
         return result;
     }
@@ -564,7 +563,10 @@ namespace Utils
         return selected;
     }
 
-    auto pointsDistributionMenu(const std::function<void()> &redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute) -> std::pair<std::vector<uint32_t>, uint32_t>
+    auto pointsDistributionMenu(
+        const std::function<void()> &redrawFunction,
+        PointsMenuInput elements,
+        uint32_t pointsToDistribute) -> std::pair<std::vector<uint32_t>, uint32_t>
     {
         uint32_t row = 0;
 
@@ -614,7 +616,7 @@ namespace Utils
                 {
                     ss << "  ";
                 }
-                ss << std::left << std::setw(15) << name; // NOLINT
+                ss << std::left << std::setw(15) << name;  // NOLINT
                 if (i == row)
                 {
                     ss << COLOR_END;
@@ -743,7 +745,8 @@ namespace Utils
         }
     }
 
-    auto createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture) -> std::function<void()>
+    auto createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
+        -> std::function<void()>
     {
         auto prompt = [who, what, picture]()
         {

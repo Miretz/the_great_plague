@@ -63,8 +63,7 @@ namespace CombatSystem
 
     auto isAnyEnemyAlive(Combat &combat) -> bool
     {
-        auto isEnemy = [](const Hero &h)
-        { return h.controller == Controller::AI_Enemy; };
+        auto isEnemy = [](const Hero &h) { return h.controller == Controller::AI_Enemy; };
 
         return std::find_if(combat.turnQueue.begin(), combat.turnQueue.end(), isEnemy) != combat.turnQueue.end();
     }
@@ -74,14 +73,12 @@ namespace CombatSystem
         return std::any_of(
             hero.statusEffects.cbegin(),
             hero.statusEffects.cend(),
-            [](const auto &se)
-            { return se.type == StatusEffectType::Invisibility; });
+            [](const auto &se) { return se.type == StatusEffectType::Invisibility; });
     }
 
     void cleanTurnQueue(Combat &combat)
     {
-        auto isDead = [](const Hero &h)
-        { return h.health == 0; };
+        auto isDead = [](const Hero &h) { return h.health == 0; };
 
         for (const auto &h : combat.turnQueue)
         {
@@ -537,7 +534,8 @@ namespace CombatSystem
                 Utils::clearScreen();
                 Utils::printCombatHeroHeader(hero);
                 Utils::printSpacedText(
-                    "Recieved " + std::to_string(se.specialValue) + " damage from " + Utils::colorize(se.name, Utils::COLOR_YELLOW));
+                    "Recieved " + std::to_string(se.specialValue) + " damage from " +
+                    Utils::colorize(se.name, Utils::COLOR_YELLOW));
                 Utils::newLine();
                 if (hero.health == 0)
                 {
@@ -566,7 +564,8 @@ namespace CombatSystem
                 Utils::clearScreen();
                 Utils::printCombatHeroHeader(hero);
                 Utils::printSpacedText(
-                    "Recieved " + std::to_string(se.specialValue) + " health from " + Utils::colorize(se.name, Utils::COLOR_YELLOW));
+                    "Recieved " + std::to_string(se.specialValue) + " health from " +
+                    Utils::colorize(se.name, Utils::COLOR_YELLOW));
                 Utils::newLine();
                 Utils::pressEnterToContinue();
             }
@@ -711,8 +710,7 @@ namespace CombatSystem
                 h.statusEffects.begin(),
                 h.statusEffects.end(),
                 std::back_inserter(newEffects),
-                [](const auto &se)
-                { return se.turnsLeft > 0; });
+                [](const auto &se) { return se.turnsLeft > 0; });
             h.statusEffects = newEffects;
         }
     }

@@ -31,18 +31,12 @@ namespace Abilities
     void f_ReviveDead(const Hero &caster, Hero &target, Combat &combat);
 
     const std::unordered_map<std::string, std::function<void(Hero &, Hero &, Combat &)>> mappedFunctions{
-        { "f_FirstAid", [](Hero &caster, Hero &target, Combat &combat)
-          { f_FirstAid(caster, target, combat); } },
-        { "f_Maul", [](Hero &caster, Hero &target, Combat &combat)
-          { f_Maul(caster, target, combat); } },
-        { "f_LifeDrain", [](Hero &caster, Hero &target, Combat &combat)
-          { f_LifeDrain(caster, target, combat); } },
-        { "f_SummonDog", [](Hero &caster, Hero &target, Combat &combat)
-          { f_SummonDog(caster, target, combat); } },
-        { "f_HailStorm", [](Hero &caster, Hero &target, Combat &combat)
-          { f_HailStorm(caster, target, combat); } },
-        { "f_ReviveDead", [](Hero &caster, Hero &target, Combat &combat)
-          { f_ReviveDead(caster, target, combat); } }
+        { "f_FirstAid", [](Hero &caster, Hero &target, Combat &combat) { f_FirstAid(caster, target, combat); } },
+        { "f_Maul", [](Hero &caster, Hero &target, Combat &combat) { f_Maul(caster, target, combat); } },
+        { "f_LifeDrain", [](Hero &caster, Hero &target, Combat &combat) { f_LifeDrain(caster, target, combat); } },
+        { "f_SummonDog", [](Hero &caster, Hero &target, Combat &combat) { f_SummonDog(caster, target, combat); } },
+        { "f_HailStorm", [](Hero &caster, Hero &target, Combat &combat) { f_HailStorm(caster, target, combat); } },
+        { "f_ReviveDead", [](Hero &caster, Hero &target, Combat &combat) { f_ReviveDead(caster, target, combat); } }
     };
 }  // namespace Abilities
 

@@ -22,8 +22,7 @@ namespace ConversationSystem
                 currentLine.jumps.begin(),
                 currentLine.jumps.end(),
                 std::back_inserter(options),
-                [&](const std::string &jump) -> std::string
-                { return conversation.at(jump).text; });
+                [&conversation](const std::string &jump) -> std::string { return conversation.at(jump).text; });
 
             auto selection = Utils::pickOptionFromList(
                 Utils::createConversationPrompt(currentLine.who, currentLine.text, picture), options);

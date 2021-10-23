@@ -2,8 +2,8 @@
 
 namespace Dice
 {
-    static std::random_device rd;         //NOLINT
-    static std::mt19937 generator(rd());  //NOLINT
+    static std::random_device rd;         // NOLINT
+    static std::mt19937 generator(rd());  // NOLINT
 
     auto rollDice(uint32_t die) -> uint32_t
     {

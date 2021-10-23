@@ -34,8 +34,7 @@ namespace Areas
             area.connections.begin(),
             area.connections.end(),
             std::back_inserter(menu),
-            [](uint32_t t) -> std::string
-            { return "Go to " + allAreas[t].name; });
+            [](uint32_t t) -> std::string { return "Go to " + allAreas[t].name; });
 
         menu.emplace_back("Open Inventory");
         menu.emplace_back("Exit");
@@ -197,7 +196,8 @@ namespace Areas
 
         Utils::newLine();
         Utils::newLine();
-        if (gameState.stateInfo.at(kDanseaLocationGameProperty) == 2 && Utils::askConfirmation("Dansea is also here. Do you want to recruit her?"))
+        if (gameState.stateInfo.at(kDanseaLocationGameProperty) == 2 &&
+            Utils::askConfirmation("Dansea is also here. Do you want to recruit her?"))
         {
             Hero dansea = Files::loadHeroFromConfig(kDanseaConfigFile);
             gameState.heroes.push_back(dansea);

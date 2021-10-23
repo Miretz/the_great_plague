@@ -8,7 +8,7 @@
 auto main() -> int
 {
     Utils::maximizeConsole();
-    
+
     Abilities::init();
 
     while (true)

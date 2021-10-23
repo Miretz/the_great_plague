@@ -11,7 +11,7 @@
 
 namespace Abilities
 {
-    std::unordered_map<std::string, Ability> loadedAbilities;  //NOLINT
+    std::unordered_map<std::string, Ability> loadedAbilities;  // NOLINT
 
     auto getAbility(const std::string &id) -> std::optional<Ability>
     {
@@ -80,7 +80,7 @@ namespace Abilities
         if (target.controller == Controller::Player || target.controller == Controller::AI_Friendly)
         {
             // level * 5
-            uint32_t newHealth = 20 + target.health + caster.level * 5;  //NOLINT
+            uint32_t newHealth = 20 + target.health + caster.level * 5;  // NOLINT
             if (newHealth >= target.maxHealth)
             {
                 target.health = target.maxHealth;
@@ -95,7 +95,7 @@ namespace Abilities
     void f_LifeDrain(Hero &caster, Hero &target, [[maybe_unused]] Combat &combat)
     {
         // take level*5 from enemy health
-        uint32_t healthStolen = 10 + caster.level * 5;  //NOLINT
+        uint32_t healthStolen = 10 + caster.level * 5;  // NOLINT
 
         // if enemy has less than level*5 steal only remaining HP
         if (target.health <= healthStolen)

@@ -25,7 +25,8 @@ namespace InventoryManager
         Gloves = 5
     };
 
-    inline constexpr std::array<const char *, 6> equipmentSlotNames{ "Main Hand", "Offhand", "Torso", "Head", "Legs", "Gloves" };
+    inline constexpr std::array<const char *, 6> equipmentSlotNames{ "Main Hand", "Offhand", "Torso",
+                                                                     "Head",      "Legs",    "Gloves" };
 
     void addToBackpack(Hero &hero, const uint32_t itemId);
 

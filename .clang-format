@@ -13,12 +13,16 @@ BreakBeforeBraces: Allman
 BinPackArguments: 'false'
 BinPackParameters: 'false'
 Cpp11BracedListStyle: 'false'
-ColumnLimit: 0 
+ColumnLimit: 125 
 NamespaceIndentation: All
 SpaceAfterTemplateKeyword: 'false'
 SpaceBeforeCtorInitializerColon: 'true'
 SpaceBeforeInheritanceColon: 'true'
 SpaceBeforeParens: ControlStatements
 SpaceBeforeRangeBasedForLoopColon: 'true'
-SpaceInEmptyBlock: true
+SpaceInEmptyBlock: 'true'
 Standard: 'Latest'
+AccessModifierOffset: -4
+AllowShortLambdasOnASingleLine: All
+BraceWrapping:
+  BeforeLambdaBody: 'false'

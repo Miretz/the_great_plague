@@ -11,7 +11,6 @@ struct Combat;
 
 namespace CombatSystem
 {
-
     inline constexpr auto kMaxActionPoints = 6;
 
     auto prepare(std::vector<Hero> heroes, std::vector<Hero> enemies) -> Combat;

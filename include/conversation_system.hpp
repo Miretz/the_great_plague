@@ -11,7 +11,7 @@ namespace ConversationSystem
 {
     inline constexpr auto kConversationResultPositive = "end_yes";
     inline constexpr auto kConversationResultNegative = "end_no";
-    
+
     auto start(const std::string &picture, const std::string &conversationFilePath) -> std::string;
 
     auto loadConversation(const std::string &conversationFilePath) -> std::unordered_map<std::string, ConversationLine>;

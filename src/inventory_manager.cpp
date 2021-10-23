@@ -209,16 +209,12 @@ namespace InventoryManager
         while (true)
         {
             std::vector<std::string> menu;
-            std::transform(
-                heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h)
-                { return h.name; });
+            std::transform(heroes.begin(), heroes.end(), std::back_inserter(menu), [](const auto &h) { return h.name; });
             menu.emplace_back("Print Character Sheet");
             menu.emplace_back("Exit");
 
-            const auto selection = Utils::pickOptionFromList(
-                []()
-                { Utils::printBorderedText("Manage inventory of:"); },
-                menu);
+            const auto selection =
+                Utils::pickOptionFromList([]() { Utils::printBorderedText("Manage inventory of:"); }, menu);
 
             if (selection < menu.size() - 2)
             {
@@ -301,11 +297,12 @@ namespace InventoryManager
 
                 std::vector<std::string> chooseWeapon;
                 std::transform(
-                    listOfEquipable.begin(), listOfEquipable.end(), std::back_inserter(chooseWeapon), [](const auto &e)
-                    { return Utils::getItemString(e, true); });
+                    listOfEquipable.begin(),
+                    listOfEquipable.end(),
+                    std::back_inserter(chooseWeapon),
+                    [](const auto &e) { return Utils::getItemString(e, true); });
 
-                const auto pickItemPrompt = []()
-                { Utils::printBorderedText("Select equipment:"); };
+                const auto pickItemPrompt = []() { Utils::printBorderedText("Select equipment:"); };
                 const auto itemSelection = Utils::pickOptionFromList(pickItemPrompt, chooseWeapon);
                 const auto newItem = listOfEquipable[itemSelection];
 
@@ -382,7 +379,8 @@ namespace InventoryManager
                 // dual wielding penalty on the offhand weapon
                 static constexpr auto division = 2.0;
                 value += static_cast<uint32_t>(std::ceil(
-                    static_cast<double>(offItem.damage) / division + kDualWieldPenalty * static_cast<double>(hero.specialties.dualWielding)));
+                    static_cast<double>(offItem.damage) / division +
+                    kDualWieldPenalty * static_cast<double>(hero.specialties.dualWielding)));
             }
             // sword + shield and other combinations
             else

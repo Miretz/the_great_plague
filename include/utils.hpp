@@ -90,7 +90,10 @@ namespace Utils
 
     auto pickOptionFromList(const std::function<void()> &redrawFunction, const std::vector<std::string> &list) -> uint32_t;
 
-    auto pointsDistributionMenu(const std::function<void()> &redrawFunction, PointsMenuInput elements, uint32_t pointsToDistribute) -> std::pair<std::vector<uint32_t>, uint32_t>;
+    auto pointsDistributionMenu(
+        const std::function<void()> &redrawFunction,
+        PointsMenuInput elements,
+        uint32_t pointsToDistribute) -> std::pair<std::vector<uint32_t>, uint32_t>;
 
     void clearScreen();
 
@@ -102,7 +105,8 @@ namespace Utils
 
     void pressEnterToContinue();
 
-    auto createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture) -> std::function<void()>;
+    auto createConversationPrompt(const std::string &who, const std::string &what, const std::string &picture)
+        -> std::function<void()>;
 
     auto enterName() -> const std::string;
 
