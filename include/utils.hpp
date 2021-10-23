@@ -54,6 +54,8 @@ namespace Utils
 
     auto getItemString(const uint32_t a, bool describe) -> const std::string;
 
+    auto getAbilityString(const Ability& ability) -> const std::string;
+
     auto getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped) -> const std::string;
 
     auto getBackpack(const std::vector<uint32_t> &backpack) -> const std::string;

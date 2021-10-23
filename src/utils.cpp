@@ -195,6 +195,14 @@ namespace Utils
         return ss.str();
     }
 
+    auto getAbilityString(const Ability &ability) -> const std::string
+    {
+        std::stringstream ss;
+        ss << ability.name;
+        ss << "\n  " << COLOR_END << COLOR_GREY << ability.description << COLOR_END;
+        return ss.str();
+    }
+
     auto getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped) -> const std::string
     {
         std::stringstream ss;

@@ -134,8 +134,8 @@ namespace CharacterCreator
         std::vector<std::string> menu;
         for (const auto &abilityId : startingAbilities)
         {
-            auto sa = Abilities::getAbility(abilityId).value();
-            menu.push_back(sa.name + " - " + sa.description);
+            const auto sa = Abilities::getAbility(abilityId).value();
+            menu.push_back(Utils::getAbilityString(sa));
         }
 
         return startingAbilities.at(Utils::pickOptionFromList(prompt, menu));
