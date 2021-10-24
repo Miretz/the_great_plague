@@ -115,7 +115,7 @@ namespace Utils
         {
             if (v2 > v1)
             {
-                std::cout << "|" << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight)
+                std::cout << '|' << std::left << std::setw(kPaddingLeft) << name << std::left << std::setw(kPaddingRight)
                           << addPlus(v1) << std::left << std::setw(kPaddingRight) << addPlus(v2) << '\n';
             }
         };
@@ -136,9 +136,8 @@ namespace Utils
     {
         for (const auto &id : abilities)
         {
-            auto a = Abilities::getAbility(id).value();
-            std::cout << "|"
-                      << "Ability: " << a.name << " - " << a.description << '\n';
+            const auto a = Abilities::getAbility(id).value();
+            std::cout << "|Ability: " << a.name << " - " << a.description << '\n';
         }
     }
 
@@ -146,7 +145,7 @@ namespace Utils
     {
         auto a = g_AllItems[itemId];
         std::stringstream ss;
-        ss << std::left << std::setw(40) << a.name << " ";  // NOLINT
+        ss << std::left << std::setw(40) << a.name << ' ';  // NOLINT
 
         ss << std::left << std::setw(20);  // NOLINT
 
@@ -176,7 +175,7 @@ namespace Utils
             default: ss << " [Item] "; break;
         }
 
-        ss << "(";
+        ss << '(';
         if (a.damage > 0)
         {
             ss << " Base DMG: " << a.damage;
@@ -271,7 +270,9 @@ namespace Utils
         ss << " | AP: " << COLOR_YELLOW << std::to_string(hero.actionPoints) << COLOR_END;
         ss << " | HP: ";
         ss << std::left << std::setw(8);  // NOLINT
-        ss << std::to_string(hero.health) + "/" + std::to_string(hero.maxHealth);
+        ss << std::to_string(hero.health);
+        ss << '/';
+        ss << std::to_string(hero.maxHealth);
         ss << '|';
 
         // health bar
@@ -306,7 +307,7 @@ namespace Utils
             {
                 ssfx << COLOR_YELLOW << se.name << COLOR_END << " (" << se.turnsLeft << " turns) ~ ";
             }
-            ssfx << "\n";
+            ssfx << '\n';
 
             std::cout << ssfx.str();
         }
@@ -356,7 +357,7 @@ namespace Utils
     void printCombatStart(const std::string &description)
     {
         printBorder();
-        std::cout << "|" << Utils::COLOR_RED << "You are under attack!" << Utils::COLOR_END << '\n';
+        std::cout << '|' << Utils::COLOR_RED << "You are under attack!" << Utils::COLOR_END << '\n';
         printBorder();
         std::cout << Utils::COLOR_RED;
         std::cout << Files::loadFile("assets/other/combat_image.txt");
@@ -423,7 +424,7 @@ namespace Utils
 #if defined _WIN32
         result = _getch();
 #else
-        std::cout << "\n";
+        std::cout << '\n';
 
         char buf = 0;
         termios old{};
@@ -759,7 +760,7 @@ namespace Utils
         auto prompt = [who, what, picture]()
         {
             printBorder();
-            std::cout << "|" << COLOR_GREEN << who << COLOR_END << '\n';
+            std::cout << '|' << COLOR_GREEN << who << COLOR_END << '\n';
             printBorder();
             std::cout << Utils::COLOR_GREEN;
             std::cout << picture;
@@ -800,10 +801,10 @@ namespace Utils
     void printBorder(const uint32_t length)
     {
         std::stringstream ss;
-        ss << "+";
+        ss << '+';
         for (uint32_t i = 0; i < length - 2; i++)
         {
-            ss << "-";
+            ss << '-';
         }
         ss << "+\n";
         std::cout << ss.str();
