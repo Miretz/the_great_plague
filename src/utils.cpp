@@ -239,8 +239,10 @@ namespace Utils
 
     void printHeroInventory(const Inventory &inventory)
     {
+        printBorder();
         std::cout << getEquippedItemsString(inventory.equipped);
         std::cout << getBackpack(inventory.backpack);
+        printBorder();
     }
 
     void printHeroHeader(const std::string &name, const uint32_t level)
@@ -398,9 +400,7 @@ namespace Utils
         }
         printBorder();
         printFullPhysicalDamage(hero);
-        printBorder();
         printHeroInventory(hero.inventory);
-        printBorder();
     }
 
     void printListOfHeroes(const std::vector<Hero> &heroes)

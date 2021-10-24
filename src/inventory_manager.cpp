@@ -1,6 +1,5 @@
 #include "inventory_manager.hpp"
 
-#include <iostream>
 #include <iterator>
 #include <optional>
 #include <stdexcept>
@@ -168,23 +167,13 @@ namespace InventoryManager
 
     auto selectSlot(const Hero &hero) -> std::optional<EquipmentSlot>
     {
-        const auto &heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
-        const auto &heroBackpack = Utils::getBackpack(hero.inventory.backpack);
-        const auto &fullDamage = Utils::getFullPhysicalDamage(hero);
-
-        const auto prompt = [hero, heroEquipped, heroBackpack, fullDamage]()
+        const auto prompt = [&hero]()
         {
-            Utils::printHeroHeader(hero.name, hero.level);
-            std::cout << "|"
-                      << "Inventory\n";
+            Utils::printSpacedText("Manage Inventory");
             Utils::printBorder();
-            std::cout << heroEquipped;
-            std::cout << heroBackpack;
-            Utils::printBorder();
-            std::cout << fullDamage;
-            Utils::printBorder();
-            std::cout << "\n\n";
-            std::cout << "\nPick a slot to edit:\n\n";
+            Utils::printFullPhysicalDamage(hero);
+            Utils::printHeroInventory(hero.inventory);
+            Utils::printSpacedText("Pick a slot to edit:");
         };
 
         std::vector<std::string> slotMenu;
@@ -198,8 +187,9 @@ namespace InventoryManager
         }
         const auto selectedSlot = static_cast<EquipmentSlot>(selection);
 
-        std::cout << "\nSelected slot " << slotMenu[selection]
-                  << " (current: " << getEquippedItemName(hero, selectedSlot).value_or("Empty") << ")\n";
+        Utils::printSpacedText(
+            "Selected slot " + slotMenu[selection] +
+            " (current: " + getEquippedItemName(hero, selectedSlot).value_or("Empty") + ")\n");
 
         return selectedSlot;
     }
@@ -253,45 +243,40 @@ namespace InventoryManager
             bool canUnequip = getEquippedItemName(hero, selectedSlot).has_value();
             bool canEquip = listOfEquipable.size() > 0;
 
+            static constexpr auto unequipActionName = "Unequip current item";
+            static constexpr auto equipActionName = "Equip item";
+
             std::vector<std::string> actions;
             if (canUnequip)
             {
-                actions.emplace_back("Unequip");
+                actions.emplace_back(unequipActionName);
             }
             if (canEquip)
             {
-                actions.emplace_back("Equip");
+                actions.emplace_back(equipActionName);
             }
             actions.emplace_back("Back");
 
-            const auto &heroEquipped = Utils::getEquippedItemsString(hero.inventory.equipped);
-            const auto &heroBackpack = Utils::getBackpack(hero.inventory.backpack);
             const auto &slotName = getEquipmentSlotName(selectedSlot);
 
-            const auto prompt = [hero, heroEquipped, heroBackpack, slotName]()
+            const auto prompt = [hero, slotName]()
             {
-                Utils::printHeroHeader(hero.name, hero.level);
-                std::cout << "|"
-                          << "Inventory\n";
+                Utils::printSpacedText("Manage Inventory");
                 Utils::printBorder();
-                std::cout << heroEquipped;
-                std::cout << heroBackpack;
-                Utils::printBorder();
-                std::cout << "|Manage slot: " << slotName << '\n';
-                Utils::printBorder();
-                std::cout << "\n\n";
-                std::cout << "Pick action:\n\n";
+                Utils::printFullPhysicalDamage(hero);
+                Utils::printHeroInventory(hero.inventory);
+                Utils::printSpacedText("Manage slot " + slotName + ": ");
             };
 
             const auto &selectedAction = actions[Utils::pickOptionFromList(prompt, actions)];
 
             // execute the action
 
-            if (selectedAction == "Unequip")
+            if (selectedAction == unequipActionName)
             {
                 unequipItem(hero, selectedSlot);
             }
-            else if (selectedAction == "Equip")
+            else if (selectedAction == equipActionName)
             {
                 Utils::clearScreen();
 
