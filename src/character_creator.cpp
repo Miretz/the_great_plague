@@ -84,11 +84,11 @@ namespace CharacterCreator
             auto ability = Abilities::getAbility(r.abilityId).value();
 
             std::string menuOption = r.name;
-            menuOption += Utils::COLOR_END;
-            menuOption += Utils::COLOR_GREY;
+            menuOption += Utils::kColorEnd;
+            menuOption += Utils::kColorGrey;
             menuOption += "\n  " + r.description;
             menuOption += "\n  Grants ability: " + ability.name + " - " + ability.description;
-            menuOption += Utils::COLOR_END;
+            menuOption += Utils::kColorEnd;
 
             menu.push_back(menuOption);
         }

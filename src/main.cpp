@@ -7,7 +7,7 @@
 
 auto main() -> int
 {
-    Utils::maximizeConsole();
+    Utils::initConsole();
 
     Abilities::init();
 

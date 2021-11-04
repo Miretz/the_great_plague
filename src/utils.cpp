@@ -24,7 +24,7 @@
 
 namespace Utils
 {
-    void maximizeConsole()
+    void initConsole()
     {
 #if defined _WIN32
         // Windowed fullscreen
@@ -188,7 +188,7 @@ namespace Utils
 
         if (describe)
         {
-            ss << "\n  " << COLOR_END << COLOR_GREY << a.description << COLOR_END;
+            ss << "\n  " << kColorEnd << kColorGrey << a.description << kColorEnd;
         }
 
         return ss.str();
@@ -198,7 +198,7 @@ namespace Utils
     {
         std::stringstream ss;
         ss << ability.name;
-        ss << "\n  " << COLOR_END << COLOR_GREY << ability.description << COLOR_END;
+        ss << "\n  " << kColorEnd << kColorGrey << ability.description << kColorEnd;
         return ss.str();
     }
 
@@ -247,7 +247,7 @@ namespace Utils
     void printHeroHeader(const std::string &name, const uint32_t level)
     {
         printBorder();
-        std::cout << '|' << COLOR_GREEN << name << COLOR_END << " (Level " << level << ") \n";
+        std::cout << '|' << kColorGreen << name << kColorEnd << " (Level " << level << ") \n";
         printBorder();
     }
 
@@ -258,21 +258,21 @@ namespace Utils
         std::ostringstream ss;
 
         ss << '|';
-        const auto color = hero.controller == Controller::AI_Enemy ? COLOR_RED : COLOR_GREEN;
+        const auto color = hero.controller == Controller::AI_Enemy ? kColorRed : kColorGreen;
 
         // hero name
         ss << color;
         ss << std::left << std::setw(10);  // NOLINT
         ss << hero.name;
-        ss << COLOR_END;
+        ss << kColorEnd;
         ss << " (Level " << hero.level << ") ";
 
         // action points
         ss << " | AP: ";
-        ss << COLOR_YELLOW; 
+        ss << kColorYellow;
         ss << hero.actionPoints;
-        ss << COLOR_END;
-        
+        ss << kColorEnd;
+
         // health
         ss << " | HP: ";
         ss << hero.health;
@@ -281,8 +281,8 @@ namespace Utils
         ss << " | ";
 
         // health bar
-        auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN;  // NOLINT
-        healthBarColor = hero.health < 25 ? COLOR_RED : healthBarColor;       // NOLINT
+        auto healthBarColor = hero.health < 50 ? kColorYellow : kColorGreen;  // NOLINT
+        healthBarColor = hero.health < 25 ? kColorRed : healthBarColor;       // NOLINT
         ss << healthBarColor;
         ss << std::left << std::setw(20);  // NOLINT
 
@@ -292,14 +292,14 @@ namespace Utils
             healthBarSs << '|';
         }
         ss << healthBarSs.str();
-        ss << COLOR_END;
+        ss << kColorEnd;
 
         // armor
         ss << " | Armor: ";
         ss << InventoryManager::getEquippedArmorValue(hero);
-        ss << " | Race: "; 
+        ss << " | Race: ";
         ss << g_AllRaces.at(hero.race).name;
-        
+
         ss << '\n';
         std::cout << ss.str();
 
@@ -311,7 +311,7 @@ namespace Utils
             ssfx << "|Effects: ~ ";
             for (const auto &se : hero.statusEffects)
             {
-                ssfx << COLOR_YELLOW << se.name << COLOR_END << " (" << se.turnsLeft << " turns) ~ ";
+                ssfx << kColorYellow << se.name << kColorEnd << " (" << se.turnsLeft << " turns) ~ ";
             }
             ssfx << '\n';
 
@@ -334,7 +334,7 @@ namespace Utils
         std::cout << '|';
         std::cout << color;
         std::cout << text << '\n';
-        std::cout << COLOR_END;
+        std::cout << kColorEnd;
         printBorder();
     }
 
@@ -343,7 +343,7 @@ namespace Utils
         std::ostringstream ss;
         ss << color;
         ss << text;
-        ss << COLOR_END;
+        ss << kColorEnd;
         return ss.str();
     }
 
@@ -354,20 +354,20 @@ namespace Utils
 
     void printArea(const std::string &image, const std::string &description)
     {
-        std::cout << Utils::COLOR_GREEN;
+        std::cout << Utils::kColorGreen;
         std::cout << image;
-        std::cout << Utils::COLOR_END;
+        std::cout << Utils::kColorEnd;
         std::cout << description;
     }
 
     void printCombatStart(const std::string &description)
     {
         printBorder();
-        std::cout << '|' << Utils::COLOR_RED << "You are under attack!" << Utils::COLOR_END << '\n';
+        std::cout << '|' << Utils::kColorRed << "You are under attack!" << Utils::kColorEnd << '\n';
         printBorder();
-        std::cout << Utils::COLOR_RED;
+        std::cout << Utils::kColorRed;
         std::cout << Files::loadFile("assets/other/combat_image.txt");
-        std::cout << Utils::COLOR_END;
+        std::cout << Utils::kColorEnd;
         std::cout << description;
     }
 
@@ -380,7 +380,7 @@ namespace Utils
     {
         std::ostringstream ss;
         ss << "|Full physical Damage: " << InventoryManager::getEquippedDamageValue(hero);
-        ss << COLOR_GREY << " (Based on equipped weapons + Attributes + Specialties) " << COLOR_END << '\n';
+        ss << kColorGrey << " (Based on equipped weapons + Attributes + Specialties) " << kColorEnd << '\n';
         return ss.str();
     }
 
@@ -430,7 +430,7 @@ namespace Utils
 #if defined _WIN32
         result = _getch();
 #else
-        std::cout << '\n';
+        std::cout << "\n";
 
         char buf = 0;
         termios old{};
@@ -461,6 +461,7 @@ namespace Utils
             std::cout << "Error: tcsetattr ~ICANON\n";
             exit(1);
         }
+
         result = static_cast<unsigned char>(buf);
 #endif
         return result;
@@ -474,7 +475,7 @@ namespace Utils
         redrawFunction();
         newLine();
 
-        std::cout << COLOR_GREY << "Press the LEFT & RIGHT arrows to adjust" << COLOR_END << "\n\n";
+        std::cout << kColorGrey << "Press the LEFT & RIGHT arrows to adjust" << kColorEnd << "\n\n";
 
         uint32_t y = getCursorPosition();
 
@@ -485,29 +486,29 @@ namespace Utils
 
             std::ostringstream ss;
             ss << "Pick value between " << min << " and " << max << ": ";
-            ss << "<-  " << COLOR_YELLOW << std::left << std::setw(2) << result << COLOR_END << " ->\n";
+            ss << "<-  " << kColorYellow << std::left << std::setw(2) << result << kColorEnd << " ->\n";
 
             std::cout << ss.str();
 
             uint32_t c = 0;
             switch ((c = getInput()))
             {
-                case KEY_LEFT:
+                case kKeyLeft:
                     result--;
                     if (result < min)
                     {
                         result = min;
                     }
                     break;
-                case KEY_RIGHT:
+                case kKeyRight:
                     result++;
                     if (result > max)
                     {
                         result = max;
                     }
                     break;
-                case KEY_ENTER:
-                case KEY_ENTER_LF: finished = true; break;
+                case kKeyEnter:
+                case kKeyEnterLineFeed: finished = true; break;
                 default: break;
             }
         }
@@ -534,18 +535,23 @@ namespace Utils
             {
                 if (i == selected)
                 {
-                    ss << COLOR_YELLOW;
+                    ss << kColorYellow;
                     ss << "> ";
                 }
                 else
                 {
                     ss << "  ";
                 }
-                ss << list[i] << "\n\n";
+                ss << list[i];
                 if (i == selected)
                 {
-                    ss << COLOR_END;
+                    ss << kColorEnd;
                 }
+                if (i != list.size() - 1)
+                {
+                    ss << '\n';
+                }
+                ss << '\n';
             }
 
             setCursorPosition(0, y);
@@ -554,7 +560,7 @@ namespace Utils
             uint32_t c = 0;
             switch ((c = getInput()))
             {
-                case KEY_UP:
+                case kKeyUp:
                     if (selected == 0)
                     {
                         selected = list.size();
@@ -562,15 +568,15 @@ namespace Utils
                     selected--;
 
                     break;
-                case KEY_DOWN:
+                case kKeyDown:
                     selected++;
                     if (selected > list.size() - 1)
                     {
                         selected = 0;
                     }
                     break;
-                case KEY_ENTER:
-                case KEY_ENTER_LF: finished = true; break;
+                case kKeyEnter:
+                case kKeyEnterLineFeed: finished = true; break;
                 default: break;
             }
         }
@@ -602,7 +608,7 @@ namespace Utils
         clearScreen();
         redrawFunction();
 
-        std::cout << COLOR_GREY << "\nPress UP/DOWN/LEFT/RIGHT to adjust\nPress [Enter] to confirm settings" << COLOR_END
+        std::cout << kColorGrey << "\nPress UP/DOWN/LEFT/RIGHT to adjust\nPress [Enter] to confirm settings" << kColorEnd
                   << "\n\n";
 
         uint32_t y = getCursorPosition();
@@ -612,10 +618,10 @@ namespace Utils
         {
             std::ostringstream ss;
             ss << "Available points: ";
-            ss << COLOR_GREEN;
+            ss << kColorGreen;
             ss << availablePoints;
             ss << "      ";
-            ss << COLOR_END;
+            ss << kColorEnd;
             ss << "\n\n";
 
             for (size_t i = 0; i < elements.size(); i++)
@@ -624,7 +630,7 @@ namespace Utils
 
                 if (i == row)
                 {
-                    ss << COLOR_YELLOW;
+                    ss << kColorYellow;
                     ss << "> ";
                 }
                 else
@@ -634,13 +640,13 @@ namespace Utils
                 ss << std::left << std::setw(15) << name;  // NOLINT
                 if (i == row)
                 {
-                    ss << COLOR_END;
+                    ss << kColorEnd;
                 }
 
-                ss << " <- " << COLOR_YELLOW << values[i] << COLOR_END << " ->\n  ";
-                ss << COLOR_GREY;
+                ss << " <- " << kColorYellow << values[i] << kColorEnd << " ->\n  ";
+                ss << kColorGrey;
                 ss << description;
-                ss << COLOR_END;
+                ss << kColorEnd;
                 ss << "\n\n";
             }
 
@@ -650,7 +656,7 @@ namespace Utils
             uint32_t c = 0;
             switch ((c = getInput()))
             {
-                case KEY_UP:
+                case kKeyUp:
                 {
                     if (row == 0)
                     {
@@ -659,7 +665,7 @@ namespace Utils
                     row--;
                     break;
                 }
-                case KEY_DOWN:
+                case kKeyDown:
                 {
                     row++;
                     if (row > elements.size() - 1)
@@ -668,7 +674,7 @@ namespace Utils
                     }
                     break;
                 }
-                case KEY_LEFT:
+                case kKeyLeft:
                 {
                     if (availablePoints == pointsToDistribute)
                     {
@@ -684,7 +690,7 @@ namespace Utils
                     availablePoints++;
                     break;
                 }
-                case KEY_RIGHT:
+                case kKeyRight:
                 {
                     if (availablePoints == 0)
                     {
@@ -694,8 +700,8 @@ namespace Utils
                     availablePoints--;
                     break;
                 }
-                case KEY_ENTER:
-                case KEY_ENTER_LF: finished = true; break;
+                case kKeyEnter:
+                case kKeyEnterLineFeed: finished = true; break;
                 default: break;
             }
         }
@@ -721,9 +727,9 @@ namespace Utils
 
     void printIntro()
     {
-        std::cout << COLOR_GREEN;
+        std::cout << kColorGreen;
         std::cout << Files::loadFile("assets/logo.txt");
-        std::cout << COLOR_END;
+        std::cout << kColorEnd;
         std::cout << "---=== Main menu ===---\n";
     }
 
@@ -736,10 +742,10 @@ namespace Utils
 
         switch ((c = getInput()))
         {
-            case 89:            // y // NOLINT
-            case 121:           // Y // NOLINT
-            case KEY_ENTER_LF:  // Line Feed
-            case KEY_ENTER: result = true; break;
+            case 89:                 // y // NOLINT
+            case 121:                // Y // NOLINT
+            case kKeyEnterLineFeed:  // Line Feed
+            case kKeyEnter: result = true; break;
             default: break;
         }
 
@@ -748,12 +754,12 @@ namespace Utils
 
     void pressEnterToContinue()
     {
-        std::cout << COLOR_GREY << "Press [Enter] to continue..." << COLOR_END << "\n\n";
+        std::cout << kColorGrey << "Press [Enter] to continue..." << kColorEnd << "\n\n";
 
         while (true)
         {
             auto c = getInput();
-            if (c == KEY_ENTER || c == KEY_ENTER_LF)
+            if (c == kKeyEnter || c == kKeyEnterLineFeed)
             {
                 break;
             }
@@ -766,14 +772,14 @@ namespace Utils
         auto prompt = [who, what, picture]()
         {
             printBorder();
-            std::cout << '|' << COLOR_GREEN << who << COLOR_END << '\n';
+            std::cout << '|' << kColorGreen << who << kColorEnd << '\n';
             printBorder();
-            std::cout << Utils::COLOR_GREEN;
+            std::cout << Utils::kColorGreen;
             std::cout << picture;
-            std::cout << Utils::COLOR_END;
+            std::cout << Utils::kColorEnd;
             printBorder();
             std::cout << "|\n";
-            std::cout << "| " << Utils::COLOR_GREY << who << ": " << Utils::COLOR_END << what << '\n';
+            std::cout << "| " << Utils::kColorGrey << who << ": " << Utils::kColorEnd << what << '\n';
             std::cout << "|\n";
             printBorder();
         };
@@ -839,6 +845,7 @@ namespace Utils
         SetConsoleCursorPosition(hOut, coord);
 #else
         std::cout << "\033[u";
+        std::cout << "\r";
 #endif
     }
 

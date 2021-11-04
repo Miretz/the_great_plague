@@ -11,34 +11,34 @@ using PointsMenuInput = std::vector<std::tuple<std::string, std::string, uint32_
 
 namespace Utils
 {
-    inline constexpr auto COLOR_GREEN = "\033[1;32m";
-    inline constexpr auto COLOR_YELLOW = "\033[1;33m";
-    inline constexpr auto COLOR_GREY = "\033[2;37m";
-    inline constexpr auto COLOR_RED = "\33[1;31m";
-    inline constexpr auto COLOR_END = "\033[0m";
-    inline constexpr auto COLOR_CYAN = "\033[0;36m";
-    inline constexpr auto COLOR_CYAN_LIGHT = "\033[1;36m";
+    inline constexpr auto kColorGreen = "\033[1;32m";
+    inline constexpr auto kColorYellow = "\033[1;33m";
+    inline constexpr auto kColorGrey = "\033[2;37m";
+    inline constexpr auto kColorRed = "\33[1;31m";
+    inline constexpr auto kColorEnd = "\033[0m";
+    inline constexpr auto kColorCyan = "\033[0;36m";
+    inline constexpr auto KColorCyanLight = "\033[1;36m";
 
 #if defined _WIN32
-    inline constexpr uint32_t KEY_UP = 72;
-    inline constexpr uint32_t KEY_DOWN = 80;
-    inline constexpr uint32_t KEY_LEFT = 75;
-    inline constexpr uint32_t KEY_RIGHT = 77;
-    inline constexpr uint32_t KEY_ENTER = 13;
-    inline constexpr uint32_t KEY_ENTER_LF = 10;
+    inline constexpr uint32_t kKeyUp = 72;
+    inline constexpr uint32_t kKeyDown = 80;
+    inline constexpr uint32_t kKeyLeft = 75;
+    inline constexpr uint32_t kKeyRight = 77;
+    inline constexpr uint32_t kKeyEnter = 13;
+    inline constexpr uint32_t kKeyEnterLineFeed = 10;
 #else
-    inline constexpr char KEY_UP = 'A';
-    inline constexpr char KEY_DOWN = 'B';
-    inline constexpr char KEY_LEFT = 'D';
-    inline constexpr char KEY_RIGHT = 'C';
-    inline constexpr char KEY_ENTER = '\r';
-    inline constexpr char KEY_ENTER_LF = '\n';
+    inline constexpr char kKeyUp = 'A';
+    inline constexpr char kKeyDown = 'B';
+    inline constexpr char kKeyLeft = 'D';
+    inline constexpr char kKeyRight = 'C';
+    inline constexpr char kKeyEnter = '\r';
+    inline constexpr char kKeyEnterLineFeed = '\n';
 #endif
 
     inline constexpr auto kPaddingLeft = 16;
     inline constexpr auto kPaddingRight = 6;
 
-    void maximizeConsole();
+    void initConsole();
 
     auto addPlus(uint32_t value) -> const std::string;
 
@@ -54,7 +54,7 @@ namespace Utils
 
     auto getItemString(const uint32_t a, bool describe) -> const std::string;
 
-    auto getAbilityString(const Ability& ability) -> const std::string;
+    auto getAbilityString(const Ability &ability) -> const std::string;
 
     auto getEquippedItemsString(const std::unordered_map<std::string, uint32_t> &equipped) -> const std::string;
 

@@ -138,7 +138,7 @@ namespace CombatSystem
             // handle flee
             if (combat.turnQueue.size() == 0)
             {
-                Utils::printBorderedTextWithColor("You have fled from the fight!", Utils::COLOR_RED);
+                Utils::printBorderedTextWithColor("You have fled from the fight!", Utils::kColorRed);
                 Utils::newLine();
                 Utils::pressEnterToContinue();
                 return false;
@@ -177,14 +177,14 @@ namespace CombatSystem
         // end combat
         if (!isAnyEnemyAlive(combat))
         {
-            Utils::printBorderedTextWithColor("VICTORY!", Utils::COLOR_GREEN);
+            Utils::printBorderedTextWithColor("VICTORY!", Utils::kColorGreen);
             Utils::newLine();
             Utils::pressEnterToContinue();
             return true;
         }
         else
         {
-            Utils::printBorderedTextWithColor("DEFEAT!", Utils::COLOR_RED);
+            Utils::printBorderedTextWithColor("DEFEAT!", Utils::kColorRed);
             Utils::newLine();
             Utils::pressEnterToContinue();
             return false;
@@ -214,7 +214,7 @@ namespace CombatSystem
         Utils::printCombatHeroHeader(hero);
         Utils::printCombatHeroHeader(target);
         Utils::printSpacedText(
-            hero.name + " used " + Utils::colorize(description, Utils::COLOR_YELLOW) + " on " + target.name + ".");
+            hero.name + " used " + Utils::colorize(description, Utils::kColorYellow) + " on " + target.name + ".");
 
         if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
         {
@@ -260,7 +260,7 @@ namespace CombatSystem
             const auto oldHp = oldHps[i];
 
             std::string text =
-                hero.name + " used " + Utils::colorize(description, Utils::COLOR_YELLOW) + " on " + target.name + ".";
+                hero.name + " used " + Utils::colorize(description, Utils::kColorYellow) + " on " + target.name + ".";
 
             if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
             {
@@ -322,7 +322,7 @@ namespace CombatSystem
                         oldTargetHP,
                         hero,
                         target,
-                        "Protected by " + Utils::colorize(se.name, Utils::COLOR_YELLOW));
+                        "Protected by " + Utils::colorize(se.name, Utils::kColorYellow));
                     return;
                 }
             }
@@ -535,7 +535,7 @@ namespace CombatSystem
                 Utils::printCombatHeroHeader(hero);
                 Utils::printSpacedText(
                     "Recieved " + std::to_string(se.specialValue) + " damage from " +
-                    Utils::colorize(se.name, Utils::COLOR_YELLOW));
+                    Utils::colorize(se.name, Utils::kColorYellow));
                 Utils::newLine();
                 if (hero.health == 0)
                 {
@@ -551,7 +551,7 @@ namespace CombatSystem
             {
                 Utils::clearScreen();
                 Utils::printCombatHeroHeader(hero);
-                Utils::printSpacedText("Turn skipped because of " + Utils::colorize(se.name, Utils::COLOR_YELLOW));
+                Utils::printSpacedText("Turn skipped because of " + Utils::colorize(se.name, Utils::kColorYellow));
                 Utils::newLine();
                 Utils::pressEnterToContinue();
 
@@ -565,7 +565,7 @@ namespace CombatSystem
                 Utils::printCombatHeroHeader(hero);
                 Utils::printSpacedText(
                     "Recieved " + std::to_string(se.specialValue) + " health from " +
-                    Utils::colorize(se.name, Utils::COLOR_YELLOW));
+                    Utils::colorize(se.name, Utils::kColorYellow));
                 Utils::newLine();
                 Utils::pressEnterToContinue();
             }
@@ -671,7 +671,7 @@ namespace CombatSystem
             for (auto t : targetable)
             {
                 const auto &h = combat.turnQueue[t];
-                const auto color = h.controller == Controller::AI_Enemy ? Utils::COLOR_RED : Utils::COLOR_GREEN;
+                const auto color = h.controller == Controller::AI_Enemy ? Utils::kColorRed : Utils::kColorGreen;
                 targets.push_back(
                     "Target " + Utils::colorize(h.name, color) + " (Level: " + std::to_string(h.level) +
                     " HP: " + std::to_string(h.health) + "/" + std::to_string(h.maxHealth) + ")");
