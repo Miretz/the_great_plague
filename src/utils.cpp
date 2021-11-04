@@ -267,13 +267,18 @@ namespace Utils
         ss << COLOR_END;
         ss << " (Level " << hero.level << ") ";
 
-        ss << " | AP: " << COLOR_YELLOW << std::to_string(hero.actionPoints) << COLOR_END;
+        // action points
+        ss << " | AP: ";
+        ss << COLOR_YELLOW; 
+        ss << hero.actionPoints;
+        ss << COLOR_END;
+        
+        // health
         ss << " | HP: ";
-        ss << std::left << std::setw(8);  // NOLINT
-        ss << std::to_string(hero.health);
+        ss << hero.health;
         ss << '/';
-        ss << std::to_string(hero.maxHealth);
-        ss << '|';
+        ss << hero.maxHealth;
+        ss << " | ";
 
         // health bar
         auto healthBarColor = hero.health < 50 ? COLOR_YELLOW : COLOR_GREEN;  // NOLINT
@@ -287,14 +292,15 @@ namespace Utils
             healthBarSs << '|';
         }
         ss << healthBarSs.str();
-
         ss << COLOR_END;
 
         // armor
         ss << " | Armor: ";
         ss << InventoryManager::getEquippedArmorValue(hero);
-        ss << " | Race: " << g_AllRaces.at(hero.race).name << '\n';
-
+        ss << " | Race: "; 
+        ss << g_AllRaces.at(hero.race).name;
+        
+        ss << '\n';
         std::cout << ss.str();
 
         // print status effects
