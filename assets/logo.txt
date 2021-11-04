@@ -4,7 +4,6 @@
    S%S          SS.       SS.     sS    `:;       SS.       SS.       SS.    SSS        sS    S%S                 SS.       SS.       SS.       SS.
    S%S    sS    S%S sS    `:;     SS        sS    S%S sS    `:; sS    S%S    S%S        SS    S%S sS        sS    S%S sS    `:; sS    S%S sS    `:;
    S%S    SSSs. S%S SSSs.         SS        SS .sS;:' SSSs.     SSSs. S%S    S%S        SS .sS::' SS        SSSs. S%S SS        SS    S%S SSSs.    
-   S%S    SS    S%S SS            SS        SS    ;,  SS        SS    S%S    S%S        SS        SS        SS    S%S SS        SS    S%S SS       
    `:;    SS    `:; SS            SS   ``:; SS    `:; SS        SS    `:;    `:;        SS        SS        SS    `:; SS   ``:; SS    `:; SS       
    ;,.    SS    ;,. SS    ;,.     SS    ;,. SS    ;,. SS    ;,. SS    ;,.    ;,.        SS        SS    ;,. SS    ;,. SS    ;,. SS    ;,. SS    ;,.
    ;:'    :;    ;:' `:;;;;;:'     `:;;;;;:' `:    ;:' `:;;;;;:' :;    ;:'    ;:'        `:        `:;;;;;:' :;    ;:' `:;;;;;:' `:;;;;;:' `:;;;;;:'
