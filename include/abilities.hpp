@@ -18,9 +18,9 @@ namespace Abilities
 
     void init();
 
-    void learnAbility(Hero &hero, const std::string &id);
+    void learnAbility(Hero &hero, std::string_view id);
 
-    void executeAbility(const std::string &id, Hero &caster, Hero &target, Combat &combat);
+    void executeAbility(std::string_view id, Hero &caster, Hero &target, Combat &combat);
 
     // ability scripts
     void f_FirstAid(const Hero &caster, Hero &target, Combat &combat);

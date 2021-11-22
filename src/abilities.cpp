@@ -31,15 +31,15 @@ namespace Abilities
         }
     }
 
-    void learnAbility(Hero &hero, const std::string &id)
+    void learnAbility(Hero &hero, std::string_view id)
     {
         if (getAbility(id).has_value())
         {
-            hero.abilities.push_back(id);
+            hero.abilities.emplace_back(id);
         }
     }
 
-    void executeAbility(const std::string &id, Hero &caster, Hero &target, Combat &combat)
+    void executeAbility(std::string_view id, Hero &caster, Hero &target, Combat &combat)
     {
         if (getAbility(id).has_value())
         {

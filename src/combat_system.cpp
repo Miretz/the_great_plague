@@ -335,7 +335,7 @@ namespace CombatSystem
         printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, description);
     }
 
-    void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat)
+    void abilityAttack(Hero &hero, Hero &target, std::string_view abilityId, Combat &combat)
     {
         const auto ability = Abilities::getAbility(abilityId).value();
 
@@ -379,7 +379,7 @@ namespace CombatSystem
         }
     }
 
-    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId) -> std::vector<uint32_t>
+    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, std::string_view abilityId) -> std::vector<uint32_t>
     {
         std::vector<uint32_t> targetable;
 
