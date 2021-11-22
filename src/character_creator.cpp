@@ -37,7 +37,8 @@ namespace CharacterCreator
 
             Utils::clearScreen();
 
-            auto hero = pickHeroRace(name);
+            const auto raceDetail = pickHeroRace();
+            auto hero = createHero(name, raceDetail);
 
             Characters::assignAttributePoints(hero);
             Characters::assignSpecialtyPoints(hero);
@@ -71,7 +72,7 @@ namespace CharacterCreator
         return heroes;
     }
 
-    auto pickHeroRace(const std::string &name) -> Hero
+    auto pickHeroRace() -> std::pair<Race, RaceDetail>
     {
         auto prompt = []() { Utils::printBorderedText("Please select your race:"); };
 
@@ -94,8 +95,11 @@ namespace CharacterCreator
         }
 
         auto selection = Utils::pickOptionFromList(prompt, menu);
-        auto race = g_AllRaces.at(startingRaces.at(selection));
+        return { startingRaces.at(selection), g_AllRaces.at(startingRaces.at(selection)) };
+    }
 
+    auto createHero(std::string_view name, const std::pair<Race, RaceDetail> &race) -> Hero
+    {
         static constexpr Attributes defaultAttributes{ 10, 10, 10, 10 };
         static constexpr Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         static constexpr uint32_t maxHealth = 100;
@@ -103,10 +107,10 @@ namespace CharacterCreator
         static constexpr uint32_t level = 1;
         static constexpr uint32_t xpToLevelUp = 100;
 
-        std::string uniqueId = "PLR_" + name;
+        std::string uniqueId = "PLR_" + std::string(name);
 
         Hero hero{ uniqueId,
-                   name,
+                   std::string(name),
                    maxHealth,
                    xp,
                    maxHealth,
@@ -114,11 +118,11 @@ namespace CharacterCreator
                    xpToLevelUp,
                    kStartingAttributePoints,
                    kStartingSpecialtyPoints,
-                   startingRaces.at(selection),
+                   race.first,
                    Controller::Player,
                    defaultAttributes,
                    defaultSpecialties,
-                   { race.abilityId },
+                   { race.second.abilityId },
                    basicInventory,
                    {},
                    0 };

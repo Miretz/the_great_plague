@@ -40,7 +40,9 @@ namespace CharacterCreator
 
     [[nodiscard]] auto createHeroes() -> std::vector<Hero>;
 
-    [[nodiscard]] auto pickHeroRace(const std::string &name) -> Hero;
+    [[nodiscard]] auto pickHeroRace() -> std::pair<Race, RaceDetail>;
+
+    [[nodiscard]] auto createHero(std::string_view name, const std::pair<Race, RaceDetail>& race) -> Hero;
 
     [[nodiscard]] auto pickStartingAbility() -> const std::string;
 
