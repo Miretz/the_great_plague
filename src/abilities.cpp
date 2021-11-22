@@ -13,13 +13,13 @@ namespace Abilities
 {
     std::unordered_map<std::string, Ability> loadedAbilities;  // NOLINT
 
-    auto getAbility(const std::string &id) -> std::optional<Ability>
+    auto getAbility(std::string_view id) -> std::optional<Ability>
     {
         if (id.empty())
         {
             return std::nullopt;
         }
-        return loadedAbilities.at(id);
+        return loadedAbilities.at(std::string(id));
     }
 
     void init()

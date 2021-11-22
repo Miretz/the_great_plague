@@ -23,7 +23,7 @@ namespace CharacterCreator
         Race::Vulpotis,   //
     };
 
-    inline constexpr std::array<const char *, 10> startingAbilities{
+    inline constexpr std::array<std::string_view, 10> startingAbilities{
         "first_aid",      //
         "evasion",        //
         "knockdown",      //
@@ -38,13 +38,13 @@ namespace CharacterCreator
 
     inline constexpr std::array<uint32_t, 7> startingItems{ 0, 1, 2, 3, 4, 5, 6 };
 
-    auto createHeroes() -> std::vector<Hero>;
+    [[nodiscard]] auto createHeroes() -> std::vector<Hero>;
 
-    auto pickHeroRace(const std::string &name) -> Hero;
+    [[nodiscard]] auto pickHeroRace(const std::string &name) -> Hero;
 
-    auto pickStartingAbility() -> const std::string;
+    [[nodiscard]] auto pickStartingAbility() -> const std::string;
 
-    auto pickStartingItem(const Attributes &attributes) -> uint32_t;
+    [[nodiscard]] auto pickStartingItem(const Attributes &attributes) -> uint32_t;
 }  // namespace CharacterCreator
 
 #endif

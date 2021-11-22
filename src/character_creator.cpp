@@ -138,7 +138,7 @@ namespace CharacterCreator
             menu.push_back(Utils::getAbilityString(sa));
         }
 
-        return startingAbilities.at(Utils::pickOptionFromList(prompt, menu));
+        return std::string(startingAbilities.at(Utils::pickOptionFromList(prompt, menu)));
     }
 
     auto pickStartingItem(const Attributes &attributes) -> uint32_t

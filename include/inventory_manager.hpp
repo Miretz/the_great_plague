@@ -40,23 +40,23 @@ namespace InventoryManager
 
     void equipItem(Hero &hero, const uint32_t itemId, const EquipmentSlot slot);
 
-    auto equipableInHand(const Hero &hero, const EquipmentSlot slot) -> const std::vector<uint32_t>;
+    [[nodiscard]] auto equipableInHand(const Hero &hero, const EquipmentSlot slot) -> const std::vector<uint32_t>;
 
-    auto getEquippedItemName(const Hero &hero, const EquipmentSlot slot) -> std::optional<std::string>;
+    [[nodiscard]] auto getEquippedItemName(const Hero &hero, const EquipmentSlot slot) -> std::optional<std::string>;
 
-    auto selectSlot(const Hero &hero) -> std::optional<EquipmentSlot>;
+    [[nodiscard]] auto selectSlot(const Hero &hero) -> std::optional<EquipmentSlot>;
 
     void selectEquipment(Hero &hero);
 
     void selectPartyEquipment(std::vector<Hero> &heroes);
 
-    auto getEquippedArmorValue(const Hero &hero) -> uint32_t;
+    [[nodiscard]] auto getEquippedArmorValue(const Hero &hero) -> uint32_t;
 
-    auto getEquippedDamageValue(const Hero &hero) -> uint32_t;
+    [[nodiscard]] auto getEquippedDamageValue(const Hero &hero) -> uint32_t;
 
-    auto getEquipmentSlotName(const EquipmentSlot eSlot) -> std::string;
+    [[nodiscard]] auto getEquipmentSlotName(const EquipmentSlot eSlot) -> std::string;
 
-    auto getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero) -> uint32_t;
+    [[nodiscard]] auto getPrimaryAttributeValueFromHero(const Item &item, const Hero &hero) -> uint32_t;
 }  // namespace InventoryManager
 
 #endif

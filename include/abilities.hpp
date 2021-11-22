@@ -14,7 +14,7 @@ struct Ability;
 
 namespace Abilities
 {
-    auto getAbility(const std::string &id) -> std::optional<Ability>;
+    [[nodiscard]] auto getAbility(std::string_view id) -> std::optional<Ability>;
 
     void init();
 

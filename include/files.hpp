@@ -3,8 +3,8 @@
 #define files_hpp
 
 #include <string>
-#include <vector>
 #include <string_view>
+#include <vector>
 
 struct Hero;
 struct Ability;
@@ -17,25 +17,25 @@ namespace Files
     inline constexpr std::string_view kDelimiter = "|";
     inline constexpr std::string_view kValueDelimiter = ";";
 
-    auto serializeHero(const Hero &hero) -> const std::string;
+    [[nodiscard]] auto serializeHero(const Hero &hero) -> const std::string;
 
-    auto deserializeHero(std::string serialized) -> Hero;
+    [[nodiscard]] auto deserializeHero(std::string serialized) -> Hero;
 
     void saveGame(const GameState &gameState);
 
-    auto loadGame() -> GameState;
+    [[nodiscard]] auto loadGame() -> GameState;
 
-    auto loadFile(const std::string &filePath) -> const std::string;
+    [[nodiscard]] auto loadFile(const std::string &filePath) -> const std::string;
 
     void saveFile(const std::string &data, const std::string &filePath);
 
-    auto loadHeroFromConfig(const std::string &filePath) -> Hero;
+    [[nodiscard]] auto loadHeroFromConfig(const std::string &filePath) -> Hero;
 
     void saveHeroToFile(const Hero &hero, const std::string &filePath);
 
-    auto loadAbilities(const std::string &filePath) -> std::vector<Ability>;
+    [[nodiscard]] auto loadAbilities(const std::string &filePath) -> std::vector<Ability>;
 
-    auto loadConversationFile(const std::string &conversationFilePath) -> std::vector<ConversationLine>;
+    [[nodiscard]] auto loadConversationFile(const std::string &conversationFilePath) -> std::vector<ConversationLine>;
 }  // namespace Files
 
 #endif

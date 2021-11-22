@@ -13,19 +13,19 @@ namespace CombatSystem
 {
     inline constexpr auto kMaxActionPoints = 6;
 
-    auto prepare(std::vector<Hero> heroes, std::vector<Hero> enemies) -> Combat;
+    [[nodiscard]] auto prepare(std::vector<Hero> heroes, std::vector<Hero> enemies) -> Combat;
 
     void resetActionPoints(Combat &combat);
 
-    auto isAnyFriendlyAlive(Combat &combat) -> bool;
+    [[nodiscard]] auto isAnyFriendlyAlive(Combat &combat) -> bool;
 
-    auto isAnyEnemyAlive(Combat &combat) -> bool;
+    [[nodiscard]] auto isAnyEnemyAlive(Combat &combat) -> bool;
 
-    auto isInvisible(const Hero &hero) -> bool;
+    [[nodiscard]] auto isInvisible(const Hero &hero) -> bool;
 
     void cleanTurnQueue(Combat &combat);
 
-    auto startCombat(const std::vector<Hero> &heroes, const std::vector<Hero> &enemies) -> bool;
+    [[nodiscard]] auto startCombat(const std::vector<Hero> &heroes, const std::vector<Hero> &enemies) -> bool;
 
     void miss(Hero &hero, const Hero &target);
 
@@ -47,7 +47,8 @@ namespace CombatSystem
         const std::vector<Hero> &targets,
         const std::string &description);
 
-    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId) -> std::vector<uint32_t>;
+    [[nodiscard]] auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId)
+        -> std::vector<uint32_t>;
 
     void executeHeroAITurn(Combat &combat);
 
