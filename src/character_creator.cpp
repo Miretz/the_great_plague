@@ -129,7 +129,7 @@ namespace CharacterCreator
         return hero;
     }
 
-    auto pickStartingAbility() -> const std::string
+    auto pickStartingAbility() -> std::string_view
     {
         Utils::clearScreen();
 
@@ -142,7 +142,7 @@ namespace CharacterCreator
             menu.push_back(Utils::getAbilityString(sa));
         }
 
-        return std::string(startingAbilities.at(Utils::pickOptionFromList(prompt, menu)));
+        return startingAbilities.at(Utils::pickOptionFromList(prompt, menu));
     }
 
     auto pickStartingItem(const Attributes &attributes) -> uint32_t
