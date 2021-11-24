@@ -26,12 +26,11 @@ namespace CharacterCreator
         while (heroes.size() < numHeroes)
         {
             Utils::printBorderedText("Please enter the hero's name");
-            auto name = Utils::enterName();
-
+            
+            const auto name = Utils::enterName();
             if (Characters::isNameAlreadyInUse(name, heroes))
             {
-                const auto warning = "The name " + name + " is already in use. Please choose a different name.";
-                Utils::printBorderedText(warning);
+                Utils::printBorderedText("The name " + name + " is already in use. Please choose a different name.");
                 continue;
             }
 
@@ -98,7 +97,7 @@ namespace CharacterCreator
         return { startingRaces.at(selection), g_AllRaces.at(startingRaces.at(selection)) };
     }
 
-    auto createHero(std::string_view name, const std::pair<Race, RaceDetail> &race) -> Hero
+    auto createHero(const std::string &name, const std::pair<Race, RaceDetail> &race) -> Hero
     {
         static constexpr Attributes defaultAttributes{ 10, 10, 10, 10 };
         static constexpr Specialties defaultSpecialties{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -107,10 +106,10 @@ namespace CharacterCreator
         static constexpr uint32_t level = 1;
         static constexpr uint32_t xpToLevelUp = 100;
 
-        std::string uniqueId = "PLR_" + std::string(name);
+        const std::string uniqueId = "PLR_" + name;
 
         Hero hero{ uniqueId,
-                   std::string(name),
+                   name,
                    maxHealth,
                    xp,
                    maxHealth,

@@ -19,7 +19,7 @@ namespace Abilities
         {
             return std::nullopt;
         }
-        return loadedAbilities.at(std::string(id));
+        return loadedAbilities.at(std::string{id});
     }
 
     void init()
