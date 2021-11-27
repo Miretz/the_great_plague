@@ -1,4 +1,3 @@
-#pragma once
 #ifndef inventory_manager_hpp
 #define inventory_manager_hpp
 

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef dice_hpp
 #define dice_hpp
 

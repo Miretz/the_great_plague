@@ -1,4 +1,3 @@
-#pragma once
 #ifndef characters_hpp
 #define characters_hpp
 

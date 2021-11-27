@@ -19,7 +19,7 @@ namespace Abilities
         {
             return std::nullopt;
         }
-        return loadedAbilities.at(std::string{id});
+        return loadedAbilities.at(std::string{ id });
     }
 
     void init()
@@ -47,19 +47,20 @@ namespace Abilities
 
             if (ability.type == AbilityType::StatusEffect || ability.type == AbilityType::AoE_Status)
             {
-                const auto &se = g_StatusEffects.at(ability.mapping);
+                const auto &currentStatusEffect = g_StatusEffects.at(ability.mapping);
 
                 // prevent applying twice
-                for (auto &seApplied : target.statusEffects)
+                auto existingStatusEffect = std::find_if(
+                    begin(target.statusEffects),
+                    end(target.statusEffects),
+                    [&](const auto &a) { return currentStatusEffect.name == a.name; });
+                if (existingStatusEffect != std::end(target.statusEffects))
                 {
-                    if (se.name == seApplied.name)
-                    {
-                        seApplied.turnsLeft = se.turnsLeft;
-                        return;
-                    }
+                    (*existingStatusEffect).turnsLeft = currentStatusEffect.turnsLeft;
+                    return;
                 }
 
-                target.statusEffects.push_back(se);
+                target.statusEffects.push_back(currentStatusEffect);
             }
             else
             {
@@ -126,26 +127,23 @@ namespace Abilities
 
         doggo.actionPoints = 2;
 
+        auto isSameId = [&](const auto &h) { return h.uniqueId == doggo.uniqueId; };
+
         // check if there already is a doggo
         // if yes, then heal it and remove status effects
-        for (auto &h : combat.turnQueue)
+        auto foundDogo = std::find_if(begin(combat.turnQueue), end(combat.turnQueue), isSameId);
+        if (foundDogo != std::end(combat.turnQueue))
         {
-            if (h.uniqueId == doggo.uniqueId)
-            {
-                h.health = doggo.maxHealth;
-                h.statusEffects = {};
-                h.actionPoints = doggo.actionPoints;
-                return;
-            }
+            (*foundDogo).health = doggo.maxHealth;
+            (*foundDogo).statusEffects = {};
+            (*foundDogo).actionPoints = doggo.actionPoints;
+            return;
         }
 
         // check if doggo in spawn queue
-        for (const auto &s : combat.spawnQueue)
+        if (std::any_of(combat.spawnQueue.cbegin(), combat.spawnQueue.cend(), isSameId))
         {
-            if (s.uniqueId == doggo.uniqueId)
-            {
-                return;
-            }
+            return;
         }
 
         combat.spawnQueue.push_back(doggo);

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef areas_hpp
 #define areas_hpp
 

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef combat_system_hpp
 #define combat_system_hpp
 

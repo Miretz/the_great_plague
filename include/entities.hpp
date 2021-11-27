@@ -1,4 +1,3 @@
-#pragma once
 #ifndef entities_hpp
 #define entities_hpp
 

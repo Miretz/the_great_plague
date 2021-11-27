@@ -1,4 +1,3 @@
-#pragma once
 #ifndef abilities_hpp
 #define abilities_hpp
 

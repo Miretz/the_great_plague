@@ -1,4 +1,3 @@
-#pragma once
 #ifndef conversation_system_hpp
 #define conversation_system_hpp
 

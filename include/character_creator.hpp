@@ -1,4 +1,3 @@
-#pragma once
 #ifndef character_creator_hpp
 #define character_creator_hpp
 
