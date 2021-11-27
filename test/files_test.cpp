@@ -1,7 +1,7 @@
 #include "files.hpp"
 
 #include "entities.hpp"
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 constexpr auto kHeroSerialized =
     "PLR_testman|testman|100|0|100|1|100|2|2|0|0|10|11|10|10|0|0|0|0|4|0|1|2|0|race_human;first_aid;||Torso;7;|";
@@ -12,14 +12,14 @@ TEST(Files, deserializeHero)
 
     EXPECT_STREQ("PLR_testman", hero.uniqueId.c_str());
     EXPECT_STREQ("testman", hero.name.c_str());
-    EXPECT_EQ(100, hero.health);
-    EXPECT_EQ(0, hero.xp);
-    EXPECT_EQ(100, hero.maxHealth);
-    EXPECT_EQ(1, hero.level);
-    EXPECT_EQ(100, hero.xpToLevelUp);
+    EXPECT_EQ(100u, hero.health);
+    EXPECT_EQ(0u, hero.xp);
+    EXPECT_EQ(100u, hero.maxHealth);
+    EXPECT_EQ(1u, hero.level);
+    EXPECT_EQ(100u, hero.xpToLevelUp);
     EXPECT_EQ(Race::Human, hero.race);
     EXPECT_EQ(Controller::Player, hero.controller);
-    EXPECT_EQ(1, hero.inventory.equipped.size());
+    EXPECT_EQ(1u, hero.inventory.equipped.size());
 
     EXPECT_STREQ("race_human", hero.abilities[0].c_str());
     EXPECT_STREQ("first_aid", hero.abilities[1].c_str());

@@ -1,6 +1,6 @@
 #include "utils.hpp"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
 TEST(Utils, trim)
 {
