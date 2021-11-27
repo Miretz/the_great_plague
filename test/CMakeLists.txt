@@ -11,6 +11,7 @@ include_directories(${GAME_SOURCE_DIR}/src)
 add_executable(
     Test
     utils_test.cpp
+    files_test.cpp
 )
 target_link_libraries(
     Test
