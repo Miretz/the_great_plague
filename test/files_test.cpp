@@ -4,11 +4,11 @@
 #include "gtest/gtest.h"
 
 constexpr auto kHeroSerialized =
-    "PLR_testman|testman|100|0|100|1|100|2|2|0|0|10|11|10|10|0|0|0|0|4|0|1|2|0|race_human;first_aid;|||";
+    "PLR_testman|testman|100|0|100|1|100|2|2|0|0|10|11|10|10|0|0|0|0|4|0|1|2|0|race_human;first_aid;||Torso;7;|";
 
 TEST(Files, deserializeHero)
 {
-    auto hero = Files::deserializeHero(kHeroSerialized);
+    const auto hero = Files::deserializeHero(kHeroSerialized);
 
     EXPECT_STREQ("PLR_testman", hero.uniqueId.c_str());
     EXPECT_STREQ("testman", hero.name.c_str());
@@ -19,6 +19,7 @@ TEST(Files, deserializeHero)
     EXPECT_EQ(100, hero.xpToLevelUp);
     EXPECT_EQ(Race::Human, hero.race);
     EXPECT_EQ(Controller::Player, hero.controller);
+    EXPECT_EQ(1, hero.inventory.equipped.size());
 
     EXPECT_STREQ("race_human", hero.abilities[0].c_str());
     EXPECT_STREQ("first_aid", hero.abilities[1].c_str());
@@ -40,7 +41,7 @@ TEST(Files, serializeHero)
     hero.controller = Controller::Player;
     hero.attributes = { 10, 11, 10, 10 };
     hero.specialties = { 0, 0, 0, 0, 4, 0, 1, 2, 0 };
-    hero.inventory = { {}, {} };
+    hero.inventory = { {}, { { "Torso", 7 } } };
     hero.abilities = { "race_human", "first_aid" };
 
     const auto serialized = Files::serializeHero(hero);
