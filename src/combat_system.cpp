@@ -422,9 +422,9 @@ namespace CombatSystem
             }
 
             // roll for ability selection, basic attack or skip
-            uint32_t validAbilitiesSize = static_cast<uint32_t>(validAbilityIds.size());
-            auto selection = Dice::randomSelection(0, validAbilitiesSize);
-            auto isBasicAttack = selection == validAbilitiesSize;
+            const auto validAbilitiesSize = static_cast<uint32_t>(validAbilityIds.size());
+            const auto selection = Dice::randomSelection(0, validAbilitiesSize);
+            const auto isBasicAttack = selection == validAbilitiesSize;
 
             // skip chance
             if (1 == Dice::rollDice(Dice::D20))
@@ -441,7 +441,7 @@ namespace CombatSystem
             }
 
             // pick enemy
-            auto targetable = getTargetableHeroes(combat, isBasicAttack, abilityId);
+            const auto targetable = getTargetableHeroes(combat, isBasicAttack, abilityId);
             if (targetable.empty())
             {
                 isSkipTurn = true;
