@@ -66,6 +66,13 @@ namespace Utils
 
     void printCombatHeroHeader(const Hero &hero);
 
+    void printCombatStatusMessage(
+        uint32_t oldHeroHP,
+        uint32_t oldTargetHP,
+        const Hero &hero,
+        const Hero &target,
+        const std::string &description);
+
     void printBorderedText(const std::string &text);
 
     void printBorderedTextWithColor(const std::string &text, const std::string &color);

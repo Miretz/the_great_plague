@@ -209,8 +209,7 @@ namespace Files
 
     void saveGame(const GameState &gameState)
     {
-        std::fstream file;
-        file.open(kSaveFile, std::ios::out);
+        std::ofstream file(kSaveFile);
         if (file.is_open())
         {
             file << gameState.areaId << '\n';
@@ -232,8 +231,7 @@ namespace Files
         GameState gs;
         gs.areaId = 0;
 
-        std::fstream file;
-        file.open(kSaveFile, std::ios::in);
+        std::ifstream file(kSaveFile);
         if (file.is_open())
         {
             std::string line;
@@ -279,8 +277,7 @@ namespace Files
     {
         std::ostringstream ss;
 
-        std::fstream file;
-        file.open(filePath, std::ios::in);
+        std::ifstream file(filePath);
         if (file.is_open())
         {
             std::string line;
@@ -297,8 +294,7 @@ namespace Files
 
     void saveFile(const std::string &data, const std::string &filePath)
     {
-        std::fstream file;
-        file.open(filePath, std::ios::out);
+        std::ofstream file(filePath);
         if (file.is_open())
         {
             file << data << '\n';
@@ -320,8 +316,7 @@ namespace Files
     {
         std::vector<Ability> abilities;
 
-        std::fstream file;
-        file.open(filePath, std::ios::in);
+        std::ifstream file(filePath);
         if (file.is_open())
         {
             std::string line;
@@ -413,8 +408,7 @@ namespace Files
     {
         std::vector<ConversationLine> lines;
 
-        std::fstream file;
-        file.open(conversationFilePath, std::ios::in);
+        std::ifstream file(conversationFilePath);
         if (file.is_open())
         {
             std::string line;

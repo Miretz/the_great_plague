@@ -13,6 +13,8 @@ struct Ability;
 
 namespace Abilities
 {
+    inline constexpr auto kAbilitiesFile = "assets/abilities/abilities.txt";
+
     [[nodiscard]] auto getAbility(std::string_view id) -> std::optional<Ability>;
 
     void init();

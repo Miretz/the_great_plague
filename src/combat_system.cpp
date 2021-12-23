@@ -4,6 +4,7 @@
 #include <functional>
 #include <iterator>
 #include <random>
+#include <sstream>
 
 #include "abilities.hpp"
 #include "characters.hpp"
@@ -17,10 +18,9 @@ namespace CombatSystem
     auto prepare(std::vector<Hero> heroes, std::vector<Hero> enemies) -> Combat
     {
         // shuffle heroes and enemies
-        std::random_device rd;
-        std::mt19937 g(rd());
-        std::shuffle(heroes.begin(), heroes.end(), g);
-        std::shuffle(enemies.begin(), enemies.end(), g);
+        Dice::randomize();
+        std::shuffle(heroes.begin(), heroes.end(), Dice::getGlobalRandom());
+        std::shuffle(enemies.begin(), enemies.end(), Dice::getGlobalRandom());
 
         std::vector<Hero> turnQueue;
 
@@ -203,7 +203,7 @@ namespace CombatSystem
         Utils::pressEnterToContinue();
     }
 
-    void printDamageNumbers(
+    void printStatus(
         uint32_t oldHeroHP,
         uint32_t oldTargetHP,
         const Hero &hero,
@@ -213,33 +213,14 @@ namespace CombatSystem
         Utils::clearScreen();
         Utils::printCombatHeroHeader(hero);
         Utils::printCombatHeroHeader(target);
-        Utils::printSpacedText(
-            hero.name + " used " + Utils::colorize(description, Utils::kColorYellow) + " on " + target.name + ".");
 
-        if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
-        {
-            Utils::printSpacedText("Restored health of " + hero.name + ": " + std::to_string(hero.health - oldHeroHP));
-        }
-
-        if (oldTargetHP < target.health)
-        {
-            Utils::printSpacedText("Restored health of " + target.name + ": " + std::to_string(target.health - oldTargetHP));
-        }
-        else if (oldTargetHP != target.health)
-        {
-            Utils::printSpacedText("Damage to " + target.name + ": " + std::to_string(oldTargetHP - target.health));
-        }
-
-        if (target.health == 0)
-        {
-            Utils::printBorderedText(target.name + " has died.");
-        }
+        Utils::printCombatStatusMessage(oldHeroHP, oldTargetHP, hero, target, description);
 
         Utils::newLine();
         Utils::pressEnterToContinue();
     }
 
-    void printDamageNumbersMultiple(
+    void printStatusMultiple(
         uint32_t oldHeroHP,
         std::vector<uint32_t> oldHps,
         const Hero &hero,
@@ -257,31 +238,9 @@ namespace CombatSystem
         for (uint32_t i = 0; i < oldHps.size(); ++i)
         {
             const auto &target = targets[i];
-            const auto oldHp = oldHps[i];
+            const auto oldTargetHP = oldHps[i];
 
-            std::string text =
-                hero.name + " used " + Utils::colorize(description, Utils::kColorYellow) + " on " + target.name + ".";
-
-            if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
-            {
-                text += " (Restored health of " + hero.name + ": " + std::to_string(hero.health - oldHeroHP) + ") ";
-            }
-
-            if (oldHp < target.health)
-            {
-                text += " (Restored health of " + target.name + ": " + std::to_string(target.health - oldHp) + ") ";
-            }
-            else if (oldHp != target.health)
-            {
-                text += " (Damage to " + target.name + ": " + std::to_string(oldHp - target.health) + ") ";
-            }
-
-            Utils::printSpacedText(text);
-
-            if (target.health == 0)
-            {
-                Utils::printBorderedText(target.name + " has died.");
-            }
+            Utils::printCombatStatusMessage(oldHeroHP, oldTargetHP, hero, target, description);
         }
 
         Utils::newLine();
@@ -317,7 +276,7 @@ namespace CombatSystem
             {
                 if (Dice::rollDice(Dice::D20) < se.specialValue)
                 {
-                    printDamageNumbers(
+                    printStatus(
                         oldHeroHP,
                         oldTargetHP,
                         hero,
@@ -332,7 +291,7 @@ namespace CombatSystem
 
         const std::string description = critical ? "Critical Hit" : "Basic Attack";  // NOLINT
 
-        printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, description);
+        printStatus(oldHeroHP, oldTargetHP, hero, target, description);
     }
 
     void abilityAttack(Hero &hero, Hero &target, std::string_view abilityId, Combat &combat)
@@ -355,13 +314,13 @@ namespace CombatSystem
                 targets.push_back(combat.turnQueue[tgId]);
             }
 
-            printDamageNumbersMultiple(oldHeroHP, oldHps, hero, targets, ability.name);
+            printStatusMultiple(oldHeroHP, oldHps, hero, targets, ability.name);
         }
         else
         {
             const auto oldTargetHP = target.health;
             Abilities::executeAbility(abilityId, hero, target, combat);
-            printDamageNumbers(oldHeroHP, oldTargetHP, hero, target, ability.name);
+            printStatus(oldHeroHP, oldTargetHP, hero, target, ability.name);
         }
 
         decreaseAP(hero, ability.actionPoints);

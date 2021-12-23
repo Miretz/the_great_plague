@@ -24,7 +24,7 @@ namespace Abilities
 
     void init()
     {
-        const auto abilitiesFromFile = Files::loadAbilities("assets/abilities/abilities.txt");
+        const auto abilitiesFromFile = Files::loadAbilities(kAbilitiesFile);
         for (const auto &ab : abilitiesFromFile)
         {
             loadedAbilities[ab.id] = ab;

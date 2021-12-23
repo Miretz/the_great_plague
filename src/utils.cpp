@@ -321,6 +321,36 @@ namespace Utils
         printBorder();
     }
 
+    void printCombatStatusMessage(
+        uint32_t oldHeroHP,
+        uint32_t oldTargetHP,
+        const Hero &hero,
+        const Hero &target,
+        const std::string &description)
+    {
+        std::stringstream ss;
+        ss << hero.name << " used " << Utils::colorize(description, Utils::kColorYellow) << " on " << target.name << ".";
+        if (oldHeroHP < hero.health && hero.uniqueId != target.uniqueId)
+        {
+            ss << " (Restored health of " << hero.name << ": " << (hero.health - oldHeroHP) << ") ";
+        }
+
+        if (oldTargetHP < target.health)
+        {
+            ss << " (Restored health of " << target.name << ": " << (target.health - oldTargetHP) << ") ";
+        }
+        else if (oldTargetHP != target.health)
+        {
+            ss << " (Damage to " << target.name << ": " << (oldTargetHP - target.health) << ") ";
+        }
+        printSpacedText(ss.str());
+
+        if (target.health == 0)
+        {
+            printBorderedText(target.name + " has died.");
+        }
+    }
+
     void printBorderedText(const std::string &text)
     {
         printBorder();

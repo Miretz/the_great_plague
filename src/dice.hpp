@@ -18,6 +18,10 @@ namespace Dice
     // used for checking the success of an action
     inline constexpr uint32_t D20 = 20;
 
+    [[nodiscard]] auto getGlobalRandom() -> std::default_random_engine&;
+
+    void randomize();
+
     [[nodiscard]] auto rollDice(uint32_t die) -> uint32_t;
 
     [[nodiscard]] auto randomSelection(uint32_t min, uint32_t max) -> uint32_t;

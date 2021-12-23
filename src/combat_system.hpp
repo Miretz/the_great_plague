@@ -32,14 +32,14 @@ namespace CombatSystem
 
     void abilityAttack(Hero &hero, Hero &target, std::string_view abilityId, Combat &combat);
 
-    void printDamageNumbers(
+    void printStatus(
         uint32_t oldHeroHP,
         uint32_t oldTargetHP,
         const Hero &hero,
         const Hero &target,
         const std::string &description);
 
-    void printDamageNumbersMultiple(
+    void printStatusMultiple(
         uint32_t oldHeroHP,
         std::vector<uint32_t> oldHps,
         const Hero &hero,
