@@ -22,6 +22,4 @@ target_link_libraries(
 
 gtest_discover_tests(Test) 
 
-add_test(NAME UnitTest COMMAND Test) 
-
 add_custom_command(TARGET Test POST_BUILD COMMAND ctest --output-on-failure)
