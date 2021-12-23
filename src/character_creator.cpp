@@ -26,7 +26,7 @@ namespace CharacterCreator
         while (heroes.size() < numHeroes)
         {
             Utils::printBorderedText("Please enter the hero's name");
-            
+
             const auto name = Utils::enterName();
             if (Characters::isNameAlreadyInUse(name, heroes))
             {
@@ -77,17 +77,16 @@ namespace CharacterCreator
 
         std::vector<std::string> menu;
 
-        for (auto rId : startingRaces)
+        for (const auto &raceId : startingRaces)
         {
-            auto r = g_AllRaces.at(rId);
+            const auto &race = g_AllRaces.at(raceId);
+            const auto defaultRaceAbility = Abilities::getAbility(race.abilityId).value();
 
-            auto ability = Abilities::getAbility(r.abilityId).value();
-
-            std::string menuOption = r.name;
+            std::string menuOption = race.name;
             menuOption += Utils::kColorEnd;
             menuOption += Utils::kColorGrey;
-            menuOption += "\n  " + r.description;
-            menuOption += "\n  Grants ability: " + ability.name + " - " + ability.description;
+            menuOption += "\n  " + race.description;
+            menuOption += "\n  Grants ability: " + defaultRaceAbility.name + " - " + defaultRaceAbility.description;
             menuOption += Utils::kColorEnd;
 
             menu.push_back(menuOption);
@@ -128,7 +127,7 @@ namespace CharacterCreator
         return hero;
     }
 
-    auto pickStartingAbility() -> std::string_view
+    auto pickStartingAbility() -> std::string
     {
         Utils::clearScreen();
 
@@ -137,17 +136,17 @@ namespace CharacterCreator
         std::vector<std::string> menu;
         for (const auto &abilityId : startingAbilities)
         {
-            const auto sa = Abilities::getAbility(abilityId).value();
-            menu.push_back(Utils::getAbilityString(sa));
+            const auto startingAbility = Abilities::getAbility(std::string{ abilityId }).value();
+            menu.push_back(Utils::getAbilityString(startingAbility));
         }
 
-        return startingAbilities.at(Utils::pickOptionFromList(prompt, menu));
+        return std::string{ startingAbilities.at(Utils::pickOptionFromList(prompt, menu)) };
     }
 
     auto pickStartingItem(const Attributes &attributes) -> uint32_t
     {
         std::vector<uint32_t> filtered;
-        for (auto itemId : startingItems)
+        for (const auto &itemId : startingItems)
         {
             const auto &reqs = g_AllItems[itemId].requirements;
             if (attributes.strength >= reqs.strength && attributes.dexterity >= reqs.dexterity &&

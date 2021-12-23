@@ -11,27 +11,33 @@
 
 namespace Abilities
 {
-    std::unordered_map<std::string, Ability> loadedAbilities;  // NOLINT
-
-    auto getAbility(std::string_view id) -> std::optional<Ability>
+    auto getAbility(const std::string &id) -> std::optional<Ability>
     {
         if (id.empty())
         {
             return std::nullopt;
         }
-        return loadedAbilities.at(std::string{ id });
+        static const auto loadedAbilities = loadFromFile();
+        const auto found = loadedAbilities.find(id);
+        if (found == loadedAbilities.end())
+        {
+            return std::nullopt;
+        }
+        return found->second;
     }
 
-    void init()
+    auto loadFromFile() -> std::unordered_map<std::string, Ability>
     {
+        std::unordered_map<std::string, Ability> loadedAbilities;
         const auto abilitiesFromFile = Files::loadAbilities(kAbilitiesFile);
         for (const auto &ab : abilitiesFromFile)
         {
             loadedAbilities[ab.id] = ab;
         }
+        return loadedAbilities;
     }
 
-    void learnAbility(Hero &hero, std::string_view id)
+    void learnAbility(Hero &hero, const std::string &id)
     {
         if (getAbility(id).has_value())
         {
@@ -39,7 +45,7 @@ namespace Abilities
         }
     }
 
-    void executeAbility(std::string_view id, Hero &caster, Hero &target, Combat &combat)
+    void executeAbility(const std::string &id, Hero &caster, Hero &target, Combat &combat)
     {
         if (getAbility(id).has_value())
         {
@@ -162,7 +168,7 @@ namespace Abilities
             return;
         }
 
-        const auto index = Dice::randomSelection(0, combat.dead.size() - 1);
+        const auto index = Dice::randomSelection(0, static_cast<uint32_t>(combat.dead.size() - 1));
         auto revived = combat.dead[index];
         revived.health = revived.maxHealth;
         revived.controller = caster.controller;

@@ -109,30 +109,7 @@ namespace CombatSystem
         {
             Utils::clearScreen();
 
-            // Print the combat queue
-            Utils::printBorderedText("Combat Queue - Turn: " + std::to_string(combat.turn));
-            Utils::newLine();
-            Utils::printSpacedText("Next:");
-            Utils::printCombatHeroHeader(combat.turnQueue[combat.currentHero]);
-            Utils::newLine();
-            if (combat.currentHero != combat.turnQueue.size() - 1)
-            {
-                for (uint32_t i = combat.currentHero + 1; i < combat.turnQueue.size(); ++i)
-                {
-                    Utils::printCombatHeroHeader(combat.turnQueue[i]);
-                }
-            }
-            Utils::printBorder();
-            if (combat.currentHero != 0)
-            {
-                for (uint32_t i = 0; i < combat.currentHero; ++i)
-                {
-                    Utils::printCombatHeroHeader(combat.turnQueue[i]);
-                }
-            }
-            Utils::newLine();
-            Utils::pressEnterToContinue();
-
+            printCombatQueue(combat);
             executeHeroTurn(combat);
 
             // handle flee
@@ -160,21 +137,10 @@ namespace CombatSystem
         cleanTurnQueue(combat);
         clearAllStatusEffects(combat);
 
-        // print survivors
-        Utils::clearScreen();
-        Utils::printBorderedText("Combat Over - Turn: " + std::to_string(combat.turn));
-        Utils::printSpacedText("Survivors:");
-        for (const auto &h : combat.turnQueue)
-        {
-            Utils::printCombatHeroHeader(h);
-        }
-        for (const auto &h : combat.dead)
-        {
-            Utils::printBorderedText(h.name + " has died.");
-        }
-        Utils::printSpacedText("Result:");
+        printCasaulties(combat);
 
         // end combat
+        Utils::printSpacedText("Result:");
         if (!isAnyEnemyAlive(combat))
         {
             Utils::printBorderedTextWithColor("VICTORY!", Utils::kColorGreen);
@@ -201,6 +167,47 @@ namespace CombatSystem
         Utils::printSpacedText("Miss!");
         Utils::newLine();
         Utils::pressEnterToContinue();
+    }
+
+    void printCombatQueue(Combat &combat)
+    {
+        Utils::printBorderedText("Combat Queue - Turn: " + std::to_string(combat.turn));
+        Utils::newLine();
+        Utils::printSpacedText("Next:");
+        Utils::printCombatHeroHeader(combat.turnQueue[combat.currentHero]);
+        Utils::newLine();
+        if (combat.currentHero != combat.turnQueue.size() - 1)
+        {
+            for (uint32_t i = combat.currentHero + 1; i < combat.turnQueue.size(); ++i)
+            {
+                Utils::printCombatHeroHeader(combat.turnQueue[i]);
+            }
+        }
+        Utils::printBorder();
+        if (combat.currentHero != 0)
+        {
+            for (uint32_t i = 0; i < combat.currentHero; ++i)
+            {
+                Utils::printCombatHeroHeader(combat.turnQueue[i]);
+            }
+        }
+        Utils::newLine();
+        Utils::pressEnterToContinue();
+    }
+
+    void printCasaulties(Combat &combat)
+    {
+        Utils::clearScreen();
+        Utils::printBorderedText("Combat Over - Turn: " + std::to_string(combat.turn));
+        Utils::printSpacedText("Survivors:");
+        for (const auto &h : combat.turnQueue)
+        {
+            Utils::printCombatHeroHeader(h);
+        }
+        for (const auto &h : combat.dead)
+        {
+            Utils::printBorderedText(h.name + " has died.");
+        }
     }
 
     void printStatus(
@@ -249,11 +256,12 @@ namespace CombatSystem
 
     void basicAttack(Hero &hero, Hero &target)
     {
-        auto d20Result = Dice::rollDice(Dice::D20);
-        const bool critical = d20Result == 20;
-
+        // base damage from weapon
         auto damageValue = InventoryManager::getEquippedDamageValue(hero);
 
+        // roll for critical, or penalize the base attack
+        auto d20Result = Dice::rollDice(Dice::D20);
+        const bool critical = d20Result == 20;
         static constexpr auto randomDamageValue = 5;
         if (critical)  // critical always double damage
         {
@@ -264,6 +272,7 @@ namespace CombatSystem
             damageValue -= Dice::randomSelection(0, randomDamageValue);
         }
 
+        // we need to remember the health before the attack
         auto oldHeroHP = hero.health;
         auto oldTargetHP = target.health;
 
@@ -294,7 +303,7 @@ namespace CombatSystem
         printStatus(oldHeroHP, oldTargetHP, hero, target, description);
     }
 
-    void abilityAttack(Hero &hero, Hero &target, std::string_view abilityId, Combat &combat)
+    void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat)
     {
         const auto ability = Abilities::getAbility(abilityId).value();
 
@@ -338,7 +347,7 @@ namespace CombatSystem
         }
     }
 
-    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, std::string_view abilityId) -> std::vector<uint32_t>
+    auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string &abilityId) -> std::vector<uint32_t>
     {
         std::vector<uint32_t> targetable;
 
@@ -413,8 +422,9 @@ namespace CombatSystem
             }
 
             // roll for ability selection, basic attack or skip
-            auto selection = Dice::randomSelection(0, validAbilityIds.size());
-            auto isBasicAttack = selection == validAbilityIds.size();
+            uint32_t validAbilitiesSize = static_cast<uint32_t>(validAbilityIds.size());
+            auto selection = Dice::randomSelection(0, validAbilitiesSize);
+            auto isBasicAttack = selection == validAbilitiesSize;
 
             // skip chance
             if (1 == Dice::rollDice(Dice::D20))

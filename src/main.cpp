@@ -1,7 +1,7 @@
 #include "abilities.hpp"
 #include "areas.hpp"
 #include "character_creator.hpp"
-#include "dice.hpp";
+#include "dice.hpp"
 #include "entities.hpp"
 #include "files.hpp"
 #include "utils.hpp"
@@ -10,8 +10,6 @@ auto main() -> int
 {
     Utils::initConsole();
     Dice::randomize();
-
-    Abilities::init();
 
     while (true)
     {

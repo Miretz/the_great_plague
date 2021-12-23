@@ -43,7 +43,7 @@ namespace CharacterCreator
 
     [[nodiscard]] auto createHero(const std::string& name, const std::pair<Race, RaceDetail>& race) -> Hero;
 
-    [[nodiscard]] auto pickStartingAbility() -> std::string_view;
+    [[nodiscard]] auto pickStartingAbility() -> std::string;
 
     [[nodiscard]] auto pickStartingItem(const Attributes& attributes) -> uint32_t;
 }  // namespace CharacterCreator

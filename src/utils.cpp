@@ -13,6 +13,7 @@
 #include <conio.h>
 #include <windows.h>
 
+#include <cstdlib>
 #include <cwchar>
 
 #else
@@ -48,7 +49,7 @@ namespace Utils
         cfi.dwFontSize.Y = 20;  // NOLINT
         cfi.FontFamily = FF_DONTCARE;
         cfi.FontWeight = FW_NORMAL;
-        std::wcscpy(cfi.FaceName, L"Consolas");  // NOLINT
+        wcscpy_s(cfi.FaceName, L"Consolas");
         SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 #endif
     }
@@ -593,7 +594,7 @@ namespace Utils
                 case kKeyUp:
                     if (selected == 0)
                     {
-                        selected = list.size();
+                        selected = static_cast<uint32_t>(list.size());
                     }
                     selected--;
 
@@ -690,7 +691,7 @@ namespace Utils
                 {
                     if (row == 0)
                     {
-                        row = elements.size();
+                        row = static_cast<uint32_t>(elements.size());
                     }
                     row--;
                     break;

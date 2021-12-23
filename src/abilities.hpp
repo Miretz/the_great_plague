@@ -15,13 +15,13 @@ namespace Abilities
 {
     inline constexpr auto kAbilitiesFile = "assets/abilities/abilities.txt";
 
-    [[nodiscard]] auto getAbility(std::string_view id) -> std::optional<Ability>;
+    [[nodiscard]] auto getAbility(const std::string &id) -> std::optional<Ability>;
 
-    void init();
+    [[nodiscard]] auto loadFromFile() -> std::unordered_map<std::string, Ability>;
 
-    void learnAbility(Hero &hero, std::string_view id);
+    void learnAbility(Hero &hero, const std::string &id);
 
-    void executeAbility(std::string_view id, Hero &caster, Hero &target, Combat &combat);
+    void executeAbility(const std::string &id, Hero &caster, Hero &target, Combat &combat);
 
     // ability scripts
     void f_FirstAid(const Hero &caster, Hero &target, Combat &combat);

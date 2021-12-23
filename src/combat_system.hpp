@@ -30,7 +30,11 @@ namespace CombatSystem
 
     void basicAttack(Hero &hero, Hero &target);
 
-    void abilityAttack(Hero &hero, Hero &target, std::string_view abilityId, Combat &combat);
+    void abilityAttack(Hero &hero, Hero &target, const std::string &abilityId, Combat &combat);
+
+    void printCombatQueue(Combat &combat);
+
+    void printCasaulties(Combat &combat);
 
     void printStatus(
         uint32_t oldHeroHP,
@@ -46,7 +50,7 @@ namespace CombatSystem
         const std::vector<Hero> &targets,
         const std::string &description);
 
-    [[nodiscard]] auto getTargetableHeroes(Combat &combat, bool isBasicAttack, std::string_view abilityId)
+    [[nodiscard]] auto getTargetableHeroes(Combat &combat, bool isBasicAttack, const std::string& abilityId)
         -> std::vector<uint32_t>;
 
     void executeHeroAITurn(Combat &combat);
